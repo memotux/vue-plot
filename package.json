@@ -8,13 +8,13 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "vue": "^3.5.10"
-  },
   "devDependencies": {
+    "@observablehq/plot": "^0.6.16",
     "@vitejs/plugin-vue": "^5.1.4",
     "typescript": "^5.5.3",
     "vite": "^5.4.8",
+    "vue": "^3.5.10",
     "vue-tsc": "^2.1.6"
-  }
+  },
+  "packageManager": "pnpm@9.12.2"
 }
