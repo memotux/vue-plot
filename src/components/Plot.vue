@@ -3,7 +3,7 @@ import { plot, type PlotOptions, type Markish } from '@observablehq/plot'
 import { onMounted, onUpdated, useTemplateRef } from 'vue'
 
 const props = defineProps<{
-  options?: PlotOptions
+  options?: Omit<PlotOptions, 'marks'>
   marks?: Markish[]
   defer?: Boolean
 }>()
