@@ -1,5 +1,3 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import Plot from "./components/Plot.vue";
 
-createApp(App).mount('#app')
+export { Plot }
