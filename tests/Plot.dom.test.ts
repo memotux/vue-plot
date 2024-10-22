@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from "@vue/test-utils";
-import { Plot } from '../src/main.ts'
+import { Plot } from '../src/main'
 import { frame, text } from "@observablehq/plot";
 
 describe('Plot component', () => {
