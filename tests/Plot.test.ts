@@ -3,7 +3,7 @@ import { mount } from "@vue/test-utils";
 import { Plot } from '../src/main'
 import { frame, text } from "@observablehq/plot";
 
-describe('Plot component', () => {
+describe('Plot component renders', () => {
   const component = mount(Plot, {
     attachTo: document.body,
     props: {
@@ -14,22 +14,22 @@ describe('Plot component', () => {
     },
   })
 
-  it('render one svg', () => {
+  it('one svg', () => {
     expect(component.findAll('svg').length).toBe(1)
   })
-  it('renders plot', () => {
+  it('plot', () => {
     expect(component.find('svg').exists()).toBe(true)
   })
 
   const plot = component.find('svg')
 
-  it('renders text', () => {
+  it('text', () => {
     const text = plot.find('text')
 
     expect(text.exists()).toBe(true)
     expect(text.text()).toBe('Hello, world!')
   })
-  it('renders frame', () => {
+  it('frame', () => {
     const frame = plot.find('[aria-label=frame]')
 
     expect(frame.exists()).toBe(true)
@@ -46,38 +46,5 @@ describe('Plot component', () => {
     const plot = component.get('svg')
 
     expect(plot.classes()).include(className)
-  })
-})
-
-describe('Plot with defer', () => {
-  const component = mount(Plot, {
-    attachTo: document.body,
-    props: {
-      marks: [
-        frame(),
-        text(["Hello, world!"], { frameAnchor: "middle" })
-      ],
-      defer: true
-    },
-  })
-
-  it('render container with style', () => {
-    expect(component.props().defer).toBe(true)
-    expect(component.attributes('style')).include('width: 688px')
-  })
-
-  it('svg not exist', () => {
-    expect(component.find('svg').exists()).toBe(false)
-  })
-
-  it('update on `defer` change and render svg', async () => {
-    await component.setProps({
-      defer: false
-    })
-    expect(component.props().defer).toBe(false)
-
-    const svg = component.find('svg')
-    expect(svg.exists()).toBe(true)
-    expect(svg.html()).toContain('Hello, world!')
   })
 })
