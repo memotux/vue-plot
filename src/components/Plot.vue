@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { plot, type PlotOptions, type Markish } from '@observablehq/plot'
-import { type ComputedRef, computed, onMounted, onUpdated, useTemplateRef } from 'vue'
+import type { PlotOptions, Markish } from '@observablehq/plot'
+import { type ComputedRef, computed } from 'vue'
+import { usePlot } from '../composable/plot'
 
 const { marks = [], options = {} } = defineProps<{
   options?: Omit<PlotOptions, 'marks'>
@@ -14,16 +15,7 @@ const opts: ComputedRef<PlotOptions> = computed(() => ({
   ...options,
 }))
 
-const el = useTemplateRef<HTMLDivElement>('container')
-
-const replace = () => {
-  if (!el.value) return
-
-  el.value.replaceChildren(plot(opts.value))
-}
-
-onMounted(replace)
-onUpdated(replace)
+usePlot<HTMLDivElement>(opts, 'container')
 </script>
 
 <template>
