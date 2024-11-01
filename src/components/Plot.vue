@@ -1,30 +1,17 @@
 <script setup lang="ts">
 import { plot, type PlotOptions, type Markish } from '@observablehq/plot'
-import {
-  type ComputedRef,
-  computed,
-  onMounted,
-  onUpdated,
-  useTemplateRef,
-  withDefaults,
-} from 'vue'
+import { type ComputedRef, computed, onMounted, onUpdated, useTemplateRef } from 'vue'
 
-const props = withDefaults(
-  defineProps<{
-    options?: Omit<PlotOptions, 'marks'>
-    marks?: Markish[]
-  }>(),
-  {
-    options: () => ({}),
-    marks: () => [],
-  }
-)
+const { marks = [], options = {} } = defineProps<{
+  options?: Omit<PlotOptions, 'marks'>
+  marks?: Markish[]
+}>()
 
-const options: ComputedRef<PlotOptions> = computed(() => ({
-  marks: props.marks.length === 0 ? [] : [props.marks],
+const opts: ComputedRef<PlotOptions> = computed(() => ({
+  marks: marks.length === 0 ? [] : [marks],
   width: 688,
   className: 'plot',
-  ...props.options,
+  ...options,
 }))
 
 const el = useTemplateRef<HTMLDivElement>('container')
@@ -32,7 +19,7 @@ const el = useTemplateRef<HTMLDivElement>('container')
 const replace = () => {
   if (!el.value) return
 
-  el.value.replaceChildren(plot(options.value))
+  el.value.replaceChildren(plot(opts.value))
 }
 
 onMounted(replace)
