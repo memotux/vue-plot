@@ -1,15 +1,28 @@
 <script setup lang="ts">
 import { plot, type PlotOptions, type Markish } from '@observablehq/plot'
-import { computed, type ComputedRef, onMounted, onUpdated, useTemplateRef } from 'vue'
+import {
+  type ComputedRef,
+  computed,
+  onMounted,
+  onUpdated,
+  useTemplateRef,
+  withDefaults,
+} from 'vue'
 
-const props = defineProps<{
-  options?: Omit<PlotOptions, 'marks'>
-  marks?: Markish[]
-}>()
+const props = withDefaults(
+  defineProps<{
+    options?: Omit<PlotOptions, 'marks'>
+    marks?: Markish[]
+  }>(),
+  {
+    options: () => ({}),
+    marks: () => [],
+  }
+)
 
 const options: ComputedRef<PlotOptions> = computed(() => ({
-  marks: props.marks == null ? [] : [props.marks],
-  width: 688, // better default for VitePress
+  marks: props.marks.length === 0 ? [] : [props.marks],
+  width: 688,
   className: 'plot',
   ...props.options,
 }))
