@@ -44,6 +44,8 @@ onUpdated(replace)
     class="plot-container"
     ref="container"
   >
-    <h1>Plot</h1>
+    <slot>
+      <div>Loading Plot...</div>
+    </slot>
   </div>
 </template>
