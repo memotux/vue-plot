@@ -27,6 +27,8 @@ app.use(VuePlot)
 
 This will install `Plot` component globally on your App.
 
+### Component Local Registration
+
 But you can use `Plot` component in local registration:
 
 ```vue
@@ -39,24 +41,32 @@ import { Plot } from '@memotux/vue-plot'
 </template>
 ```
 
+```ts
+interface PlotProps {
+  options?: Omit<PlotOptions, 'marks'>
+  marks?: Markish[]
+}
+```
+
 ### Composable
 
 This package export Vue Composable `usePlot` that it is use in `Plot` component.
 
 ```vue
 <script setup lang="ts">
+import { ref } from 'vue'
 import { dot } from '@observablehq/plot'
 import { usePlot } from '@memotux/vue-plot'
 
 // add marks imported from @observablehq/plot
 const marks = [dot(penguins, { x: 'culmen_length_mm', y: 'culmen_depth_mm' })]
 
-const opts = {
+const opts = ref({
   marks,
   width: 688,
   className: 'plot',
   ...options,
-}
+})
 
 usePlot<HTMLDivElement>(opts, 'container')
 </script>
@@ -71,4 +81,8 @@ usePlot<HTMLDivElement>(opts, 'container')
     </slot>
   </div>
 </template>
+```
+
+```ts
+type usePlot = (opts: Ref<PlotOptions>, key: string): void
 ```
