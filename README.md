@@ -1,5 +1,74 @@
-# Vue 3 + TypeScript + Vite
+# Vue Plot
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Vue.js UI Components for visualizing tabular data using [`@observablehq/plot` library](https://github.com/observablehq/plot).
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Usage
+
+Install `@memotux/vue-plot` package:
+
+```bash
+pnpm add @memotux/vue-plot
+```
+
+Import plugin install function `VuePlot` and `use` it on your `Vue.app`:
+
+```ts
+import { createApp } from 'vue'
+import { VuePlot } from '@memotux/vue-plot'
+
+const app = createApp({})
+
+// ...
+
+app.use(VuePlot)
+
+// ...
+```
+
+This will install `Plot` component globally on your App.
+
+But you can use `Plot` component in local registration:
+
+```vue
+<script setup>
+import { Plot } from '@memotux/vue-plot'
+</script>
+
+<template>
+  <Plot v-bind="props" />
+</template>
+```
+
+### Composable
+
+This package export Vue Composable `usePlot` that it is use in `Plot` component.
+
+```vue
+<script setup lang="ts">
+import { dot } from '@observablehq/plot'
+import { usePlot } from '@memotux/vue-plot'
+
+// add marks imported from @observablehq/plot
+const marks = [dot(penguins, { x: 'culmen_length_mm', y: 'culmen_depth_mm' })]
+
+const opts = {
+  marks,
+  width: 688,
+  className: 'plot',
+  ...options,
+}
+
+usePlot<HTMLDivElement>(opts, 'container')
+</script>
+
+<template>
+  <div
+    class="plot-container"
+    ref="container"
+  >
+    <slot>
+      <div>Loading Plot...</div>
+    </slot>
+  </div>
+</template>
+```
