@@ -2,7 +2,13 @@
 
 Vue.js UI Components for visualizing tabular data using [`@observablehq/plot` library](https://github.com/observablehq/plot).
 
+> [!CAUTION]
+> WIP REPOSITORY
+
 ## Usage
+
+> [!IMPORTANT]
+> Package not public available. This is a WIP REPOSITORY
 
 Install `@memotux/vue-plot` package:
 
