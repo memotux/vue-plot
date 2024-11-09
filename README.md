@@ -90,5 +90,5 @@ usePlot<HTMLDivElement>(opts, 'container')
 ```
 
 ```ts
-type usePlot = (opts: Ref<PlotOptions>, key: string): void
+type usePlot = <HTMLElement>(opts: Ref<PlotOptions>, key: string): void
 ```
