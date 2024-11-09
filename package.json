@@ -3,16 +3,16 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "main": "./dist/main.mjs",
-  "types": "./dist/main.d.ts",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "prepack": "unbuild",
-    "preview": "vite preview",
+    "dev": "vitest dev",
+    "build": "unbuild",
+    "prepack": "pnpm build",
     "test": "vitest"
   },
   "devDependencies": {
