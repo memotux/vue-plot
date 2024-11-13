@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { PlotOptions, Markish } from '@observablehq/plot'
+import type { PlotOptions } from '@observablehq/plot'
 import { type ComputedRef, computed } from 'vue'
 import { usePlot } from '../composable/plot'
 
 const { marks = [], options = {} } = defineProps<{
   options?: Omit<PlotOptions, 'marks'>
-  marks?: Markish[]
+  marks?: PlotOptions['marks']
 }>()
 
 const opts: ComputedRef<PlotOptions> = computed(() => ({
