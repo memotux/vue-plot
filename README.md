@@ -50,7 +50,7 @@ import { Plot } from '@memotux/vue-plot'
 ```ts
 interface PlotProps {
   options?: Omit<PlotOptions, 'marks'>
-  marks?: Markish[]
+  marks?: PlotOptions['marks']
 }
 ```
 
