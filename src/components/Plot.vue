@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PlotOptions } from '@observablehq/plot'
 import { type ComputedRef, computed } from 'vue'
-import { usePlot } from '../composable/plot'
+import PlotRenderer from './PlotRenderer.vue'
 
 const { marks = [], options = {} } = defineProps<{
   options?: Omit<PlotOptions, 'marks'>
@@ -14,17 +14,10 @@ const opts: ComputedRef<PlotOptions> = computed(() => ({
   className: 'plot',
   ...options,
 }))
-
-usePlot<HTMLDivElement>(opts, 'container')
 </script>
 
 <template>
-  <div
-    class="plot-container"
-    ref="container"
-  >
-    <slot>
-      <div>Loading Plot...</div>
-    </slot>
-  </div>
+  <PlotRenderer>
+    <Plot v-bind="opts" />
+  </PlotRenderer>
 </template>
