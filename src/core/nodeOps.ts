@@ -1,4 +1,5 @@
 import * as Plot from '@observablehq/plot'
+import { patchStyle } from "./patchStyle";
 import { isHTMLTag, kebabToCamel, is, noop } from '../utils'
 import type { ElementNamespace } from 'vue'
 
@@ -68,7 +69,7 @@ function remove(child: Element) {
   }
 }
 
-function patchProp(node: Element & { [k: string]: any }, prop: string, _: any, nextValue: any) {
+function patchProp(node: Element & { [k: string]: any }, prop: string, prevValue: any, nextValue: any) {
   if (!node) { return }
 
   let root = node
@@ -103,6 +104,11 @@ function patchProp(node: Element & { [k: string]: any }, prop: string, _: any, n
     if (finalKey.startsWith('on') && is.fun(value)) {
       root[finalKey] = value
     }
+    return
+  }
+  // TODO: process style key
+  if (key === 'style') {
+    patchStyle(root, prevValue, nextValue)
     return
   }
   if (!target?.set && !is.fun(target)) { root[finalKey] = value }
