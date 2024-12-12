@@ -5,25 +5,25 @@ import {
   Fragment,
   h,
   onMounted,
-  useAttrs,
   useTemplateRef,
 } from 'vue'
 import { nodeOps } from '../core'
 import type { RendererElement } from 'vue'
+import type { PlotOptions } from '@observablehq/plot'
 
+const props = withDefaults(defineProps<PlotOptions>(), {
+  aspectRatio: null,
+})
 const slots = defineSlots<{
   default: () => any
 }>()
 defineOptions({
   inheritAttrs: false,
 })
-const attrs = useAttrs()
 
 const InternalComponent = defineComponent({
   setup() {
-    console.log({ attrs })
-
-    return () => h(Fragment, null, slots.default?.() || h('PlotPlot', { ...attrs }))
+    return () => h(Fragment, null, slots.default?.() || h('PlotPlot', { ...props }))
   },
 })
 
