@@ -19,11 +19,13 @@ const supportedPointerEvents = [
   'onWheel',
 ]
 
-type PlotMarks = Pick<typeof Plot, 'area' | 'areaX' | 'areaY' | 'arrow' | 'auto' | 'axisFx' | 'axisFy' | 'axisX' | 'axisY' | 'barX' | 'barY' | 'bollinger' | 'bollingerX' | 'bollingerY' | 'boxX' | 'boxY' | 'cell' | 'cellX' | 'cellY' | 'contour' | 'crosshair' | 'crosshairX' | 'crosshairY' | 'delaunayLink' | 'delaunayMesh' | 'density' | 'differenceX' | 'differenceY' | 'dot' | 'dotX' | 'dotY' | 'frame' | 'geo' | 'geoCentroid' | 'hexgrid' | 'image' | 'line' | 'lineX' | 'lineY' | 'linearRegressionX' | 'linearRegressionY' | 'link' | 'raster' | 'rect' | 'rectX' | 'rectY' | 'ruleX' | 'ruleY' | 'text' | 'textX' | 'textY' | 'tickX' | 'tickY' | 'tip' | 'tree' | 'vector' | 'vectorX' | 'vectorY' | 'waffleX' | 'waffleY' | 'plot'>
+type Plots = typeof Plot
+
+type PlotMarks = Pick<Plots, 'area' | 'areaX' | 'areaY' | 'arrow' | 'auto' | 'axisFx' | 'axisFy' | 'axisX' | 'axisY' | 'barX' | 'barY' | 'bollinger' | 'bollingerX' | 'bollingerY' | 'boxX' | 'boxY' | 'cell' | 'cellX' | 'cellY' | 'contour' | 'crosshair' | 'crosshairX' | 'crosshairY' | 'delaunayLink' | 'delaunayMesh' | 'density' | 'differenceX' | 'differenceY' | 'dot' | 'dotX' | 'dotY' | 'frame' | 'geo' | 'geoCentroid' | 'hexgrid' | 'image' | 'line' | 'lineX' | 'lineY' | 'linearRegressionX' | 'linearRegressionY' | 'link' | 'raster' | 'rect' | 'rectX' | 'rectY' | 'ruleX' | 'ruleY' | 'text' | 'textX' | 'textY' | 'tickX' | 'tickY' | 'tip' | 'tree' | 'vector' | 'vectorX' | 'vectorY' | 'waffleX' | 'waffleY' | 'plot'>
 
 type PlotMarksKeys = keyof PlotMarks
 
-function createElement(tag: string, _?: ElementNamespace, __?: string, options?: (Plot.PlotOptions & { [key: string]: any; })) {
+function createElement(tag: string, _?: ElementNamespace, __?: string, options?: (Plot.PlotOptions & { data?: Plot.Data })) {
   if (!options) { return null }
 
   if (tag === 'template') { return null }
@@ -40,10 +42,12 @@ function createElement(tag: string, _?: ElementNamespace, __?: string, options?:
   let obj
 
   if (name === 'plot') {
-    obj = (target as typeof Plot.plot)(options)
+    obj = (target as Plots['plot'])(options)
   } else {
     if (!options.data) return null
-    obj = (options.data, options)
+    // @ts-ignore
+    // TODO: target
+    obj = target(options.data, options)
   }
 
   if (!obj) { return null }
@@ -52,7 +56,7 @@ function createElement(tag: string, _?: ElementNamespace, __?: string, options?:
 }
 
 function insert(child: Element, parent: Element, anchor?: Element) {
-  if (!child) return
+  if (!child) return null
 
   parent.insertBefore(child, anchor || null)
 }
@@ -114,9 +118,7 @@ function parentNode(node: Element): ParentNode | null {
 
 // nextSibling - Returns the next sibling of a PlotElement
 function nextSibling(node: Element) {
-  if (!node) return
-
-  return node.nextSibling
+  return node?.nextSibling || null
 }
 
 function createComment(text: string) { document.createComment(text) }
