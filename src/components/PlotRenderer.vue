@@ -5,22 +5,29 @@ import {
   Fragment,
   h,
   onMounted,
+  useAttrs,
   useTemplateRef,
 } from 'vue'
-import type { RendererElement } from 'vue'
 import { nodeOps } from '../core'
+import type { RendererElement } from 'vue'
 
-const plotRoot = useTemplateRef('plot-root')
 const slots = defineSlots<{
   default: () => any
 }>()
+defineOptions({
+  inheritAttrs: false,
+})
+const attrs = useAttrs()
 
 const InternalComponent = defineComponent({
   setup() {
-    return () => h(Fragment, null, slots.default?.() || [])
+    console.log({ attrs })
+
+    return () => h(Fragment, null, slots.default?.() || h('PlotPlot', { ...attrs }))
   },
 })
 
+const plotRoot = useTemplateRef('plot-root')
 onMounted(() => {
   const { render } = createRenderer(nodeOps)
   render(h(InternalComponent), plotRoot.value as RendererElement)
@@ -28,8 +35,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    ref="plot-root"
-    id="plot-root"
-  ></div>
+  <div ref="plot-root"></div>
 </template>

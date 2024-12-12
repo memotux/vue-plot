@@ -9,7 +9,7 @@ const { marks = [], options = {} } = defineProps<{
 }>()
 
 const opts: ComputedRef<PlotOptions> = computed(() => ({
-  marks: marks.length === 0 ? [] : [marks],
+  marks: marks && [marks],
   width: 688,
   className: 'plot',
   ...options,
@@ -17,7 +17,5 @@ const opts: ComputedRef<PlotOptions> = computed(() => ({
 </script>
 
 <template>
-  <PlotRenderer>
-    <Plot v-bind="opts" />
-  </PlotRenderer>
+  <PlotRenderer v-bind="opts" />
 </template>
