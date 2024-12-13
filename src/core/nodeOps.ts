@@ -33,21 +33,20 @@ function createElement(tag: string, _?: ElementNamespace, __?: string, options?:
   if (isHTMLTag(tag)) { return null }
   const name = (tag.replace('Plot', '').toLowerCase() || 'plot') as PlotMarksKeys
 
-  const target = Plot[name]
+  const target = (Plot as PlotMarks)[name]
   if (!target) {
     throw new Error(
       `${name} is not defined on the PLOT namespace. Use extend to add it to the catalog.`,
     )
   }
 
-  let obj
+  let obj: any
 
   if (name === 'plot') {
-    obj = (target as Plots['plot'])(options)
+    obj = (target as PlotMarks['plot'])(options)
   } else {
     if (!options.data) return null
     // @ts-ignore
-    // TODO: target
     obj = target(options.data, options)
   }
 
@@ -106,8 +105,7 @@ function patchProp(node: Element & { [k: string]: any }, prop: string, prevValue
     }
     return
   }
-  // TODO: process style key
-  if (key === 'style') {
+  if (finalKey === 'style') {
     patchStyle(root, prevValue, nextValue)
     return
   }

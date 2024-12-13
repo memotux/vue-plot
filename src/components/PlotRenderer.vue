@@ -1,14 +1,6 @@
 <script lang="ts" setup>
-import {
-  createRenderer,
-  defineComponent,
-  Fragment,
-  h,
-  onMounted,
-  useTemplateRef,
-} from 'vue'
+import { h, onMounted, useTemplateRef, createRenderer, defineComponent } from 'vue'
 import { nodeOps } from '../core'
-import type { RendererElement } from 'vue'
 import type { PlotOptions } from '@observablehq/plot'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
@@ -23,14 +15,15 @@ defineOptions({
 
 const InternalComponent = defineComponent({
   setup() {
-    return () => h(Fragment, null, slots.default?.() || h('PlotPlot', { ...props }))
+    return () => h('PlotPlot', { ...props }, slots.default?.() || [])
   },
 })
 
 const plotRoot = useTemplateRef('plot-root')
+const { render } = createRenderer(nodeOps)
+
 onMounted(() => {
-  const { render } = createRenderer(nodeOps)
-  render(h(InternalComponent), plotRoot.value as RendererElement)
+  render(h(InternalComponent), plotRoot.value)
 })
 </script>
 
