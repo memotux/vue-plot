@@ -44,8 +44,7 @@ function createElement(tag: string, _?: ElementNamespace, __?: string, options?:
 
   if (name === 'plot') {
     obj = (target as PlotMarks['plot'])(options)
-  } else {
-    if (!options.data) return null
+  } else if (options.data) {
     // @ts-ignore
     obj = target(options.data, options)
   }
