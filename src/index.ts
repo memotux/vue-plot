@@ -1,6 +1,6 @@
 import type { App } from "vue";
 import Plot from "./components/Plot.vue";
-import { usePlot } from "./composable/plot.ts";
+import PlotRenderer from "./components/PlotRenderer.vue";
 
 /**
  * Vue Plugin install function
@@ -8,6 +8,7 @@ import { usePlot } from "./composable/plot.ts";
  */
 function VuePlot(app: App) {
   app.component('Plot', Plot)
+  app.component('PlotRenderer', PlotRenderer)
 }
 
-export { Plot, usePlot, VuePlot }
+export { Plot, PlotRenderer, VuePlot }
