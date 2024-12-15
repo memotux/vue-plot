@@ -13,8 +13,26 @@ Vue.js UI Components for visualizing tabular data using [`@observablehq/plot` li
 Install `@memotux/vue-plot` package:
 
 ```bash
-pnpm add @memotux/vue-plot
+pnpm add @memotux/vue-plot @observablehq/plot
 ```
+
+Add `plotCustomElement` to `vite.config.plugins.vue` to register `PlotMarks` as Vue Custom Component.
+
+```ts vite.config
+import { plotCustomElement } from '@memotux/vue-plot'
+
+export default defineConfig({
+  // ...
+  plugins: [
+    vue({
+      ...plotCustomElement
+    })
+  ]
+  // ... 
+})
+```
+
+### Plugin
 
 Import plugin install function `VuePlot` and `use` it on your `Vue.app`:
 
@@ -35,7 +53,7 @@ This will install `Plot` component globally on your App.
 
 ### Component Local Registration
 
-But you can use `Plot` component in local registration:
+You can use `Plot` component in local registration:
 
 ```vue
 <script setup>
@@ -43,7 +61,12 @@ import { Plot } from '@memotux/vue-plot'
 </script>
 
 <template>
-  <Plot v-bind="props" />
+  <!-- Plot Marks in props -->
+  <Plot :options="plot.options" :marks="plot.marks" />
+  <!-- Plot Marks as children -->
+  <Plot :options="plot.options">
+    <PlotText :data="['Hello World!']" frame-anchor="middle" />
+  </Plot>
 </template>
 ```
 
@@ -54,41 +77,12 @@ interface PlotProps {
 }
 ```
 
-### Composable
+### Marks
 
-This package export Vue Composable `usePlot` that it is use in `Plot` component.
+Plot Marks **must** be present as `props` or as children.
 
-```vue
-<script setup lang="ts">
-import { ref } from 'vue'
-import { dot } from '@observablehq/plot'
-import { usePlot } from '@memotux/vue-plot'
+Marks as `props` must be imported from `@observablehq/plot` and passed as `marks` property to `Plot` component.
 
-// add marks imported from @observablehq/plot
-const marks = [dot(penguins, { x: 'culmen_length_mm', y: 'culmen_depth_mm' })]
+Marks as `children` are defined as any other Vue.js Component, wich name must start with `Plot` followed by Mark name. Example: `<PlotArea /> | <PlotBarY />`. This Custom Component recive as `props` same mark arguments. Example: `Plot.areaY(aapl, {x: "Date", y: "Close"})` can be translated as `<PlotAreaY :data="aapl" x="Date" y="Close" />`
 
-const opts = ref({
-  marks,
-  width: 688,
-  className: 'plot',
-  ...options,
-})
-
-usePlot<HTMLDivElement>(opts, 'container')
-</script>
-
-<template>
-  <div
-    class="plot-container"
-    ref="container"
-  >
-    <slot>
-      <div>Loading Plot...</div>
-    </slot>
-  </div>
-</template>
-```
-
-```ts
-type usePlot = <HTMLElement>(opts: Ref<PlotOptions>, key: string): void
-```
+If you define marks as `props` and as `children`, only marks as `props` will be rendered.
