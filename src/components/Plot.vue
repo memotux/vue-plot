@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { PlotOptions } from '@observablehq/plot'
-import { type ComputedRef, computed } from 'vue'
+import { computed } from 'vue'
 import PlotRenderer from './PlotRenderer.vue'
+import type { PlotOptions } from '@observablehq/plot'
+import type { ComputedRef } from 'vue'
 
 const { marks = [], options = {} } = defineProps<{
   options?: Omit<PlotOptions, 'marks'>
