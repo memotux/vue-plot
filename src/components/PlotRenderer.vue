@@ -1,5 +1,11 @@
 <script lang="ts" setup>
-import { h, onMounted, useTemplateRef, createRenderer, defineComponent } from 'vue'
+import {
+  h,
+  onMounted,
+  useTemplateRef,
+  createRenderer,
+  defineComponent
+} from 'vue'
 import { nodeOps } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
 
@@ -7,16 +13,14 @@ const props = withDefaults(defineProps<PlotOptions>(), {
   aspectRatio: null,
 })
 const slots = defineSlots<{
-  default: () => any
+  default?: () => any
 }>()
 defineOptions({
   inheritAttrs: false,
 })
 
 const InternalComponent = defineComponent({
-  setup() {
-    return () => h('PlotPlot', { ...props }, slots.default?.() || [])
-  },
+  setup: () => () => h('PlotRoot', {...props}, slots.default?.() || []),
 })
 
 const plotRoot = useTemplateRef('plot-root')
