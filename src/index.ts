@@ -1,6 +1,7 @@
 import type { App } from "vue";
 import Plot from "./components/Plot.vue";
 import PlotRenderer from "./components/PlotRenderer.vue";
+import { plotCustomElement } from "./core";
 
 /**
  * Vue Plugin install function
@@ -11,4 +12,4 @@ function VuePlot(app: App) {
   app.component('PlotRenderer', PlotRenderer)
 }
 
-export { Plot, PlotRenderer, VuePlot }
+export { Plot, PlotRenderer, VuePlot, plotCustomElement }
