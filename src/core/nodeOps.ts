@@ -26,11 +26,15 @@ type PlotMarks = Pick<Plots, 'area' | 'areaX' | 'areaY' | 'arrow' | 'auto' | 'ax
 
 type PlotMarksKeys = keyof PlotMarks
 
-function createElement(tag: string, _?: ElementNamespace, __?: string, options?: (Plot.PlotOptions & { data?: Plot.Data })) {
-  if (!options) { return null }
+let plotContext = {}
 
+function createElement(tag: string, _?: ElementNamespace, __?: string, options?: (Plot.PlotOptions & { data?: Plot.Data })) {
   if (tag === 'template') { return null }
   if (isHTMLTag(tag)) { return null }
+  if (tag === 'PlotRoot') {
+    plotContext = Object.assign(plotContext, options)
+    return Plot.plot(plotContext)
+  }
   const name = (tag.replace('Plot', '').toLowerCase() || 'plot') as PlotMarksKeys
 
   const target = (Plot as PlotMarks)[name]
@@ -40,22 +44,29 @@ function createElement(tag: string, _?: ElementNamespace, __?: string, options?:
     )
   }
 
-  let obj: any
-
-  if (name === 'plot') {
-    obj = (target as PlotMarks['plot'])(options)
-  } else if (options.data) {
-    // @ts-ignore
-    obj = target(options.data, options)
-  }
+  // @ts-ignore
+  let obj = target(options?.data, options)
 
   if (!obj) { return null }
 
-  return obj
+  return obj.plot(plotContext)
 }
 
 function insert(child: Element, parent: Element, anchor?: Element) {
   if (!child) return null
+
+  if (parent.tagName === 'svg') {
+    const styleNode = child.querySelector('style')
+    if (styleNode) {
+      styleNode.remove()
+    }
+    const children = Array.from(child.childNodes)
+
+    for (const child of children) {
+      parent.appendChild(child)
+    }
+    return
+  }
 
   parent.insertBefore(child, anchor || null)
 }
@@ -68,7 +79,7 @@ function remove(child: Element) {
 }
 
 function patchProp(node: Element & { [k: string]: any }, prop: string, prevValue: any, nextValue: any) {
-  if (!node) { return }
+  if (!node || !nextValue) { return }
 
   let root = node
   let key = prop
@@ -78,14 +89,7 @@ function patchProp(node: Element & { [k: string]: any }, prop: string, prevValue
 
   // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
   if (key.includes('-') && target === undefined) {
-    // TODO: A standalone function called `resolve` is
-    // available in /src/utils/index.ts. It's covered by tests.
-    // Refactor below to DRY.
-    const chain = key.split('-')
-    target = chain.reduce((acc, key) => acc[kebabToCamel(key)], root)
-    key = chain.pop() as string
-    finalKey = key
-    if (!target?.set) { root = chain.reduce((acc, key) => acc[kebabToCamel(key)], root) }
+    return
   }
   let value = nextValue
   if (value === '') { value = true }
