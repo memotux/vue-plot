@@ -2,6 +2,7 @@ import * as Plot from '@observablehq/plot'
 import { patchStyle } from "./patchStyle";
 import { isHTMLTag, kebabToCamel, is, noop } from '../utils'
 import type { ElementNamespace } from 'vue'
+import type { Plots, PlotProps, PlotTag } from '../types';
 
 const supportedPointerEvents = [
   'onClick',
@@ -20,24 +21,18 @@ const supportedPointerEvents = [
   'onWheel',
 ]
 
-type Plots = typeof Plot
-
-type PlotMarks = Pick<Plots, 'area' | 'areaX' | 'areaY' | 'arrow' | 'auto' | 'axisFx' | 'axisFy' | 'axisX' | 'axisY' | 'barX' | 'barY' | 'bollinger' | 'bollingerX' | 'bollingerY' | 'boxX' | 'boxY' | 'cell' | 'cellX' | 'cellY' | 'contour' | 'crosshair' | 'crosshairX' | 'crosshairY' | 'delaunayLink' | 'delaunayMesh' | 'density' | 'differenceX' | 'differenceY' | 'dot' | 'dotX' | 'dotY' | 'frame' | 'geo' | 'geoCentroid' | 'hexgrid' | 'image' | 'line' | 'lineX' | 'lineY' | 'linearRegressionX' | 'linearRegressionY' | 'link' | 'raster' | 'rect' | 'rectX' | 'rectY' | 'ruleX' | 'ruleY' | 'text' | 'textX' | 'textY' | 'tickX' | 'tickY' | 'tip' | 'tree' | 'vector' | 'vectorX' | 'vectorY' | 'waffleX' | 'waffleY' | 'plot'>
-
-type PlotMarksKeys = keyof PlotMarks
-
 let plotContext = {}
 
-function createElement(tag: string, _?: ElementNamespace, __?: string, options?: (Plot.PlotOptions & { data?: Plot.Data })) {
-  if (tag === 'template') { return null }
-  if (isHTMLTag(tag)) { return null }
+function createElement(tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) {
+  if (tag === 'template' || isHTMLTag(tag)) { return null }
   if (tag === 'PlotRoot') {
-    plotContext = Object.assign(plotContext, options)
+    plotContext = Object.assign(plotContext, props)
     return Plot.plot(plotContext)
   }
-  const name = (tag.replace('Plot', '').toLowerCase() || 'plot') as PlotMarksKeys
+  let name = (tag.replace('Plot', '') || 'Plot')
+  name = name.replace(name[0], name[0].toLowerCase())
 
-  const target = (Plot as PlotMarks)[name]
+  const target = (Plot as Plots)[name as keyof Plots]
   if (!target) {
     throw new Error(
       `${name} is not defined on the PLOT namespace. Use extend to add it to the catalog.`,
@@ -45,7 +40,7 @@ function createElement(tag: string, _?: ElementNamespace, __?: string, options?:
   }
 
   // @ts-ignore
-  let obj = target(options?.data, options)
+  let obj = target(props?.data, props?.options)
 
   if (!obj) { return null }
 
