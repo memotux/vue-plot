@@ -78,7 +78,7 @@ import { ref, reactive, computed } from 'vue'
 import { Plot } from '@memotux/vue-plot'
 import { frame, text } from '@observablehq/plot'
 
-const hello = ref('Hello World!')
+const hello = reactive(['Hello World!'])
 const helloOptions = reactive({
   frameAnchor: 'middle',
 })
@@ -88,7 +88,7 @@ const plot = computed(() => ({
     width: 688,
     className: 'plot',
   },
-  marks: [frame(), text(hello.value, helloOptions)],
+  marks: [frame(), text(hello, helloOptions)],
 }))
 </script>
 
@@ -116,8 +116,8 @@ interface PlotProps {
 }
 
 interface PlotMarkProps {
-  data: Plot.Data
-  options: PlotMarkOptions // diferent for each mark
+  data?: Plot.Data
+  options?: PlotMarkOptions // diferent for each mark
 }
 ```
 

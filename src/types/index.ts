@@ -150,7 +150,7 @@ interface PlotMarksOptions {
 
 export type PlotTag = `Plot${Capitalize<keyof Plots>}` | 'PlotRoot' | 'template'
 
-export type PlotProps = PlotOptions | { data: Data, options: PlotMarksOpts }
+export type PlotProps = PlotOptions | { data?: Data, options?: PlotMarksOpts }
 
 declare module 'vue' {
   export interface GlobalComponents extends PlotComponents { }
