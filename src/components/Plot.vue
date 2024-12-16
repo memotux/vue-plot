@@ -21,7 +21,10 @@ const opts: ComputedRef<PlotOptions> = computed(() => ({
   <PlotRenderer v-bind="opts">
     <slot>
       <PlotFrame />
-      <PlotText :data="['Please add Plot Marks in props or as children']" frame-anchor="middle" />
+      <PlotText
+        :data="['Please add Plot Marks in props or as children']"
+        :options="{ frameAnchor: 'middle' }"
+      />
     </slot>
   </PlotRenderer>
 </template>
