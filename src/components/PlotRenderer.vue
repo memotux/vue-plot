@@ -14,7 +14,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const InternalComponent = () => h('PlotRoot', { ...props }, () => slots.default?.() || [])
+const InternalComponent = () => h('PlotRoot', { ...props }, slots.default?.() || [])
 
 const plotRoot = useTemplateRef('plot-root')
 const { render } = createRenderer(nodeOps)
