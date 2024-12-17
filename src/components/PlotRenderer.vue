@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { h, onMounted, useTemplateRef, createRenderer } from 'vue'
+import { h, onMounted, useTemplateRef, createRenderer, defineComponent } from 'vue'
 import { nodeOps } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
 import type { VNode } from 'vue'
@@ -14,7 +14,12 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const InternalComponent = () => h('PlotRoot', { ...props }, slots.default?.() || [])
+const InternalComponent = defineComponent({
+  setup() {
+    const marks = slots.default?.()
+    return () => h('PlotRoot', { ...props }, marks)
+  },
+})
 
 const plotRoot = useTemplateRef('plot-root')
 const { render } = createRenderer(nodeOps)
