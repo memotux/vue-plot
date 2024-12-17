@@ -2,8 +2,8 @@ import { describe } from "vitest";
 import { testComponent } from "./utils";
 
 describe('PlotRenderer should render with props', () => {
-  testComponent('PlotRendererWithProps', true)
+  testComponent('PlotRendererWithProps')
 })
 describe('PlotRenderer should render with chilren', () => {
-  testComponent('PlotRendererWithChildren', true)
+  testComponent('PlotRendererWithChildren')
 })

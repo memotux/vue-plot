@@ -52,46 +52,46 @@ const PlotRendererWithChildren = mount(PlotRenderer, {
 })
 
 
-const components = { PlotWithProps, PlotWithChildren, PlotRendererWithProps, PlotRendererWithChildren }
+const stubs = { PlotWithProps, PlotWithChildren, PlotRendererWithProps, PlotRendererWithChildren }
 
-export function testComponent(component: 'PlotWithProps' | 'PlotWithChildren' | 'PlotRendererWithProps' | 'PlotRendererWithChildren', isRenderer: boolean = false) {
-  it('one svg', () => {
-    expect(components[component].findAll('svg').length).toBe(1)
+export function testComponent(component: keyof typeof stubs) {
+  it('find one svg', () => {
+    expect(stubs[component].findAll('svg').length).toBe(1)
   })
-  it('plot', () => {
-    expect(components[component].find('svg').isVisible()).toBe(true)
+  it('visible plot', () => {
+    expect(stubs[component].find('svg').isVisible()).toBe(true)
   })
 
-  const plot = components[component].find('svg')
+  const plot = stubs[component].find('svg')
 
-  it('text', () => {
+  it('visible text', () => {
     const text = plot.find('text')
 
     expect(text.isVisible()).toBe(true)
     expect(text.text()).toBe('Hello, world!')
   })
-  it('frame', () => {
+  it('visible frame', () => {
     const frame = plot.find('[aria-label=frame]')
 
     expect(frame.isVisible()).toBe(true)
   })
 
-  it('change plot options', async () => {
+  it('update plot props', async () => {
     const className = 'plot-class'
 
-    if (isRenderer) {
-      await components[component].setProps({
+    if (component.startsWith('PlotRenderer')) {
+      await stubs[component].setProps({
         className
       })
     } else {
-      await components[component].setProps({
+      await stubs[component].setProps({
         options: {
           className
         }
       })
     }
 
-    const plot = components[component].get('svg')
+    const plot = stubs[component].get('svg')
 
     expect(plot.classes()).include(className)
   })
