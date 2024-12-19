@@ -2,7 +2,7 @@ import { h } from "vue"
 import { expect, it } from "vitest"
 import { mount } from "@vue/test-utils"
 import { frame, text } from "@observablehq/plot"
-import { Plot, PlotRenderer } from "../src"
+import { Plot } from "../src"
 
 const PlotWithProps = mount(Plot, {
   attachTo: document.body,
@@ -24,35 +24,7 @@ const PlotWithChildren = mount(Plot, {
   }
 })
 
-const PlotRendererWithProps = mount(PlotRenderer, {
-  attachTo: document.body,
-  props: {
-    width: 688,
-    className: 'plot',
-    marks: [
-      frame(),
-      text(["Hello, world!"], { frameAnchor: "middle" })
-    ]
-  }
-})
-const PlotRendererWithChildren = mount(PlotRenderer, {
-  attachTo: document.body,
-  props: {
-    width: 688,
-    className: 'plot'
-  },
-  slots: {
-    default: () => {
-      return [
-        h('PlotFrame'),
-        h('PlotText', { data: ['Hello, world!'], frameAnchor: 'middle' })
-      ]
-    }
-  }
-})
-
-
-const stubs = { PlotWithProps, PlotWithChildren, PlotRendererWithProps, PlotRendererWithChildren }
+const stubs = { PlotWithProps, PlotWithChildren }
 
 export function testComponent(component: keyof typeof stubs) {
   it('find one svg', () => {
@@ -79,17 +51,9 @@ export function testComponent(component: keyof typeof stubs) {
   it('update plot props', async () => {
     const className = 'plot-class'
 
-    if (component.startsWith('PlotRenderer')) {
-      await stubs[component].setProps({
-        className
-      })
-    } else {
-      await stubs[component].setProps({
-        options: {
-          className
-        }
-      })
-    }
+    await stubs[component].setProps({
+      className
+    })
 
     const plot = stubs[component].get('svg')
 

@@ -1,24 +1,33 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import PlotRenderer from './PlotRenderer.vue'
+import { h, onMounted, useTemplateRef, createRenderer, defineComponent } from 'vue'
+import { nodeOps } from '../core'
+import type { VNode } from 'vue'
 import type { PlotOptions } from '@observablehq/plot'
-import type { ComputedRef } from 'vue'
 
-const { marks = [], options = {} } = defineProps<{
-  options?: Omit<PlotOptions, 'marks'>
-  marks?: PlotOptions['marks']
+const props = withDefaults(defineProps<PlotOptions>(), {
+  aspectRatio: null,
+})
+const slots = defineSlots<{
+  default: () => VNode
 }>()
 
-const opts: ComputedRef<PlotOptions> = computed(() => ({
-  marks: marks && [marks],
-  width: 688,
-  className: 'plot',
-  ...options,
-}))
+const InternalComponent = defineComponent({
+  setup() {
+    const marks = slots.default?.()
+    return () => h('PlotRoot', props, marks)
+  },
+})
+
+const plotRoot = useTemplateRef('plot-root')
+const { render } = createRenderer(nodeOps)
+
+onMounted(() => {
+  render(h(InternalComponent), plotRoot.value)
+})
 </script>
 
 <template>
-  <PlotRenderer v-bind="opts">
+  <div ref="plot-root">
     <slot>
       <PlotFrame />
       <PlotText
@@ -26,5 +35,5 @@ const opts: ComputedRef<PlotOptions> = computed(() => ({
         :options="{ frameAnchor: 'middle' }"
       />
     </slot>
-  </PlotRenderer>
+  </div>
 </template>
