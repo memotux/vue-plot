@@ -64,7 +64,7 @@ defineProps(['options', 'marks'])
 
 <template>
   <Plot
-    :options="options"
+    v-bind="options"
     :marks="marks"
   />
 </template>
@@ -74,7 +74,7 @@ defineProps(['options', 'marks'])
 
 ```vue
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { reactive, computed } from 'vue'
 import { Plot } from '@memotux/vue-plot'
 import { frame, text } from '@observablehq/plot'
 
@@ -84,10 +84,8 @@ const helloOptions = reactive({
 })
 
 const plot = computed(() => ({
-  options: {
-    width: 688,
-    className: 'plot',
-  },
+  width: 688,
+  className: 'plot',
   marks: [frame(), text(hello, helloOptions)],
 }))
 </script>
@@ -95,29 +93,20 @@ const plot = computed(() => ({
 <template>
   <!-- Plot Marks in props -->
   <Plot v-bind="plot" />
-  <Plot
-    :options="plot.options"
-    :marks="plot.marks"
-  />
   <!-- Plot Marks as children -->
-  <Plot :options="plot.options">
-    <PlotText
-      :data="hello"
-      :options="helloOptions"
-    />
+  <Plot v-bind="{ ...plot, marks: undefined }">
+    <PlotFrame />
+    <PlotText v-bind="{ ...helloOptions, data: hello }" />
   </Plot>
 </template>
 ```
 
 ```ts
-interface PlotProps {
-  options?: Omit<PlotOptions, 'marks'>
-  marks?: PlotOptions['marks']
-}
+interface PlotProps extends PlotOptions {}
 
-interface PlotMarkProps {
+// PlotMarksOptions are different for each mark
+interface PlotMarkProps extends PlotMarksOptions {
   data?: Plot.Data
-  options?: PlotMarkOptions // diferent for each mark
 }
 ```
 
@@ -138,7 +127,7 @@ Marks as `children` are defined as any other Vue.js Component, wich name **must*
 </template>
 ```
 
-This Custom Component recive as `props` same mark arguments. Example: `Plot.areaY(aapl, {x: "Date", y: "Close"})` can be translated as `<PlotAreaY :data="aapl" :options="{x: 'Date', y: 'Close'}" />`
+This Custom Component recive as `props` same mark arguments types. Example: `Plot.areaY(aapl, {x: "Date", y: "Close"})` can be translated as `<PlotAreaY :data="aapl" x="Date" y="Close" />`
 
 ```vue
 <script setup lang="ts">
@@ -160,10 +149,14 @@ const options: AreaYOptions = {
 </script>
 
 <template>
-  <Plot :options="plotOptions">
+  <Plot
+    :width="688"
+    className="plot"
+  >
     <PlotAreaY
       :data="aapl"
-      :options="options"
+      x="Date"
+      y="Close"
     />
   </Plot>
 </template>

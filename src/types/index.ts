@@ -70,7 +70,7 @@ export type Plots = {
 type PlotsKeys = keyof Plots
 
 type PlotComponents = {
-  [K in PlotsKeys as `Plot${Capitalize<string & K>}`]: DefineComponent<{ data?: Data, options?: PlotMarksOptions[K] }>
+  [K in PlotsKeys as `Plot${Capitalize<string & K>}`]: DefineComponent<{ data?: Data } & PlotMarksOptions[K]>
 }
 
 type PlotMarksOpts = AreaOptions | AreaXOptions | AreaYOptions | ArrowOptions | AutoOptions | AxisOptions | AxisXOptions | AxisYOptions | BarXOptions | BarYOptions | BarOptions | BollingerOptions | BollingerXOptions | BollingerYOptions | BoxXOptions | CellOptions | ContourOptions | CrosshairOptions | DelaunayOptions | DensityOptions | DifferenceOptions | DotOptions | DotXOptions | DotYOptions | FrameOptions | GeoOptions | CentroidOptions | HexgridOptions | HexbinOptions | ImageOptions | LineOptions | LineXOptions | LineYOptions | LinearRegressionOptions | LinearRegressionXOptions | LinearRegressionYOptions | LinkOptions | RasterOptions | RectOptions | RectXOptions | RectYOptions | RuleOptions | RuleXOptions | RuleYOptions | TextOptions | TextXOptions | TextYOptions | TickXOptions | TickYOptions | TipOptions | TreeOptions | VectorOptions | WaffleOptions | WaffleXOptions | WaffleYOptions
@@ -150,7 +150,9 @@ interface PlotMarksOptions {
 
 export type PlotTag = `Plot${Capitalize<keyof Plots>}` | 'PlotRoot' | 'template'
 
-export type PlotProps = PlotOptions | { data?: Data, options?: PlotMarksOpts }
+export type PlotMarksProps = { data?: Data } & PlotMarksOpts
+
+export type PlotProps = PlotOptions | PlotMarksProps
 
 declare module 'vue' {
   export interface GlobalComponents extends PlotComponents { }

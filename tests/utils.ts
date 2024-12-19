@@ -19,22 +19,22 @@ const PlotWithChildren = mount(Plot, {
   slots: {
     default: () => ([
       h('PlotFrame'),
-      h('PlotText', { data: ['Hello, world!'], options: { frameAnchor: 'middle' } })
+      h('PlotText', { data: ['Hello, world!'], frameAnchor: 'middle' })
     ])
   }
 })
 
-const stubs = { PlotWithProps, PlotWithChildren }
+const Stubs = { PlotWithProps, PlotWithChildren }
 
-export function testComponent(component: keyof typeof stubs) {
+export function testComponent(component: keyof typeof Stubs) {
   it('find one svg', () => {
-    expect(stubs[component].findAll('svg').length).toBe(1)
+    expect(Stubs[component].findAll('svg').length).toBe(1)
   })
   it('visible plot', () => {
-    expect(stubs[component].find('svg').isVisible()).toBe(true)
+    expect(Stubs[component].find('svg').isVisible()).toBe(true)
   })
 
-  const plot = stubs[component].find('svg')
+  const plot = Stubs[component].find('svg')
 
   it('visible text', () => {
     const text = plot.find('text')
@@ -51,11 +51,11 @@ export function testComponent(component: keyof typeof stubs) {
   it('update plot props', async () => {
     const className = 'plot-class'
 
-    await stubs[component].setProps({
+    await Stubs[component].setProps({
       className
     })
 
-    const plot = stubs[component].get('svg')
+    const plot = Stubs[component].get('svg')
 
     expect(plot.classes()).include(className)
   })

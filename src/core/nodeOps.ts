@@ -2,7 +2,7 @@ import * as Plot from '@observablehq/plot'
 import { patchStyle } from "./patchStyle";
 import { isHTMLTag, kebabToCamel, is, noop } from '../utils'
 import type { ElementNamespace } from 'vue'
-import type { Plots, PlotProps, PlotTag } from '../types';
+import type { Plots, PlotProps, PlotTag, PlotMarksProps } from '../types';
 
 const supportedPointerEvents = [
   'onClick',
@@ -21,7 +21,7 @@ const supportedPointerEvents = [
   'onWheel',
 ]
 
-let plotContext = {}
+let plotContext: Plot.PlotOptions = {}
 
 function createElement(tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) {
   if (tag === 'template' || isHTMLTag(tag)) { return null }
@@ -39,8 +39,10 @@ function createElement(tag: PlotTag, _?: ElementNamespace, __?: string, props?: 
     )
   }
 
+  const data = (props as PlotMarksProps)?.data
+  const options = props ? { ...props, data: undefined } : undefined
   // @ts-ignore
-  let obj = target(props?.data, props?.options)
+  let obj = target(data, options)
 
   if (!obj) { return null }
 
