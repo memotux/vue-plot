@@ -9,6 +9,14 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "vue",
+    "ui",
+    "plot",
+    "d3",
+    "data",
+    "graphics"
+  ],
   "scripts": {
     "dev": "vitest dev",
     "build": "unbuild",
