@@ -1,5 +1,5 @@
 import type { App } from "vue";
-import Plot from "./components/Plot.vue";
+import { Plot } from "./components";
 import { plotCustomElement } from "./core";
 
 /**
