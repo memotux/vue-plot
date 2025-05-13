@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { h, onMounted, useTemplateRef, createRenderer, defineComponent } from 'vue'
+import {
+  h,
+  onMounted,
+  useSlots,
+  useTemplateRef,
+  createRenderer,
+  defineComponent,
+} from 'vue'
 import { nodeOps } from '../core'
-import type { VNode } from 'vue'
 import type { PlotOptions } from '@observablehq/plot'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
   aspectRatio: null,
 })
-const slots = defineSlots<{
-  default: () => VNode
-}>()
+const slots = useSlots()
 
 const InternalComponent = defineComponent({
   setup() {
