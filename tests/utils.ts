@@ -27,6 +27,10 @@ const PlotWithChildren = mount(Plot, {
 const Stubs = { PlotWithProps, PlotWithChildren }
 
 export function testComponent(component: keyof typeof Stubs) {
+  it('only one children', () => {
+    expect(Stubs[component].element.children.length).toBe(1)
+  })
+
   it('find one svg', () => {
     expect(Stubs[component].findAll('svg').length).toBe(1)
   })
@@ -52,7 +56,8 @@ export function testComponent(component: keyof typeof Stubs) {
     const className = 'plot-class'
 
     await Stubs[component].setProps({
-      className
+      className,
+      width: 688,
     })
 
     const plot = Stubs[component].get('svg')
