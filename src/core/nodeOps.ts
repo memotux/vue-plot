@@ -49,7 +49,7 @@ function createElement(tag: PlotTag, _?: ElementNamespace, __?: string, props?: 
   return obj.plot(plotContext)
 }
 
-function insert(child: Element, parent: Element, anchor?: Element) {
+function insert(child: SVGElement | HTMLElement, parent: SVGElement | HTMLDivElement, anchor?: Element) {
   if (!child) return null
 
   if (parent.tagName === 'svg') {
@@ -62,7 +62,16 @@ function insert(child: Element, parent: Element, anchor?: Element) {
     for (const child of children) {
       parent.appendChild(child)
     }
+
     return
+  }
+
+  if (parent.tagName === 'DIV' && child.tagName === 'svg') {
+    for (const child of Array.from(parent.children)) {
+      if (child.tagName.toLowerCase().startsWith('plot')) {
+        parent.removeChild(child)
+      }
+    }
   }
 
   parent.insertBefore(child, anchor || null)
@@ -84,12 +93,23 @@ function patchProp(node: Element & { [k: string]: any }, prop: string, prevValue
   let finalKey = kebabToCamel(key)
   let target = root?.[finalKey]
 
+  // if (finalKey === 'marks') return
+
   // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
   if (key.includes('-') && target === undefined) {
     return
   }
   let value = nextValue
   if (value === '') { value = true }
+
+  // if (finalKey === 'className') {
+  //   if (root.tagName !== 'svg') {
+  //     root[finalKey] = value
+  //   }
+  //   root.classList.add(value)
+  //   return
+  // }
+
   // Set prop, prefer atomic methods if applicable
   if (is.fun(target)) {
     // don't call pointer event callback functions
@@ -109,6 +129,9 @@ function patchProp(node: Element & { [k: string]: any }, prop: string, prevValue
     patchStyle(root, prevValue, nextValue)
     return
   }
+  // if (!target?.set && !is.fun(target)) {
+  //   root.setAttribute(finalKey, value)
+  // }
   if (!target?.set && !is.fun(target)) { root[finalKey] = value }
   else if (target.constructor === value.constructor && target?.copy) { target?.copy(value) }
   else if (is.arr(value)) { target.set(...value) }
