@@ -18,6 +18,18 @@ const slots = useSlots()
 const InternalComponent = defineComponent({
   setup() {
     const marks = slots.default?.()
+
+    if (!marks && !Boolean(props.marks)) {
+      console.warn('Please add Plot Marks in props or as children')
+      return () =>
+        h('PlotRoot', null, [
+          h('PlotFrame'),
+          h('PlotText', {
+            data: ['Please add Plot Marks in props or as children'],
+            frameAnchor: 'middle',
+          }),
+        ])
+    }
     return () => h('PlotRoot', props, marks)
   },
 })
@@ -31,13 +43,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="plot-root">
-    <slot>
-      <PlotFrame />
-      <PlotText
-        :data="['Please add Plot Marks in props or as children']"
-        :options="{ frameAnchor: 'middle' }"
-      />
-    </slot>
+  <div
+    ref="plot-container"
+    id="__plot"
+  >
+    <slot> </slot>
   </div>
 </template>
