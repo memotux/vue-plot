@@ -64,5 +64,6 @@ export function testComponent(component: keyof typeof Stubs) {
     const plot = Stubs[component].get('svg')
 
     expect(plot.classes()).include(className)
+    expect(plot.attributes().viewBox).toBe('0 0 688 60')
   })
 }
