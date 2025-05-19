@@ -34,11 +34,12 @@ export function testComponent(component: keyof typeof Stubs) {
   it('find one svg', () => {
     expect(Stubs[component].findAll('svg').length).toBe(1)
   })
-  it('visible plot', () => {
-    expect(Stubs[component].find('svg').isVisible()).toBe(true)
-  })
 
   const plot = Stubs[component].find('svg')
+
+  it('visible plot', () => {
+    expect(plot.isVisible()).toBe(true)
+  })
 
   it('visible text', () => {
     const text = plot.find('text')
