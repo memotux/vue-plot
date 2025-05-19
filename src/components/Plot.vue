@@ -9,7 +9,7 @@ import {
 } from 'vue'
 import { nodeOps } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
-import { createPlotContext } from '../core/context'
+import { createPlotContext } from '../core'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
   aspectRatio: null,
