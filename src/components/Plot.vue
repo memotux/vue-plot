@@ -9,6 +9,7 @@ import {
 } from 'vue'
 import { nodeOps } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
+import { createPlotContext } from '../core/context'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
   aspectRatio: null,
@@ -34,11 +35,12 @@ const InternalComponent = defineComponent({
   },
 })
 
-const plotRoot = useTemplateRef('plot-root')
-const { render } = createRenderer(nodeOps)
+const plotContainer = useTemplateRef('plot-container')
 
 onMounted(() => {
-  render(h(InternalComponent), plotRoot.value)
+  const ctx = createPlotContext(plotContainer.value)
+  const { render } = createRenderer(nodeOps(ctx))
+  render(h(InternalComponent), plotContainer.value)
 })
 </script>
 
