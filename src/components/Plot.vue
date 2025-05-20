@@ -13,6 +13,7 @@ import { createPlotContext } from '../core'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
   aspectRatio: null,
+  figure: undefined,
 })
 const slots = useSlots()
 
