@@ -48,19 +48,20 @@ export default function (ctx: PlotContext) {
     return plot
   }
 
-  const insert = (child: SVGElement | HTMLElement, parent: SVGElement | HTMLDivElement | HTMLElement, anchor?: Element) => {
+  const insertStylessChildOnParent = (child: SVGElement | HTMLElement, parent: SVGElement | HTMLElement) => {
+    const styleNode = child.querySelector('style')
+    if (styleNode) {
+      styleNode.remove()
+    }
+
+    parent.append(...Array.from(child.children))
+  }
+
+  const insert = (child: SVGElement | HTMLElement, parent: SVGElement | HTMLElement, anchor?: Element) => {
     if (!child) return null
 
     if (parent === ctx.root) {
-      const styleNode = child.querySelector('style')
-      if (styleNode) {
-        styleNode.remove()
-      }
-      const children = Array.from(child.childNodes)
-
-      for (const child of children) {
-        parent.appendChild(child)
-      }
+      insertStylessChildOnParent(child, parent)
 
       return
     }
@@ -94,13 +95,7 @@ export default function (ctx: PlotContext) {
         for (const child of ctx.marks) {
           const patchChild = child._plot.obj.plot(ctx.root._plotOptions) as ReturnType<Plots['plot']>
 
-          const styleNode = patchChild.querySelector('style')
-          if (styleNode) {
-            styleNode.remove()
-          }
-          const children = Array.from(patchChild.children)
-
-          patchPlot.append(...children)
+          insertStylessChildOnParent(patchChild, patchPlot)
         }
       }
 
