@@ -163,3 +163,9 @@ const options: AreaYOptions = {
 ```
 
 If you define marks as `props` and as `children`, only marks as `props` will be rendered.
+
+## Credits
+
+This project was inspired on:
+
+- [TresJS](https://github.com/Tresjs/tres)
