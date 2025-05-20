@@ -2,7 +2,7 @@ import { h } from "vue"
 import { expect, it } from "vitest"
 import { mount } from "@vue/test-utils"
 import { frame, text } from "@observablehq/plot"
-import { Plot } from "../src"
+import Plot from "../src/components/Plot.vue"
 
 const PlotWithProps = mount(Plot, {
   attachTo: document.body,

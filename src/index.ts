@@ -7,7 +7,7 @@ import { plotCustomElement } from "./core";
  * @param app { App } Vue App context
  */
 function VuePlot(app: App) {
-  app.component('Plot', Plot)
+  app.component('VPlot', Plot)
 }
 
-export { Plot, VuePlot, plotCustomElement }
+export { Plot as VPlot, VuePlot, plotCustomElement }
