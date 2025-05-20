@@ -1,55 +1,8 @@
-import { h } from 'vue';
 import { describe, expect, it, afterAll } from 'vitest'
 import { mount } from '@vue/test-utils';
 import { frame, text } from '@observablehq/plot';
 import Plot from "../src/components/Plot.vue"
 import basic from './basic';
-
-describe('Plot with marks as props', () => {
-  const component = mount(Plot, {
-    attachTo: document.body,
-    props: {
-      marks: [
-        frame(),
-        text(["Hello, world!"], { frameAnchor: "middle" })
-      ]
-    }
-  })
-
-  basic(component)
-
-  it('renders visible text', () => {
-    const text = component.find('text')
-
-    expect(text.isVisible()).toBe(true)
-    expect(text.text()).toBe('Hello, world!')
-  })
-
-  afterAll(() => component.unmount())
-})
-
-describe('Plot with marks as children', () => {
-  const component = mount(Plot, {
-    attachTo: document.body,
-    slots: {
-      default: () => ([
-        h('PlotFrame'),
-        h('PlotText', { data: ['Hello, world!'], frameAnchor: 'middle' })
-      ])
-    }
-  })
-
-  basic(component)
-
-  it('renders visible text', () => {
-    const text = component.find('text')
-
-    expect(text.isVisible()).toBe(true)
-    expect(text.text()).toBe('Hello, world!')
-  })
-
-  afterAll(() => component.unmount())
-})
 
 describe('Plot as figure', () => {
   const frameText = "Titles, subtitles, captions, and annotations assist inter­pretation by telling the reader what’s interesting. Don’t make the reader work to find what you already know."

@@ -22,6 +22,7 @@ export default defineConfig({
   // @ts-ignore
   test: {
     environment: 'happy-dom',
+    reporters: ['verbose'],
     globals: true,
   },
   build: {
