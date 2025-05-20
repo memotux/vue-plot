@@ -7,9 +7,8 @@ import {
   createRenderer,
   defineComponent,
 } from 'vue'
-import { nodeOps } from '../core'
+import { nodeOps, createPlotContext } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
-import { createPlotContext } from '../core'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
   aspectRatio: null,
