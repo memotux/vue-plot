@@ -8,8 +8,11 @@ export default function (ctx: PlotContext) {
   const createElement = (tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) => {
     if (tag === 'template' || isHTMLTag(tag)) { return null }
     if (tag === 'PlotRoot') {
-      const plot = Plot.plot(props as Plot.PlotOptions)
-      ctx.root = Object.assign(plot, { _plotOptions: { ...props } })
+      const _plotOptions = { ...props } as Plot.PlotOptions
+
+      const plot = Plot.plot(_plotOptions)
+
+      ctx.root = Object.assign(plot, { _plotOptions })
 
       return ctx.root
     }
