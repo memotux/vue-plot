@@ -19,28 +19,25 @@ export default function (ctx: PlotContext) {
     let name = (tag.replace('Plot', '') || 'Plot') as keyof Omit<Plots, 'plot'>
     name = name.replace(name[0], name[0].toLowerCase()) as keyof Omit<Plots, 'plot'>
 
-    const target = Plot[name]
-    if (!target || name === 'plot' as keyof Plots) {
+    const mark = Plot[name]
+    if (!mark || name === 'plot' as keyof Plots) {
       throw new Error(
         `${name} is not defined on the PLOT namespace. Use extend to add it to the catalog.`,
       )
     }
 
     const data = (props as PlotMarksProps)?.data
-    const options = props ? { ...props, data: undefined } : undefined
+    delete (props as PlotMarksProps)?.data
+    const options = { ...props }
 
     // @ts-ignore
-    let obj = target(data, options)
-
-    if (!obj) { return null }
-
-    const plot = obj.plot(ctx.root!._plotOptions)
+    const plot = mark(data, options).plot(ctx.root!._plotOptions)
 
     plot._plot = {
-      target,
-      obj,
-      options: { ...options },
-      data: data ? { ...data } : undefined
+      mark,
+      options,
+      data,
+      inserted: false
     }
 
     ctx.marks.push(plot)
@@ -93,7 +90,8 @@ export default function (ctx: PlotContext) {
 
       if (ctx.marks.length > 0) {
         for (const child of ctx.marks) {
-          const patchChild = child._plot.obj.plot(ctx.root._plotOptions) as ReturnType<Plots['plot']>
+          const patchChild = child._plot.mark(child._plot.data, child._plot.options)
+            .plot(ctx.root._plotOptions) as ReturnType<Plots['plot']>
 
           insertStylessChildOnParent(patchChild, patchPlot)
         }

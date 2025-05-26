@@ -2,8 +2,7 @@ import type * as Plot from '@observablehq/plot'
 import type { PlotMarksProps } from "src/types"
 
 interface PlotChildrenContext {
-  target: any
-  obj: any
+  mark: any
   options: Omit<PlotMarksProps, 'data'>
   data: PlotMarksProps['data']
 }
