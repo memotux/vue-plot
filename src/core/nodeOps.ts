@@ -1,8 +1,7 @@
 import * as Plot from '@observablehq/plot'
 import { isHTMLTag, noop } from '../utils'
 import type { ElementNamespace } from 'vue'
-import type { Plots, PlotProps, PlotTag, PlotMarksProps } from '../types';
-import type { PlotContext } from './context';
+import type { PlotContext, Plots, PlotProps, PlotTag, PlotMarksProps } from '../types';
 
 export default function (ctx: PlotContext) {
   const createElement = (tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) => {

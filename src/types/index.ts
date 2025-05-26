@@ -157,3 +157,18 @@ export type PlotProps = PlotOptions | PlotMarksProps
 declare module 'vue' {
   export interface GlobalComponents extends PlotComponents { }
 }
+
+export interface PlotChildrenContext {
+  mark: any
+  options: Omit<PlotMarksProps, 'data'>
+  data: PlotMarksProps['data']
+  inserted: boolean
+}
+
+export type PlotElement = ReturnType<Plots['plot']>
+
+export interface PlotContext {
+  parent: HTMLElement | null
+  root: PlotElement & { _plotOptions: PlotOptions } | null
+  marks: Array<PlotElement & { _plot: PlotChildrenContext }>
+}
