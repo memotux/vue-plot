@@ -45,13 +45,15 @@ export default function (ctx: PlotContext) {
     return plot
   }
 
-  const insertStylessChildOnParent = (child: SVGElement | HTMLElement, parent: SVGElement | HTMLElement) => {
-    const styleNode = child.querySelector('style')
-    if (styleNode) {
-      styleNode.remove()
-    }
+  const insertStylessChildOnParent = (child: SVGElement | HTMLElement, parent: SVGElement | HTMLElement, anchor?: Element | null) => {
 
-    parent.append(...Array.from(child.children))
+    const children = Array.from(child.children)
+
+    for (const child of children) {
+      if (child.tagName === 'style') continue
+
+      parent.insertBefore(child, anchor || null)
+    }
   }
 
   const insert = (child: SVGElement | HTMLElement, parent: SVGElement | HTMLElement, anchor?: Element) => {
