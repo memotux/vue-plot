@@ -1,17 +1,25 @@
-import { h } from "vue"
+import { defineComponent, h } from "vue"
 import { mount } from "@vue/test-utils"
 import { describe, it, expect, afterAll } from "vitest"
 import Plot from "../src/components/Plot.vue"
 import basic from "./basic"
 
 describe('Plot with marks as children', () => {
-  const component = mount(Plot, {
-    attachTo: document.body,
-    slots: {
-      default: () => ([
+  const App = defineComponent({
+    props: {
+      text: String
+    },
+    setup(props) {
+      return () => h(Plot, null, () => ([
         h('PlotFrame'),
-        h('PlotText', { data: ['Hello, world!'], frameAnchor: 'middle' })
-      ])
+        h('PlotText', { data: [props.text], frameAnchor: 'middle' })
+      ]))
+    }
+  })
+
+  const component = mount(App, {
+    props: {
+      text: 'Hello, world!'
     }
   })
 
@@ -22,6 +30,15 @@ describe('Plot with marks as children', () => {
 
     expect(text.isVisible()).toBe(true)
     expect(text.text()).toBe('Hello, world!')
+  })
+
+  it('update child props', async () => {
+    await component.setProps({
+      text: 'Hello, Tux!'
+    })
+
+    expect(component.findAll('text').length).toBe(1)
+    expect(component.get('text').text()).toBe('Hello, Tux!')
   })
 
   afterAll(() => component.unmount())

@@ -6,6 +6,7 @@ import type { PlotContext, Plots, PlotProps, PlotTag, PlotMarksProps } from '../
 export default function (ctx: PlotContext) {
   const createElement = (tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) => {
     if (tag === 'template' || isHTMLTag(tag)) { return null }
+
     if (tag === 'PlotRoot') {
       const _plotOptions = { ...props } as Plot.PlotOptions
 
@@ -15,6 +16,7 @@ export default function (ctx: PlotContext) {
 
       return ctx.root
     }
+
     let name = (tag.replace('Plot', '') || 'Plot') as keyof Omit<Plots, 'plot'>
     name = name.replace(name[0], name[0].toLowerCase()) as keyof Omit<Plots, 'plot'>
 
@@ -79,30 +81,47 @@ export default function (ctx: PlotContext) {
     }
   }
 
-  const patchProp = (node: Element & { [k: string]: any }, prop: keyof Plot.PlotOptions, _: any, nextValue: any) => {
-    if (!node || !nextValue || !ctx.parent) { return }
+  const patchProp = (node: PlotContext['marks'][0] | PlotContext['root'], prop: PlotProps | string, prevValue: any, nextValue: any) => {
+    if (!ctx.root || !ctx.parent || !node || !nextValue || prevValue === nextValue) { return }
 
     /**
-     * 1. If props is in plotRoot, regenerate Root and childrens (if exists)
+     * 1. If node is Root, regenerate Root and childrens (if exists)
      *    if marks are pass as props, Root does not have children
-     * 2. If props is in childrens, regenerate only children.
+     * 2. If node is in childrens, regenerate only children.
      */
-    if (node === ctx.root) {
-      ctx.root._plotOptions[prop] = nextValue
 
-      const patchPlot = Plot.plot(ctx.root._plotOptions)
+    /**
+     * Patch Child Prop
+     */
 
-      if (ctx.marks.length > 0) {
-        for (const child of ctx.marks) {
-          const patchChild = child._plot.mark(child._plot.data, child._plot.options)
-            .plot(ctx.root._plotOptions) as ReturnType<Plots['plot']>
+    const child = node as PlotContext['marks'][0]
 
-          insertStylessChildOnParent(patchChild, patchPlot)
-        }
+    if (ctx.marks.includes(child) && child._plot.inserted) {
+      if (prop === 'data') {
+        child._plot.data = nextValue
+      } else {
+        // @ts-ignore
+        child._plot.options[prop] = nextValue
       }
-
-      ctx.parent.replaceChildren(patchPlot)
     }
+
+    if (node === ctx.root) {
+      const option = prop as keyof Plot.PlotOptions
+      ctx.root._plotOptions[option] = nextValue
+    }
+
+    const patchPlot = Plot.plot(ctx.root._plotOptions)
+
+    if (ctx.marks.length > 0) {
+      for (const child of ctx.marks) {
+        const patchChild = child._plot.mark(child._plot.data, child._plot.options)
+          .plot(ctx.root._plotOptions) as ReturnType<Plots['plot']>
+
+        insertStylessChildOnParent(patchChild, patchPlot)
+      }
+    }
+
+    ctx.parent.replaceChildren(patchPlot)
   }
 
   const parentNode = (node: Element): ParentNode | null => {

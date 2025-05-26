@@ -18,9 +18,12 @@ const slots = useSlots()
 
 const InternalComponent = defineComponent({
   setup() {
-    const marks = slots.default?.()
-
-    if (!marks && !Boolean(props.marks)) {
+    /**
+     * [Vue warn]: Slot "default" invoked outside of the render function: this will not
+     * track dependencies used in the slot. Invoke the slot function inside the render
+     * function instead.
+     */
+    if (!slots.default && !Boolean(props.marks)) {
       console.warn('Please add Plot Marks in props or as children')
       return () =>
         h('PlotRoot', null, [
@@ -31,7 +34,7 @@ const InternalComponent = defineComponent({
           }),
         ])
     }
-    return () => h('PlotRoot', props, marks)
+    return () => h('PlotRoot', props, slots.default?.())
   },
 })
 
