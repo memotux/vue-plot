@@ -5,6 +5,7 @@ interface PlotChildrenContext {
   mark: any
   options: Omit<PlotMarksProps, 'data'>
   data: PlotMarksProps['data']
+  inserted: boolean
 }
 
 type PlotRoot = (SVGSVGElement | HTMLElement) & Plot.Plot

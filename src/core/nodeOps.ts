@@ -62,6 +62,9 @@ export default function (ctx: PlotContext) {
     if (parent === ctx.root) {
       insertStylessChildOnParent(child, parent)
 
+      // @ts-ignore
+      child._plot.inserted = true
+
       return
     }
 
