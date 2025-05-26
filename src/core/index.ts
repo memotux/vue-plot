@@ -4,7 +4,7 @@ export * from './context'
 export const plotCustomElement = {
   template: {
     compilerOptions: {
-      isCustomElement: (tag: string) => (tag.startsWith('Plot') && tag !== 'PlotRenderer'),
+      isCustomElement: (tag: string) => (tag.startsWith('Plot')),
     },
   },
 }
