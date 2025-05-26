@@ -103,11 +103,11 @@ export default function (ctx: PlotContext) {
         // @ts-ignore
         child._plot.options[prop] = nextValue
       }
-    }
-
-    if (node === ctx.root) {
+    } else if (node === ctx.root) {
       const option = prop as keyof Plot.PlotOptions
       ctx.root._plotOptions[option] = nextValue
+    } else {
+      return
     }
 
     const patchPlot = Plot.plot(ctx.root._plotOptions)
