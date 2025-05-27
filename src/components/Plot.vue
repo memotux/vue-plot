@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, onMounted, useSlots, useTemplateRef, createRenderer } from 'vue'
+import { h, onMounted, useSlots, useTemplateRef, createRenderer, useId } from 'vue'
 import { nodeOps, createPlotContext } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
 
@@ -16,6 +16,7 @@ const props = withDefaults(defineProps<PlotOptions>(), {
   labelArrow: undefined,
 })
 const slots = useSlots()
+const id = useId()
 
 const plotContainer = useTemplateRef('plot-container')
 
@@ -48,7 +49,7 @@ onMounted(() => {
 <template>
   <div
     ref="plot-container"
-    id="__plot"
+    :id="`__plot-${id}`"
   >
     <slot> </slot>
   </div>
