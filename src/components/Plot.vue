@@ -6,6 +6,14 @@ import type { PlotOptions } from '@observablehq/plot'
 const props = withDefaults(defineProps<PlotOptions>(), {
   aspectRatio: null,
   figure: undefined,
+  clip: undefined,
+  clamp: undefined,
+  nice: undefined,
+  zero: undefined,
+  round: undefined,
+  axis: undefined,
+  grid: undefined,
+  labelArrow: undefined,
 })
 const slots = useSlots()
 
