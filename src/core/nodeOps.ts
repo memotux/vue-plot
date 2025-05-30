@@ -82,7 +82,7 @@ export default function (ctx: PlotContext) {
   }
 
   const patchProp = (node: PlotContext['marks'][0] | PlotContext['root'], prop: PlotProps | string, prevValue: any, nextValue: any) => {
-    if (!ctx.root || !ctx.parent || !node || !nextValue || prevValue === nextValue) { return }
+    if (!ctx.root || !ctx.parent || !node || prevValue === nextValue) { return }
 
     /**
      * 1. If node is Root, regenerate Root and childrens (if exists)
