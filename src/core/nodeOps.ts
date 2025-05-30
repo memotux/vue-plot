@@ -121,7 +121,7 @@ export default function (ctx: PlotContext) {
       }
     }
 
-    ctx.parent.replaceChildren(patchPlot)
+    insert(patchPlot, ctx.parent)
   }
 
   const parentNode = (node: Element): ParentNode | null => {
