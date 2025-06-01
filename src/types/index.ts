@@ -1,5 +1,5 @@
 import type { area, areaX, areaY, arrow, auto, axisFx, axisFy, axisX, axisY, barX, barY, bollinger, bollingerX, bollingerY, boxX, boxY, cell, cellX, cellY, contour, crosshair, crosshairX, crosshairY, delaunayLink, delaunayMesh, density, differenceX, differenceY, dot, dotX, dotY, frame, geo, geoCentroid, hexgrid, hexagon, hexbin, image, line, lineX, lineY, linearRegressionX, linearRegressionY, link, raster, rect, rectX, rectY, ruleX, ruleY, text, textX, textY, tickX, tickY, tip, tree, vector, vectorX, vectorY, waffleX, waffleY, plot, AreaOptions, AreaXOptions, AreaYOptions, ArrowOptions, AutoOptions, AxisOptions, AxisXOptions, AxisYOptions, BarXOptions, BarYOptions, BarOptions, BollingerOptions, BollingerXOptions, BollingerYOptions, BoxXOptions, BoxYOptions, CellOptions, ContourOptions, CrosshairOptions, DelaunayOptions, DensityOptions, DifferenceOptions, DotOptions, DotXOptions, DotYOptions, FrameOptions, GeoOptions, HexgridOptions, HexbinOptions, ImageOptions, LineOptions, LineXOptions, LineYOptions, LinearRegressionOptions, LinearRegressionXOptions, LinearRegressionYOptions, LinkOptions, RasterOptions, RectOptions, RectXOptions, RectYOptions, RuleOptions, RuleXOptions, RuleYOptions, TextOptions, TextXOptions, TextYOptions, TickXOptions, TickYOptions, TipOptions, TreeOptions, VectorOptions, WaffleOptions, WaffleXOptions, WaffleYOptions, Data, PlotOptions, CentroidOptions } from '@observablehq/plot'
-import type { DefineComponent } from "vue";
+import type { AppContext, DefineComponent, ShallowRef } from "vue";
 
 export type Plots = {
   area: typeof area,
@@ -168,7 +168,16 @@ export interface PlotChildrenContext {
 export type PlotElement = ReturnType<Plots['plot']>
 
 export interface PlotContext {
-  parent: HTMLElement | null
-  root: PlotElement & { _plotOptions: PlotOptions } | null
-  marks: Array<PlotElement & { _plot: PlotChildrenContext }>
+  id: string
+  parent: Readonly<ShallowRef<HTMLDivElement | null>>
+  root: {
+    el: PlotElement | null
+    options: PlotOptions
+  }
+  marks: Array<PlotElement & { __plot: PlotChildrenContext }>
+}
+
+export interface PlotAppContext extends AppContext {
+  __plot: Map<string, PlotContext>
+  // __plot: PlotContext
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { h, onMounted, useSlots, useTemplateRef, createRenderer, useId } from 'vue'
-import { nodeOps, createPlotContext } from '../core'
+import { h, onMounted, useSlots, useTemplateRef, useId, onUnmounted } from 'vue'
+import { unmountPlot, usePlotRender } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
@@ -17,8 +17,10 @@ const props = withDefaults(defineProps<PlotOptions>(), {
 })
 const slots = useSlots()
 const id = useId()
+const plotId = `__plot-${id}`
 
 const plotContainer = useTemplateRef('plot-container')
+const render = usePlotRender(plotContainer, plotId)
 
 const PlotInternal = () => {
   /**
@@ -26,6 +28,7 @@ const PlotInternal = () => {
    * track dependencies used in the slot. Invoke the slot function inside the render
    * function instead.
    */
+
   if (!slots.default && !Boolean(props.marks)) {
     console.warn('Please add Plot Marks in props or as children')
     return h('PlotRoot', null, [
@@ -40,16 +43,20 @@ const PlotInternal = () => {
 }
 
 onMounted(() => {
-  const ctx = createPlotContext(plotContainer.value)
-  const { render } = createRenderer(nodeOps(ctx))
-  render(h(PlotInternal), plotContainer.value)
+  if (plotContainer.value) {
+    render(h(PlotInternal), plotContainer.value)
+  }
+})
+
+onUnmounted(() => {
+  unmountPlot(plotId)
 })
 </script>
 
 <template>
   <div
     ref="plot-container"
-    :id="`__plot-${id}`"
+    :data-plot-id="plotId"
   >
     <slot> </slot>
   </div>
