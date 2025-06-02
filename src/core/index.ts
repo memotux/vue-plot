@@ -1,5 +1,4 @@
-export { default as nodeOps } from './nodeOps'
-export * from './context'
+export { getPlotRender, unmountPlot } from './context'
 
 export const plotCustomElement = {
   template: {

@@ -3,7 +3,7 @@ import nodeOps from "./nodeOps";
 import type { ShallowRef, RootRenderFunction } from "vue";
 import type { PlotAppContext } from "src/types"
 
-function createPlotContext() {
+function createPlotApp() {
   let initialized = false
   let render: RootRenderFunction
 
@@ -34,7 +34,7 @@ function createPlotContext() {
   }
 }
 
-export const usePlotRender = createPlotContext()
+export const getPlotRender = createPlotApp()
 
 export const unmountPlot = (id: string) => {
   const instance = getCurrentInstance()
