@@ -1,6 +1,7 @@
 import * as Plot from '@observablehq/plot'
 import { isHTMLTag, noop } from '../utils'
-import { ComponentInternalInstance, getCurrentInstance, type ElementNamespace } from 'vue'
+import { ComponentInternalInstance, getCurrentInstance } from 'vue'
+import type { ElementNamespace } from "vue";
 import type { PlotContext, Plots, PlotProps, PlotTag, PlotMarksProps, PlotAppContext, PlotElement } from '../types';
 
 export default function () {
