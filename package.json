@@ -54,5 +54,15 @@
     "vue": "^3.5.16",
     "vue-tsc": "^2.2.10"
   },
+  "author": {
+    "email": "romeo@mendezfuentes.net",
+    "name": "Romeo Mendez Fuentes",
+    "url": "https://romeo.mendezfuentes.net"
+  },
+  "homepage": "https://github.com/memotux/vue-plot",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/memotux/vue-plot.git"
+  },
   "packageManager": "pnpm@10.11.0"
 }
