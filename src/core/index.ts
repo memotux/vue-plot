@@ -1,4 +1,4 @@
-export { getPlotRender, unmountPlot } from './context'
+export { getPlotApp } from './context'
 
 export const plotCustomElement = {
   template: {

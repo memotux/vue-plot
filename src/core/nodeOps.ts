@@ -2,14 +2,15 @@ import * as Plot from '@observablehq/plot'
 import { isHTMLTag, noop } from '../utils'
 import { ComponentInternalInstance, getCurrentInstance } from 'vue'
 import type { ElementNamespace } from "vue";
-import type { PlotContext, Plots, PlotProps, PlotTag, PlotMarksProps, PlotAppContext, PlotElement } from '../types';
+import type { PlotContext, Plots, PlotProps, PlotTag, PlotMarksProps, PlotElement } from '../types';
+import { getPlotApp } from './context';
 
 export default function () {
   const createElement = (tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) => {
     if (tag === 'template' || isHTMLTag(tag)) { return null }
 
     const instance = getCurrentInstance()
-    const plotCtx = (instance?.appContext as PlotAppContext)?.__plot
+    const { ctx: plotCtx } = getPlotApp()
     const plotId = instance?.vnode.el?.getAttribute('data-plot-id')
     const ctx = plotCtx.get(plotId || '')
 
@@ -89,7 +90,7 @@ export default function () {
       ctx = _ctx
     } else {
       const id = parent.getAttribute('data-plot-id')
-      const plot = (instance?.appContext as PlotAppContext)?.__plot
+      const { ctx: plot } = getPlotApp()
       ctx = plot.get(id || '')
     }
 
@@ -129,7 +130,7 @@ export default function () {
     if (!instance) {
       ctx = parent.vnode.el?.__plot
     } else {
-      const plot = (instance?.appContext as PlotAppContext)?.__plot
+      const { ctx: plot } = getPlotApp()
       ctx = plot.get(id || '')
     }
 

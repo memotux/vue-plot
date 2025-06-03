@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, onMounted, useSlots, useTemplateRef, useId, onUnmounted } from 'vue'
-import { unmountPlot, getPlotRender } from '../core'
+import { getPlotApp } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
@@ -20,7 +20,9 @@ const id = useId()
 const plotId = `__plot-${id}`
 
 const plotContainer = useTemplateRef('plot-container')
-const render = getPlotRender(plotContainer, plotId)
+const { render, setPlotCtx, removePlot } = getPlotApp()
+
+setPlotCtx(plotContainer, plotId)
 
 const PlotInternal = () => {
   /**
@@ -50,7 +52,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  unmountPlot(plotId)
+  removePlot(plotId)
 })
 </script>
 

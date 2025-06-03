@@ -1,26 +1,17 @@
-import { createRenderer, getCurrentInstance } from "vue"
+import { createRenderer } from "vue"
 import nodeOps from "./nodeOps";
 import type { ShallowRef, RootRenderFunction } from "vue";
-import type { PlotAppContext } from "src/types"
+import type { PlotContext } from "src/types"
+
+type PlotContextParent = Readonly<ShallowRef<HTMLDivElement | null>>
+type PlotAppContext = Map<string, PlotContext>
 
 function createPlotApp() {
   let initialized = false
   let render: RootRenderFunction
-
-  return (parent: Readonly<ShallowRef<HTMLDivElement | null>>, id: string) => {
-    const appCtx = getCurrentInstance()?.appContext as PlotAppContext | undefined
-
-    if (!appCtx) {
-      throw new Error("Plot need to be initialized on Vue context.");
-    }
-
-    if (!initialized) {
-      render = createRenderer(nodeOps()).render
-      appCtx.__plot = new Map()
-      initialized = true
-    }
-
-    appCtx.__plot.set(id, {
+  const ctx: PlotAppContext = new Map()
+  const setPlotCtx = (parent: PlotContextParent, id: string) => {
+    ctx.set(id, {
       id,
       parent,
       root: {
@@ -29,15 +20,25 @@ function createPlotApp() {
       },
       marks: [],
     })
+  }
 
-    return render
+  const removePlot = (id: string) => {
+    ctx.delete(id)
+  }
+
+  return () => {
+    if (!initialized) {
+      render = createRenderer(nodeOps()).render
+      initialized = true
+    }
+
+    return {
+      render,
+      ctx,
+      setPlotCtx,
+      removePlot
+    }
   }
 }
 
-export const getPlotRender = createPlotApp()
-
-export const unmountPlot = (id: string) => {
-  const instance = getCurrentInstance()
-  const plotCtx = (instance?.appContext as PlotAppContext).__plot
-  plotCtx.delete(id)
-}
+export const getPlotApp = createPlotApp()
