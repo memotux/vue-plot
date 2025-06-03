@@ -41,8 +41,8 @@ const PlotInternal = () => {
       }),
     ])
   }
-  // @ts-ignore
-  return h('PlotRoot', props, slots.default?.())
+
+  return h('PlotRoot', props, slots)
 }
 
 onMounted(() => {
