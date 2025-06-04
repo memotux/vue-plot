@@ -1,16 +1,13 @@
 import { createRenderer } from "vue"
 import nodeOps from "./nodeOps";
-import type { ShallowRef, RootRenderFunction } from "vue";
+import type { RootRenderFunction } from "vue";
 import type { PlotContext } from "src/types"
-
-type PlotContextParent = Readonly<ShallowRef<HTMLDivElement | null>>
-type PlotAppContext = Map<string, PlotContext>
 
 function createPlotApp() {
   let initialized = false
   let render: RootRenderFunction
-  const ctx: PlotAppContext = new Map()
-  const setPlotCtx = (parent: PlotContextParent, id: string) => {
+  const ctx: Map<string, PlotContext> = new Map()
+  const addPlot = (parent: PlotContext['parent'], id: string) => {
     ctx.set(id, {
       id,
       parent,
@@ -35,7 +32,7 @@ function createPlotApp() {
     return {
       render,
       ctx,
-      setPlotCtx,
+      addPlot,
       removePlot
     }
   }

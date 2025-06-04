@@ -20,9 +20,9 @@ const id = useId()
 const plotId = `__plot-${id}`
 
 const plotContainer = useTemplateRef('plot-container')
-const { render, setPlotCtx, removePlot } = getPlotApp()
+const { render, addPlot, removePlot } = getPlotApp()
 
-setPlotCtx(plotContainer, plotId)
+addPlot(plotContainer, plotId)
 
 const PlotInternal = () => {
   /**
