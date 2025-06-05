@@ -89,10 +89,10 @@ declare module 'vue' {
   export interface GlobalComponents extends PlotComponents { }
 }
 
-export interface PlotChildrenContext {
-  mark: any
-  options: Omit<PlotMarksProps, 'data'>
-  data: PlotMarksProps['data']
+export interface PlotChildrenContext<M extends Marks> {
+  mark: (data: Plot.Data | undefined, options: Omit<PlotMarksProps<M>, 'data'> | undefined) => Plot.RenderableMark
+  options: Omit<PlotMarksProps<M>, 'data'>
+  data: PlotMarksProps<M>['data']
   inserted: boolean
 }
 

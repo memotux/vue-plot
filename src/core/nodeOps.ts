@@ -1,9 +1,15 @@
 import * as Plot from '@observablehq/plot'
 import { isHTMLTag, noop } from '../utils'
 import { ComponentInternalInstance, getCurrentInstance } from 'vue'
-import type { ElementNamespace } from "vue";
-import type { PlotContext, Marks, PlotProps, PlotTag, PlotMarksProps, PlotElement } from '../types';
 import { getPlotApp } from './context';
+import type { ElementNamespace } from "vue";
+import type { PlotContext, Marks, PlotProps, PlotTag, PlotMarksProps, PlotElement, PlotChildrenContext } from '../types';
+
+type CurrentMark<M extends Marks> = PlotMarksProps<M>
+
+type PlotMark<M extends Marks> = (data: Plot.Data | undefined, options: Omit<PlotMarksProps<M>, 'data'> | undefined) => Plot.RenderableMark
+
+type MarkPlot<M extends Marks> = PlotElement & { __plot: PlotChildrenContext<M> }
 
 export default function () {
   const createElement = (tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) => {
@@ -39,27 +45,25 @@ export default function () {
     let name = (tag.replace('Plot', '') || 'Plot') as Marks
     name = name.replace(name[0], name[0].toLowerCase()) as Marks
 
-    const mark = Plot[name]
+    const mark = Plot[name] as PlotMark<typeof name>
+
     if (!mark || name === 'plot' as Marks) {
       throw new Error(
         `${name} is not defined on the PLOT namespace. Use extend to add it to the catalog.`,
       )
     }
 
-    type CurrentMark = PlotMarksProps<typeof name>
-
     let data: PlotMarksProps['data']
-    let options: Omit<CurrentMark, 'data'> | undefined
+    let options: Omit<CurrentMark<typeof name>, 'data'> | undefined
 
     if (props) {
-      const markProps = props as CurrentMark
+      const markProps = props as CurrentMark<typeof name>
       data = markProps.data
       delete markProps.data
       options = { ...markProps }
     }
 
-    // @ts-ignore
-    const plot: PlotElement & { __plot: PlotChildrenContext; } = mark(data, options).plot(ctx.root.options)
+    const plot = mark(data, options).plot(ctx.root.options) as MarkPlot<typeof name>
 
     Object.assign(plot, {
       __plot: {
@@ -77,7 +81,7 @@ export default function () {
     return plot
   }
 
-  const insertStylessChildOnParent = (child: SVGElement | HTMLElement, parent: SVGElement | HTMLElement, anchor?: Element | null) => {
+  const insertStylessChildOnParent = (child: PlotElement, parent: PlotElement, anchor?: Element | null) => {
 
     const children = Array.from(child.children)
 
@@ -88,7 +92,7 @@ export default function () {
     }
   }
 
-  const insert = (child: SVGElement | HTMLElement, parent: SVGElement | HTMLElement, anchor?: Element, _ctx?: PlotContext) => {
+  const insert = (child: PlotElement, parent: PlotElement | HTMLDivElement, anchor?: Element, _ctx?: PlotContext) => {
     if (!child) return null
 
     let ctx: PlotContext | undefined
@@ -128,7 +132,7 @@ export default function () {
     }
   }
 
-  const patchProp = (node: PlotContext['marks'][0] | PlotContext['root']['el'], prop: PlotProps | string, prevValue: any, nextValue: any, _: any, parent: ComponentInternalInstance) => {
+  const patchProp = (node: PlotElement, prop: PlotProps | string, prevValue: any, nextValue: any, _: any, parent: ComponentInternalInstance) => {
     if (!node || !parent.vnode.el || prevValue === nextValue) return
 
     let ctx: PlotContext | undefined
