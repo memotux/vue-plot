@@ -2,7 +2,7 @@ import * as Plot from '@observablehq/plot'
 import { isHTMLTag, noop } from '../utils'
 import { ComponentInternalInstance, getCurrentInstance } from 'vue'
 import type { ElementNamespace } from "vue";
-import type { PlotContext, Plots, PlotProps, PlotTag, PlotMarksProps, PlotElement } from '../types';
+import type { PlotContext, Marks, PlotProps, PlotTag, PlotMarksProps, PlotElement } from '../types';
 import { getPlotApp } from './context';
 
 export default function () {
@@ -36,19 +36,27 @@ export default function () {
       return ctx.root.el
     }
 
-    let name = (tag.replace('Plot', '') || 'Plot') as keyof Omit<Plots, 'plot'>
-    name = name.replace(name[0], name[0].toLowerCase()) as keyof Omit<Plots, 'plot'>
+    let name = (tag.replace('Plot', '') || 'Plot') as Marks
+    name = name.replace(name[0], name[0].toLowerCase()) as Marks
 
     const mark = Plot[name]
-    if (!mark || name === 'plot' as keyof Plots) {
+    if (!mark || name === 'plot' as Marks) {
       throw new Error(
         `${name} is not defined on the PLOT namespace. Use extend to add it to the catalog.`,
       )
     }
 
-    const data = (props as PlotMarksProps)?.data
-    delete (props as PlotMarksProps)?.data
-    const options = { ...props }
+    type CurrentMark = PlotMarksProps<typeof name>
+
+    let data: PlotMarksProps['data']
+    let options: Omit<CurrentMark, 'data'> | undefined
+
+    if (props) {
+      const markProps = props as CurrentMark
+      data = markProps.data
+      delete markProps.data
+      options = { ...markProps }
+    }
 
     // @ts-ignore
     const plot: PlotElement & { __plot: PlotChildrenContext; } = mark(data, options).plot(ctx.root.options)
@@ -173,7 +181,7 @@ export default function () {
     if (ctx.marks.length > 0) {
       for (const child of ctx.marks) {
         const patchChild = child.__plot.mark(child.__plot.data, child.__plot.options)
-          .plot(ctx.root.options) as ReturnType<Plots['plot']>
+          .plot(ctx.root.options) as PlotElement
 
         insertStylessChildOnParent(patchChild, patchPlot)
       }

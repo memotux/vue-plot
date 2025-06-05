@@ -1,7 +1,7 @@
 import { createRenderer } from "vue"
 import nodeOps from "./nodeOps";
 import type { RootRenderFunction } from "vue";
-import type { PlotContext } from "src/types"
+import type { PlotContext } from "../types"
 
 function createPlotApp() {
   let initialized = false

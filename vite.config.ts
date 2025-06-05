@@ -16,7 +16,7 @@ export default defineConfig({
       },
     }),
     dts({
-      insertTypesEntry: true,
+      copyDtsFiles: true
     }),
   ],
   // @ts-ignore
