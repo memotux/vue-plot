@@ -1,4 +1,4 @@
-import { AreaOptions, AreaXOptions, AreaYOptions, ArrowOptions, AutoOptions, AxisOptions, AxisYOptions, AxisXOptions, BarXOptions, BarYOptions, BarOptions, BollingerOptions, BollingerXOptions, BollingerYOptions, BoxXOptions, BoxYOptions, CellOptions, ContourOptions, CrosshairOptions, DelaunayOptions, DensityOptions, DifferenceOptions, DotOptions, DotXOptions, DotYOptions, FrameOptions, GeoOptions, CentroidOptions, HexgridOptions, HexbinOptions, ImageOptions, LineOptions, LineXOptions, LineYOptions, LinearRegressionOptions, LinearRegressionXOptions, LinearRegressionYOptions, LinkOptions, RasterOptions, RectOptions, RectXOptions, RectYOptions, RuleOptions, RuleXOptions, RuleYOptions, TextOptions, TextXOptions, TextYOptions, TickXOptions, TickYOptions, TipOptions, TreeOptions, VectorOptions, WaffleOptions, WaffleXOptions, WaffleYOptions, Data, PlotOptions, plot } from '@observablehq/plot'
+import { AreaOptions, AreaXOptions, AreaYOptions, ArrowOptions, AutoOptions, AxisOptions, AxisYOptions, AxisXOptions, BarXOptions, BarYOptions, BarOptions, BollingerOptions, BollingerXOptions, BollingerYOptions, BoxXOptions, BoxYOptions, CellOptions, ContourOptions, CrosshairOptions, DelaunayOptions, DensityOptions, DifferenceOptions, DotOptions, DotXOptions, DotYOptions, FrameOptions, GeoOptions, CentroidOptions, HexgridOptions, HexbinOptions, ImageOptions, LineOptions, LineXOptions, LineYOptions, LinearRegressionOptions, LinearRegressionXOptions, LinearRegressionYOptions, LinkOptions, RasterOptions, RectOptions, RectXOptions, RectYOptions, RuleOptions, RuleXOptions, RuleYOptions, TextOptions, TextXOptions, TextYOptions, TickXOptions, TickYOptions, TipOptions, TreeOptions, VectorOptions, WaffleOptions, WaffleXOptions, WaffleYOptions, Data, PlotOptions, RenderableMark } from '@observablehq/plot'
 import { DefineComponent, ShallowRef } from "vue";
 
 export type Marks = 'area' | 'areaX' | 'areaY' | 'arrow' | 'auto' | 'axisFx' | 'axisFy' | 'axisX' | 'axisY' | 'barX' | 'barY' | 'bollinger' | 'bollingerX' | 'bollingerY' | 'boxX' | 'boxY' | 'cell' | 'cellX' | 'cellY' | 'contour' | 'crosshair' | 'crosshairX' | 'crosshairY' | 'delaunayLink' | 'delaunayMesh' | 'density' | 'differenceX' | 'differenceY' | 'dot' | 'dotX' | 'dotY' | 'frame' | 'geo' | 'geoCentroid' | 'hexgrid' | 'hexagon' | 'hexbin' | 'image' | 'line' | 'lineX' | 'lineY' | 'linearRegressionX' | 'linearRegressionY' | 'link' | 'raster' | 'rect' | 'rectX' | 'rectY' | 'ruleX' | 'ruleY' | 'text' | 'textX' | 'textY' | 'tickX' | 'tickY' | 'tip' | 'tree' | 'vector' | 'vectorX' | 'vectorY' | 'waffleX' | 'waffleY'
@@ -90,20 +90,20 @@ declare module 'vue' {
 }
 
 export interface PlotChildrenContext<M extends Marks> {
-  mark: (data: Plot.Data | undefined, options: Omit<PlotMarksProps<M>, 'data'> | undefined) => Plot.RenderableMark
-  options: Omit<PlotMarksProps<M>, 'data'>
+  mark: (data: Data | undefined, options: Omit<PlotMarksProps<M>, 'data'> | undefined) => RenderableMark
+  options: Omit<PlotMarksProps<M>, 'data'> | {}
   data: PlotMarksProps<M>['data']
   inserted: boolean
+  id: string
 }
-
-export type PlotElement = ReturnType<typeof plot>
 
 export interface PlotContext {
   id: string
   parent: Readonly<ShallowRef<HTMLDivElement | null>>
   root: {
-    el: PlotElement | null
+    id: string
     options: PlotOptions
+    _ctx?: PlotContext
   }
-  marks: Array<PlotElement & { __plot: PlotChildrenContext }>
+  marks: Array<PlotChildrenContext<'frame'>>
 }

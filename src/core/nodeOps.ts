@@ -3,13 +3,7 @@ import { isHTMLTag, noop } from '../utils'
 import { ComponentInternalInstance, getCurrentInstance } from 'vue'
 import { getPlotApp } from './context';
 import type { ElementNamespace } from "vue";
-import type { PlotContext, Marks, PlotProps, PlotTag, PlotMarksProps, PlotElement, PlotChildrenContext } from '../types';
-
-type CurrentMark<M extends Marks> = PlotMarksProps<M>
-
-type PlotMark<M extends Marks> = (data: Plot.Data | undefined, options: Omit<PlotMarksProps<M>, 'data'> | undefined) => Plot.RenderableMark
-
-type MarkPlot<M extends Marks> = PlotElement & { __plot: PlotChildrenContext<M> }
+import type { PlotContext, Marks, PlotProps, PlotTag, PlotMarksProps, PlotChildrenContext } from '../types';
 
 export default function () {
   const createElement = (tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) => {
@@ -25,27 +19,16 @@ export default function () {
     }
 
     if (tag === 'PlotRoot') {
-      const options = { ...props } as Plot.PlotOptions
+      ctx.root.options = { ...props } as Plot.PlotOptions
+      ctx.root._ctx = ctx
 
-      const plot = Plot.plot(options)
-
-      ctx.root = {
-        el: plot,
-        options
-      }
-
-      // Add context to PlotRoot for patchProp parent
-      Object.assign(plot, { __plot: ctx })
-
-      plot.setAttribute('data-plot-id', ctx.id)
-
-      return ctx.root.el
+      return ctx.root
     }
 
     let name = (tag.replace('Plot', '') || 'Plot') as Marks
     name = name.replace(name[0], name[0].toLowerCase()) as Marks
 
-    const mark = Plot[name] as PlotMark<typeof name>
+    const mark = Plot[name] as PlotChildrenContext<typeof name>['mark']
 
     if (!mark || name === 'plot' as Marks) {
       throw new Error(
@@ -53,46 +36,30 @@ export default function () {
       )
     }
 
-    let data: PlotMarksProps['data']
-    let options: Omit<CurrentMark<typeof name>, 'data'> | undefined
+    let data: PlotChildrenContext<typeof name>['data']
+    let options: PlotChildrenContext<typeof name>['options'] = {}
 
     if (props) {
-      const markProps = props as CurrentMark<typeof name>
+      const markProps = props as PlotMarksProps<typeof name>
       data = markProps.data
       delete markProps.data
       options = { ...markProps }
     }
 
-    const plot = mark(data, options).plot(ctx.root.options) as MarkPlot<typeof name>
-
-    Object.assign(plot, {
-      __plot: {
-        mark,
-        options,
-        data,
-        inserted: false
-      }
-    })
-
-    plot.setAttribute('data-plot-id', ctx.id)
+    const plot: PlotChildrenContext<typeof name> = {
+      id: plotId,
+      mark,
+      options,
+      data,
+      inserted: false,
+    }
 
     ctx.marks.push(plot)
 
     return plot
   }
 
-  const insertStylessChildOnParent = (child: PlotElement, parent: PlotElement, anchor?: Element | null) => {
-
-    const children = Array.from(child.children)
-
-    for (const child of children) {
-      if (child.tagName === 'style') continue
-
-      parent.insertBefore(child, anchor || null)
-    }
-  }
-
-  const insert = (child: PlotElement, parent: PlotElement | HTMLDivElement, anchor?: Element, _ctx?: PlotContext) => {
+  const insert = (child: PlotChildrenContext<'frame'> | PlotContext['root'], parent: PlotContext['root'] | HTMLDivElement, anchor?: Element, _ctx?: PlotContext) => {
     if (!child) return null
 
     let ctx: PlotContext | undefined
@@ -101,28 +68,32 @@ export default function () {
     if (!instance && _ctx) {
       ctx = _ctx
     } else {
-      const id = parent.getAttribute('data-plot-id')
+      const id = (parent as HTMLDivElement).getAttribute?.('data-plot-id') || (parent as PlotContext['root']).id
       const { ctx: plot } = getPlotApp()
       ctx = plot.get(id || '')
     }
 
     if (!ctx) {
-      console.error(parent.getAttribute('data-plot-id'));
+      console.error("Plot Context not defined.", (parent as HTMLDivElement).getAttribute('data-plot-id'), parent.id);
       throw new Error("Plot Context not defined.");
     }
 
-    if (parent === ctx.root.el) {
-      insertStylessChildOnParent(child, parent)
+    if (parent === ctx.root) return
 
-      // @ts-ignore
-      child.__plot.inserted = true
-
-      return
+    if (ctx.marks.length > 0) {
+      ctx.root.options.marks = []
+      for (const child of ctx.marks) {
+        ctx.root.options.marks.push(child.mark(child.data, child.options))
+      }
     }
+
+    const plot = Plot.plot(ctx.root.options)
+
+    parent = parent as HTMLDivElement
 
     parent.replaceChildren()
 
-    parent.insertBefore(child, anchor || null)
+    parent.insertBefore(plot, anchor || null)
   }
 
   const remove = (child: Element) => {
@@ -132,66 +103,50 @@ export default function () {
     }
   }
 
-  const patchProp = (node: PlotElement, prop: PlotProps | string, prevValue: any, nextValue: any, _: any, parent: ComponentInternalInstance) => {
+  const patchProp = (node: PlotContext['marks'][0] | PlotContext['root'], prop: PlotProps | string, prevValue: any, nextValue: any, _: any, parent: ComponentInternalInstance) => {
     if (!node || !parent.vnode.el || prevValue === nextValue) return
 
     let ctx: PlotContext | undefined
-    const id = node?.dataset['plot-id']
+
+    const { id } = node
     const instance = getCurrentInstance()
 
     if (!instance) {
-      ctx = parent.vnode.el?.__plot
+      ctx = parent.vnode.el?._ctx
     } else {
       const { ctx: plot } = getPlotApp()
       ctx = plot.get(id || '')
     }
 
     if (!ctx) {
-      console.error(id)
+      console.error("Plot Context not exist.", id)
 
       throw new Error("Plot Context not exist.");
     }
 
-    if (!ctx.root.el || !ctx.parent.value) return
+    if (!ctx.parent.value) return
 
     /**
-     * 1. If node is Root, regenerate Root and childrens (if exists)
-     *    if marks are pass as props, Root does not have children
-     * 2. If node is in childrens, regenerate only children.
-     */
-
-    /**
-     * Patch Child Prop
+     * Patch Prop
      */
 
     const child = node as PlotContext['marks'][0]
 
-    if (ctx.marks.includes(child) && child.__plot.inserted) {
+    if (ctx.marks.includes(child)) {
       if (prop === 'data') {
-        child.__plot.data = nextValue
+        child.data = nextValue
       } else {
         // @ts-ignore
-        child.__plot.options[prop] = nextValue
+        child.options[prop] = nextValue
       }
-    } else if (node === ctx.root.el) {
+    } else if (node === ctx.root) {
       const option = prop as keyof Plot.PlotOptions
       ctx.root.options[option] = nextValue
     } else {
       return
     }
 
-    const patchPlot = Plot.plot(ctx.root.options)
-
-    if (ctx.marks.length > 0) {
-      for (const child of ctx.marks) {
-        const patchChild = child.__plot.mark(child.__plot.data, child.__plot.options)
-          .plot(ctx.root.options) as PlotElement
-
-        insertStylessChildOnParent(patchChild, patchPlot)
-      }
-    }
-
-    insert(patchPlot, ctx.parent.value, _, ctx)
+    insert(node, ctx.parent.value)
   }
 
   const parentNode = (node: Element): ParentNode | null => {

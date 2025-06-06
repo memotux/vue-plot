@@ -12,7 +12,7 @@ function createPlotApp() {
       id,
       parent,
       root: {
-        el: null,
+        id,
         options: {}
       },
       marks: [],
