@@ -31,9 +31,6 @@ export default defineConfig({
       name: 'vue-plot',
       fileName: 'vue-plot',
     },
-    watch: {
-      include: [resolve(__dirname, 'src')],
-    },
     copyPublicDir: false,
     rollupOptions: {
       external: ['vue', '@observablehq/plot'],
