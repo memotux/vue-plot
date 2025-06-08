@@ -29,14 +29,15 @@
     "plot",
     "d3",
     "data",
-    "graphics"
+    "graphic",
+    "chart"
   ],
   "scripts": {
     "dev": "vitest dev",
     "build": "vite build",
     "test": "vitest",
     "release": "pnpm run build && changelogen --release && pnpm publish && git push --follow-tags",
-    "logen": "changelogen --release --no-commit"
+    "logen": "changelogen --release"
   },
   "devDependencies": {
     "@observablehq/plot": "^0.6.17",
