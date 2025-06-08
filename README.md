@@ -3,14 +3,14 @@
 Vue.js UI Components for visualizing tabular data using [`@observablehq/plot` library](https://github.com/observablehq/plot).
 
 > [!CAUTION]
-> WIP REPOSITORY
+> Beta release
 
 ## Usage
 
-> [!IMPORTANT]
-> Package not public available. This is a WIP REPOSITORY
-
 Install `@memotux/vue-plot` package:
+
+> [!IMPORTANT]
+> Package is in Beta release
 
 ```bash
 pnpm add @memotux/vue-plot @observablehq/plot
@@ -49,33 +49,33 @@ app.use(VuePlot)
 // ...
 ```
 
-This will install `Plot` component globally on your App.
+This will install `VPlot` component globally on your App.
 
 ### Component Local Registration
 
-You can use `Plot` component in local registration:
+Also you can use `VPlot` component in local registration:
 
 ```vue
 <script setup>
-import { Plot } from '@memotux/vue-plot'
+import { VPlot } from '@memotux/vue-plot'
 
 defineProps(['options', 'marks'])
 </script>
 
 <template>
-  <Plot
+  <VPlot
     v-bind="options"
     :marks="marks"
   />
 </template>
 ```
 
-### Using Plot
+### Using VPlot
 
 ```vue
 <script setup>
 import { reactive, computed } from 'vue'
-import { Plot } from '@memotux/vue-plot'
+import { VPlot } from '@memotux/vue-plot'
 import { frame, text } from '@observablehq/plot'
 
 const hello = reactive(['Hello World!'])
@@ -92,12 +92,12 @@ const plot = computed(() => ({
 
 <template>
   <!-- Plot Marks in props -->
-  <Plot v-bind="plot" />
+  <VPlot v-bind="plot" />
   <!-- Plot Marks as children -->
-  <Plot v-bind="{ ...plot, marks: undefined }">
+  <VPlot v-bind="{ ...plot, marks: undefined }">
     <PlotFrame />
     <PlotText v-bind="{ ...helloOptions, data: hello }" />
-  </Plot>
+  </VPlot>
 </template>
 ```
 
@@ -105,7 +105,7 @@ const plot = computed(() => ({
 interface PlotProps extends PlotOptions {}
 
 // PlotMarksOptions are different for each mark
-interface PlotMarkProps extends PlotMarksOptions {
+interface PlotMarkProps extends MarksOptions {
   data?: Plot.Data
 }
 ```
@@ -114,24 +114,41 @@ interface PlotMarkProps extends PlotMarksOptions {
 
 Plot Marks **must** be present as `props` or as `children`.
 
-Marks as `props` must be imported from `@observablehq/plot` and passed as `marks` property to `Plot` component.
+Marks as `props` must be imported from `@observablehq/plot` and passed as `marks` property to `VPlot` component.
 
 Marks as `children` are defined as any other Vue.js Component, wich name **must** start with `Plot` followed by Mark name.
 
 ```vue
 <template>
-  <Plot>
+  <VPlot>
     <PlotArea />
     <PlotBarY />
-  </Plot>
+  </VPlot>
 </template>
 ```
 
-This Custom Component recive as `props` same mark arguments types. Example: `Plot.areaY(aapl, {x: "Date", y: "Close"})` can be translated as `<PlotAreaY :data="aapl" x="Date" y="Close" />`
+This Custom Components recive as `props` same mark arguments types. Example:
+
+```vue
+<script lang="js">
+//                      data    Mark options
+const mark = Plot.areaY(aapl, {x: "Date", y: "Close"})
+</script>
+<!-- equivalent to -->
+<template>
+  <PlotAreaY
+    :data="aapl"
+    x="Date"
+    y="Close"
+  />
+</template>
+```
+
+Note how `data` and `options` are equivalent from `parameters` to `props`.
 
 ```vue
 <script setup lang="ts">
-import { Plot } from '@memotux/vue-plot'
+import { VPlot } from '@memotux/vue-plot'
 import { aapl } from 'data'
 import type { PlotOptions, AreaYOptions } from '@observablehq/plot'
 
@@ -162,10 +179,11 @@ const options: AreaYOptions = {
 </template>
 ```
 
-If you define marks as `props` and as `children`, only marks as `props` will be rendered.
+If you define marks as `props` **AND** as `children`, **only** marks as `children` will be rendered.
 
 ## Credits
 
-This project was inspired on:
+This project was inspired by:
 
+- [Plot](https://github.com/observablehq/plot)
 - [TresJS](https://github.com/Tresjs/tres)
