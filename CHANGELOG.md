@@ -1,5 +1,36 @@
 # Changelog
 
+## v0.4.1-beta.1
+
+[compare changes](https://github.com/memotux/vue-plot/compare/v0.4.0...v0.4.1-beta.1)
+
+### 💅 Refactors
+
+- Context createPlotApp getPlotRender ([96fdad8](https://github.com/memotux/vue-plot/commit/96fdad8))
+- NodeOps insert plot ([a50fc1d](https://github.com/memotux/vue-plot/commit/a50fc1d))
+
+### 🏡 Chore
+
+- Upgrade package dependencies ([7cc2148](https://github.com/memotux/vue-plot/commit/7cc2148))
+- Add Changelogen ([4072535](https://github.com/memotux/vue-plot/commit/4072535))
+- Add package author homepage repository ([2071b0a](https://github.com/memotux/vue-plot/commit/2071b0a))
+- Cleanup nodeOps & utils ([cad142f](https://github.com/memotux/vue-plot/commit/cad142f))
+- Ts-ignore on slots.default exec ([b7db264](https://github.com/memotux/vue-plot/commit/b7db264))
+- Universal context getPlotApp ([4c3f9d0](https://github.com/memotux/vue-plot/commit/4c3f9d0))
+- Pass slots object to plot root ([35c615b](https://github.com/memotux/vue-plot/commit/35c615b))
+- Rename context setPlotCtx to addPlot ([cf84d01](https://github.com/memotux/vue-plot/commit/cf84d01))
+- Better vue plot types ([4b6005e](https://github.com/memotux/vue-plot/commit/4b6005e))
+- NodeOps better types ([93bbcd0](https://github.com/memotux/vue-plot/commit/93bbcd0))
+- Add github actions ([0109d35](https://github.com/memotux/vue-plot/commit/0109d35))
+- Upgrade package dependencies ([6b3422d](https://github.com/memotux/vue-plot/commit/6b3422d))
+- Update README file ([2794336](https://github.com/memotux/vue-plot/commit/2794336))
+- **package:** Update keywords and scripts ([aa2dca9](https://github.com/memotux/vue-plot/commit/aa2dca9))
+- Vite.config remove build watch ([02a2c41](https://github.com/memotux/vue-plot/commit/02a2c41))
+
+### ❤️ Contributors
+
+- MemoTux <romeo@mendezfuentes.net>
+
 ## v0.4.0
 
 [compare changes](https://github.com/memotux/vue-plot/compare/aaa64256e16d05a8088cfa1fa5d71f6ce4c4b0c4...v0.4.0)
