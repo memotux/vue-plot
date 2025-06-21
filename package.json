@@ -1,6 +1,5 @@
 {
   "name": "@memotux/vue-plot",
-  "private": true,
   "version": "0.4.1-beta.1",
   "type": "module",
   "exports": {
@@ -64,5 +63,8 @@
     "type": "git",
     "url": "https://github.com/memotux/vue-plot.git"
   },
-  "packageManager": "pnpm@10.11.0"
+  "packageManager": "pnpm@10.11.0",
+  "publishConfig": {
+    "access": "public"
+  }
 }
