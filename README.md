@@ -1,5 +1,9 @@
 # Vue Plot
 
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![License][license-src]][license-href]
+
 Vue.js UI Components for visualizing tabular data using [`@observablehq/plot` library](https://github.com/observablehq/plot).
 
 > [!CAUTION]
@@ -187,3 +191,10 @@ This project was inspired by:
 
 - [Plot](https://github.com/observablehq/plot)
 - [TresJS](https://github.com/Tresjs/tres)
+
+[npm-version-src]: https://img.shields.io/npm/v/@memotux/vue-plot/latest.svg?style=flat&colorA=34495e&colorB=41b883
+[npm-version-href]: https://npmjs.com/package/@memotux/vue-plot
+[npm-downloads-src]: https://img.shields.io/npm/dm/@memotux/vue-plot.svg?style=flat&colorA=34495e&colorB=41b883
+[npm-downloads-href]: https://npm.chart.dev/@memotux/vue-plot
+[license-src]: https://img.shields.io/github/license/memotux/vue-plot.svg?style=flat&colorA=34495e&colorB=41b883
+[license-href]: https://github.com/memotux/vue-plot/blob/main/LICENSE
