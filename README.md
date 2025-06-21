@@ -125,8 +125,8 @@ Marks as `children` are defined as any other Vue.js Component, wich name **must*
 ```vue
 <template>
   <VPlot>
-    <PlotArea />
-    <PlotBarY />
+    <PlotArea v-bind="props" />
+    <PlotBarY v-bind="props" />
   </VPlot>
 </template>
 ```
@@ -135,16 +135,19 @@ This Custom Components recive as `props` same mark arguments types. Example:
 
 ```vue
 <script lang="js">
-//                      data    Mark options
-const mark = Plot.areaY(aapl, {x: "Date", y: "Close"})
+import { areaY } from '@observablehq/plot'
+//                 data    Mark options
+const mark = areaY(aapl, {x: "Date", y: "Close"})
 </script>
 <!-- equivalent to -->
 <template>
-  <PlotAreaY
-    :data="aapl"
-    x="Date"
-    y="Close"
-  />
+  <VPlot>
+    <PlotAreaY
+      :data="aapl"
+      x="Date"
+      y="Close"
+    />
+  </VPlot>
 </template>
 ```
 
@@ -170,7 +173,7 @@ const options: AreaYOptions = {
 </script>
 
 <template>
-  <Plot
+  <VPlot
     :width="688"
     className="plot"
   >
@@ -179,7 +182,7 @@ const options: AreaYOptions = {
       x="Date"
       y="Close"
     />
-  </Plot>
+  </VPlot>
 </template>
 ```
 
