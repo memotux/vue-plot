@@ -40,10 +40,9 @@ export default function () {
     let options: PlotChildrenContext<typeof name>['options'] = {}
 
     if (props) {
-      const markProps = props as PlotMarksProps<typeof name>
-      data = markProps.data
-      delete markProps.data
-      options = { ...markProps }
+      const { data: markData, ...markOptions } = props as PlotMarksProps<typeof name>
+      data = markData
+      options = markOptions
     }
 
     const plot: PlotChildrenContext<typeof name> = {
@@ -97,6 +96,25 @@ export default function () {
   }
 
   const remove = (child: Element) => {
+    // Check if child is a PlotChildrenContext (mark descriptor) via runtime type guard
+    const maybeMark = child as unknown as PlotChildrenContext<'frame'>
+    if (maybeMark && typeof maybeMark.mark === 'function') {
+      const { ctx: plotCtx } = getPlotApp()
+      const ctx = plotCtx.get(maybeMark.id || '')
+      if (ctx) {
+        const index = ctx.marks.indexOf(maybeMark)
+        if (index !== -1) {
+          ctx.marks.splice(index, 1)
+        }
+        // Trigger re-render with remaining marks
+        if (ctx.parent.value) {
+          insert(maybeMark, ctx.parent.value)
+        }
+        return
+      }
+    }
+
+    // Fallback: standard DOM element removal
     const parent = child.parentNode
     if (parent) {
       parent.removeChild(child)
@@ -157,7 +175,7 @@ export default function () {
     return node?.nextSibling || null
   }
 
-  const createComment = (text: string) => { document.createComment(text) }
+  const createComment = (text: string) => { return document.createComment(text) }
 
   return {
     insert,
