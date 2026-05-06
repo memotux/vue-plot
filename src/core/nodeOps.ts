@@ -1,6 +1,6 @@
 import * as Plot from '@observablehq/plot'
 import { isHTMLTag, noop } from '../utils'
-import { ComponentInternalInstance, getCurrentInstance } from 'vue'
+import { ComponentInternalInstance, getCurrentInstance, nextTick } from 'vue'
 import { getPlotApp } from './context';
 import type { ElementNamespace } from "vue";
 import type { PlotContext, Marks, PlotProps, PlotTag, PlotMarksProps, PlotChildrenContext } from '../types';
@@ -73,7 +73,6 @@ export default function () {
     }
 
     if (!ctx) {
-      console.error("Plot Context not defined.", (parent as HTMLDivElement).getAttribute('data-plot-id'), parent.id);
       throw new Error("Plot Context not defined.");
     }
 
@@ -106,9 +105,15 @@ export default function () {
         if (index !== -1) {
           ctx.marks.splice(index, 1)
         }
-        // Trigger re-render with remaining marks
-        if (ctx.parent.value) {
-          insert(maybeMark, ctx.parent.value)
+        // Batch re-render with remaining marks
+        if (ctx.parent.value && !ctx._renderQueued) {
+          ctx._renderQueued = true
+          nextTick(() => {
+            ctx._renderQueued = false
+            if (ctx.parent.value) {
+              insert(ctx.root, ctx.parent.value)
+            }
+          })
         }
         return
       }
@@ -137,8 +142,6 @@ export default function () {
     }
 
     if (!ctx) {
-      console.error("Plot Context not exist.", id)
-
       throw new Error("Plot Context not exist.");
     }
 
@@ -164,7 +167,16 @@ export default function () {
       return
     }
 
-    insert(node, ctx.parent.value)
+    // Batch re-render: schedule once per tick
+    if (!ctx._renderQueued) {
+      ctx._renderQueued = true
+      nextTick(() => {
+        ctx._renderQueued = false
+        if (ctx.parent.value) {
+          insert(ctx.root, ctx.parent.value)
+        }
+      })
+    }
   }
 
   const parentNode = (node: Element): ParentNode | null => {

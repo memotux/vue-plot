@@ -1,4 +1,4 @@
-import { defineComponent, h } from "vue"
+import { defineComponent, h, nextTick } from "vue"
 import { mount } from "@vue/test-utils"
 import { describe, it, expect, afterAll } from "vitest"
 import Plot from "../src/components/Plot.vue"
@@ -36,6 +36,7 @@ describe('Plot with marks as children', () => {
     await component.setProps({
       text: 'Hello, Tux!'
     })
+    await nextTick() // wait for batched flush
 
     expect(component.findAll('text').length).toBe(1)
     expect(component.get('text').text()).toBe('Hello, Tux!')

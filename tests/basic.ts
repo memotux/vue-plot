@@ -1,4 +1,5 @@
 import { expect, it } from "vitest"
+import { nextTick } from "vue"
 import type { VueWrapper } from "@vue/test-utils"
 
 export default (component: VueWrapper) => {
@@ -24,6 +25,7 @@ export default (component: VueWrapper) => {
         className,
         width: 688,
       })
+      await nextTick() // wait for batched flush
 
       const svg = plot.get('svg')
 

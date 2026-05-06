@@ -106,4 +106,5 @@ export interface PlotContext {
     _ctx?: PlotContext
   }
   marks: Array<PlotChildrenContext<'frame'>>
+  _renderQueued: boolean
 }

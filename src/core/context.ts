@@ -16,6 +16,7 @@ function createPlotApp() {
         options: {}
       },
       marks: [],
+      _renderQueued: false,
     })
   }
 

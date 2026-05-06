@@ -1,7 +1,7 @@
 import { defineComponent, h, ref, nextTick } from "vue"
 import { mount } from "@vue/test-utils"
 import { describe, it, expect, afterAll, beforeEach } from "vitest"
-import Plot from "../src/components/Plot.vue"
+import PlotComponent from "../src/components/Plot.vue"
 import { getPlotApp } from "../src/core"
 
 describe('nodeOps regression tests', () => {
@@ -15,7 +15,7 @@ describe('nodeOps regression tests', () => {
           frameAnchor: 'middle',
         }
         capturedProps.push(textProps)
-        return () => h(Plot, null, () => [
+        return () => h(PlotComponent, null, () => [
           h('PlotFrame'),
           h('PlotText', textProps),
         ])
@@ -48,7 +48,7 @@ describe('nodeOps regression tests', () => {
     it('removes mark descriptor from ctx.marks when remove is called with a PlotChildrenContext', async () => {
       const App = defineComponent({
         setup() {
-          return () => h(Plot, null, () => [
+          return () => h(PlotComponent, null, () => [
             h('PlotFrame'),
             h('PlotText', { data: ['Hello'], frameAnchor: 'middle' }),
           ])
@@ -100,7 +100,7 @@ describe('nodeOps regression tests', () => {
     it('does not crash when removing an untracked element', async () => {
       const App = defineComponent({
         setup() {
-          return () => h(Plot, null, () => [
+          return () => h(PlotComponent, null, () => [
             h('PlotFrame'),
           ])
         }
@@ -127,7 +127,7 @@ describe('nodeOps regression tests', () => {
         render() {
           // :key forces Plot to re-mount when showDot changes, ensuring the
           // custom renderer re-renders with the updated slot function
-          return h(Plot, { key: this.showDot ? 'with-dot' : 'without-dot' }, () => [
+          return h(PlotComponent, { key: this.showDot ? 'with-dot' : 'without-dot' }, () => [
             h('PlotFrame'),
             this.showDot ? h('PlotDot', { data: [{ x: 1, y: 2 }], x: 'x', y: 'y' }) : null,
           ])
@@ -176,7 +176,7 @@ describe('nodeOps regression tests', () => {
           return { showText }
         },
         render() {
-          return h(Plot, { key: this.showText ? 'with-text' : 'without-text' }, () => [
+          return h(PlotComponent, { key: this.showText ? 'with-text' : 'without-text' }, () => [
             h('PlotFrame'),
             this.showText ? h('PlotText', { data: ['Hello'], frameAnchor: 'middle' }) : null,
           ])
@@ -218,5 +218,227 @@ describe('nodeOps regression tests', () => {
     })
 
     afterAll(() => component3?.unmount())
+  })
+
+  describe('Batch re-render with nextTick', () => {
+    it('multiple prop changes in same tick → DOM reflects all changes after flush', async () => {
+      const App = defineComponent({
+        setup() {
+          const text = ref('Hello')
+          const anchor = ref<'middle' | 'top'>('middle')
+          return { text, anchor }
+        },
+        render() {
+          return h(PlotComponent, null, () => [
+            h('PlotFrame'),
+            h('PlotText', { data: [this.text], frameAnchor: this.anchor })
+          ])
+        }
+      })
+
+      const component = mount(App, { attachTo: document.body })
+      await nextTick()
+      await nextTick()
+
+      // Initial state
+      expect(component.get('text').text()).toBe('Hello')
+
+      // Change two props synchronously — batching should coalesce into one re-render
+      component.vm.text = 'World'
+      component.vm.anchor = 'top'
+
+      // After flush, DOM should reflect both changes
+      await nextTick()
+      await nextTick()
+
+      // Primary: DOM reflects all changes
+      expect(component.get('text').text()).toBe('World')
+
+      // Secondary: internal flag reset after flush
+      const { ctx } = getPlotApp()
+      const plotIds = Array.from(ctx.keys())
+      const plotCtx = ctx.get(plotIds[plotIds.length - 1])
+      expect(plotCtx!._renderQueued).toBe(false)
+
+      component.unmount()
+    })
+
+    it('single prop change → DOM updates after flush', async () => {
+      const App = defineComponent({
+        setup() {
+          const text = ref('Hello')
+          return { text }
+        },
+        render() {
+          return h(PlotComponent, null, () => [
+            h('PlotFrame'),
+            h('PlotText', { data: [this.text], frameAnchor: 'middle' })
+          ])
+        }
+      })
+
+      const component = mount(App, { attachTo: document.body })
+      await nextTick()
+      await nextTick()
+
+      expect(component.get('text').text()).toBe('Hello')
+
+      component.vm.text = 'Changed'
+      await nextTick()
+      await nextTick()
+
+      expect(component.get('text').text()).toBe('Changed')
+
+      component.unmount()
+    })
+
+    it('mark removal via v-if → mark descriptor removed and DOM updated', async () => {
+      const App = defineComponent({
+        setup() {
+          const showDot = ref(true)
+          return { showDot }
+        },
+        render() {
+          return h(PlotComponent, { key: this.showDot ? 'with-dot' : 'without-dot' }, () => [
+            h('PlotFrame'),
+            this.showDot ? h('PlotDot', { data: [{ x: 1, y: 2 }], x: 'x', y: 'y' }) : null,
+          ])
+        }
+      })
+
+      const component = mount(App, { attachTo: document.body })
+      await nextTick()
+      await nextTick()
+
+      const { ctx } = getPlotApp()
+      const plotId = component.element.getAttribute('data-plot-id') || ''
+      const plotCtx = ctx.get(plotId)
+      expect(plotCtx).toBeDefined()
+
+      // Should have frame + dot
+      const initialMarks = plotCtx!.marks.length
+      expect(initialMarks).toBeGreaterThanOrEqual(2)
+
+      // Toggle showDot — key change forces re-mount
+      component.vm.showDot = false
+      await nextTick()
+      await nextTick()
+
+      // New plot should have only frame
+      const newPlotId = component.element.getAttribute('data-plot-id') || ''
+      const newPlotCtx = ctx.get(newPlotId)
+      expect(newPlotCtx).toBeDefined()
+      expect(newPlotCtx!.marks.length).toBe(1)
+
+      // Primary: DOM contains exactly one SVG (re-rendered with only frame)
+      const svgElements = component.element.querySelectorAll('svg')
+      expect(svgElements.length).toBe(1)
+
+      // Secondary: internal flag reset after flush
+      expect(newPlotCtx!._renderQueued).toBe(false)
+
+      component.unmount()
+    })
+
+    it('mark removal coalesces with pending prop changes → single re-render', async () => {
+      const App = defineComponent({
+        setup() {
+          const showText = ref(true)
+          const textContent = ref('Hello')
+          return { showText, textContent }
+        },
+        render() {
+          return h(PlotComponent, { key: this.showText ? 'with-text' : 'without-text' }, () => [
+            h('PlotFrame'),
+            this.showText ? h('PlotText', { data: [this.textContent], frameAnchor: 'middle' }) : null,
+          ])
+        }
+      })
+
+      const component = mount(App, { attachTo: document.body })
+      await nextTick()
+      await nextTick()
+
+      // Initial state: frame + text visible
+      expect(component.get('text').text()).toBe('Hello')
+
+      const { ctx } = getPlotApp()
+      const plotId = component.element.getAttribute('data-plot-id') || ''
+      const plotCtx = ctx.get(plotId)
+      expect(plotCtx).toBeDefined()
+      expect(plotCtx!.marks.length).toBe(2) // frame + text
+
+      // Change prop AND remove mark in the SAME tick
+      component.vm.textContent = 'World'
+      component.vm.showText = false
+
+      // After flush: only frame should remain, single re-render
+      await nextTick()
+      await nextTick()
+
+      // DOM outcome: no text element (mark was removed)
+      const textElements = component.element.querySelectorAll('text')
+      expect(textElements.length).toBe(0)
+
+      // DOM outcome: exactly one SVG (single re-render, not two)
+      const svgElements = component.element.querySelectorAll('svg')
+      expect(svgElements.length).toBe(1)
+
+      // Internal state: flush completed, flag reset
+      expect(plotCtx!._renderQueued).toBe(false)
+
+      component.unmount()
+    })
+
+    it('two plots updating simultaneously → each maintains independent flush', async () => {
+      const App = defineComponent({
+        setup() {
+          const text1 = ref('Plot A')
+          const text2 = ref('Plot B')
+          return { text1, text2 }
+        },
+        render() {
+          return h('div', [
+            h(PlotComponent, { key: 'a' }, () => [
+              h('PlotFrame'),
+              h('PlotText', { data: [this.text1], frameAnchor: 'middle' })
+            ]),
+            h(PlotComponent, { key: 'b' }, () => [
+              h('PlotFrame'),
+              h('PlotText', { data: [this.text2], frameAnchor: 'middle' })
+            ]),
+          ])
+        }
+      })
+
+      const component = mount(App, { attachTo: document.body })
+      await nextTick()
+      await nextTick()
+
+      // Initial state
+      expect(component.get('text').text()).toBe('Plot A')
+
+      // Change both plots' text in the same tick
+      component.vm.text1 = 'Updated A'
+      component.vm.text2 = 'Updated B'
+      await nextTick()
+      await nextTick()
+
+      // Primary: both plots rendered as separate SVGs
+      const svgElements = component.findAll('svg')
+      expect(svgElements.length).toBe(2)
+
+      // Secondary: both contexts clean after flush
+      const { ctx: plotCtxMap } = getPlotApp()
+      const allIds = Array.from(plotCtxMap.keys())
+      for (const id of allIds) {
+        const pCtx = plotCtxMap.get(id)
+        if (pCtx) {
+          expect(pCtx._renderQueued).toBe(false)
+        }
+      }
+
+      component.unmount()
+    })
   })
 })

@@ -27,3 +27,5 @@ dist-ssr
 
 # SDD artifacts
 .atl/
+.agents/
+skills-lock.json
