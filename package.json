@@ -4,7 +4,7 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/src/index.d.ts",
       "import": "./dist/vue-plot.js",
       "require": "./dist/vue-plot.umd.cjs"
     },
@@ -12,12 +12,12 @@
       "types": "./dist/src/components/index.d.ts"
     },
     "./types": {
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/src/types/index.d.ts"
     }
   },
   "main": "./dist/vue-plot.js",
   "module": "./dist/vue-plot.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/src/types/index.d.ts",
   "files": [
     "*.d.ts",
     "dist"
