@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.4.1
+
+[compare changes](https://github.com/memotux/vue-plot/compare/v0.4.1-beta.1...v0.4.1)
+
+### 🩹 Fixes
+
+- Remove deprecated baseUrl from tsconfig.json ([db737a1](https://github.com/memotux/vue-plot/commit/db737a1))
+- **nodeOps:** Props mutation, mark descriptor leak, and createComment return ([141e4bf](https://github.com/memotux/vue-plot/commit/141e4bf))
+- **package:** Correct types declaration paths in exports ([16c9de3](https://github.com/memotux/vue-plot/commit/16c9de3))
+
+### 🏡 Chore
+
+- **package:** Publish access public ([6cf5bb6](https://github.com/memotux/vue-plot/commit/6cf5bb6))
+- **readme:** Add npm buttons ([6f02d8b](https://github.com/memotux/vue-plot/commit/6f02d8b))
+- **readme:** Clarifying examples ([7b98417](https://github.com/memotux/vue-plot/commit/7b98417))
+
+### 🤖 CI
+
+- Fix workflow trigger branch from main to master ([9e834e1](https://github.com/memotux/vue-plot/commit/9e834e1))
+
+### ❤️ Contributors
+
+- MemoTux <romeo@mendezfuentes.net>
+
 ## v0.4.1-beta.1
 
 [compare changes](https://github.com/memotux/vue-plot/compare/v0.4.0...v0.4.1-beta.1)
