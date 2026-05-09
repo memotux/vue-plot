@@ -22,8 +22,6 @@ const plotId = `__plot-${id}`
 const plotContainer = useTemplateRef('plot-container')
 const { render, addPlot, removePlot } = getPlotApp()
 
-addPlot(plotContainer, plotId)
-
 const PlotInternal = () => {
   /**
    * [Vue warn]: Slot "default" invoked outside of the render function: this will not
@@ -47,6 +45,7 @@ const PlotInternal = () => {
 
 onMounted(() => {
   if (plotContainer.value) {
+    addPlot(plotContainer, plotId)
     render(h(PlotInternal), plotContainer.value)
   }
 })

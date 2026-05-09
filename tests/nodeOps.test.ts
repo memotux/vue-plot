@@ -441,4 +441,31 @@ describe('nodeOps regression tests', () => {
       component.unmount()
     })
   })
+
+  describe('Bug: addPlot must be called on mount, not during setup', () => {
+    it('plot context parent has a resolved DOM element after mount', async () => {
+      const App = defineComponent({
+        setup() {
+          return () => h(PlotComponent, null, () => [
+            h('PlotFrame'),
+          ])
+        }
+      })
+
+      const component = mount(App, { attachTo: document.body })
+      await nextTick()
+
+      const { ctx } = getPlotApp()
+      const plotIds = Array.from(ctx.keys())
+      const plotCtx = ctx.get(plotIds[plotIds.length - 1])
+
+      expect(plotCtx).toBeDefined()
+      // After mount, parent.value should be a real DOM element, not null
+      expect(plotCtx!.parent).toBeDefined()
+      expect(plotCtx!.parent.value).toBeInstanceOf(HTMLDivElement)
+      expect(plotCtx!.parent.value!.getAttribute('data-plot-id')).toBeTruthy()
+
+      component.unmount()
+    })
+  })
 })
