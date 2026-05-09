@@ -1,7 +1,7 @@
 import * as Plot from '@observablehq/plot'
 import { isHTMLTag, noop } from '../utils'
 import { ComponentInternalInstance, getCurrentInstance, nextTick } from 'vue'
-import { getPlotApp } from './context';
+import { resolveContext } from './resolveContext'
 import type { ElementNamespace } from "vue";
 import type { PlotContext, Marks, PlotProps, PlotTag, PlotMarksProps, PlotChildrenContext } from '../types';
 
@@ -9,10 +9,8 @@ export default function () {
   const createElement = (tag: PlotTag, _?: ElementNamespace, __?: string, props?: PlotProps) => {
     if (tag === 'template' || isHTMLTag(tag)) { return null }
 
-    const instance = getCurrentInstance()
-    const { ctx: plotCtx } = getPlotApp()
-    const plotId = instance?.vnode.el?.getAttribute('data-plot-id')
-    const ctx = plotCtx.get(plotId || '')
+    const ctx = resolveContext()
+    const plotId = getCurrentInstance()?.vnode.el?.getAttribute('data-plot-id')
 
     if (!ctx) {
       throw new Error("Plot Context not initialized.");
@@ -61,16 +59,7 @@ export default function () {
   const insert = (child: PlotChildrenContext<'frame'> | PlotContext['root'], parent: PlotContext['root'] | HTMLDivElement, anchor?: Element, _ctx?: PlotContext) => {
     if (!child) return null
 
-    let ctx: PlotContext | undefined
-    const instance = getCurrentInstance()
-
-    if (!instance && _ctx) {
-      ctx = _ctx
-    } else {
-      const id = (parent as HTMLDivElement).getAttribute?.('data-plot-id') || (parent as PlotContext['root']).id
-      const { ctx: plot } = getPlotApp()
-      ctx = plot.get(id || '')
-    }
+    const ctx = resolveContext({ _ctx, parent })
 
     if (!ctx) {
       throw new Error("Plot Context not defined.");
@@ -98,8 +87,7 @@ export default function () {
     // Check if child is a PlotChildrenContext (mark descriptor) via runtime type guard
     const maybeMark = child as unknown as PlotChildrenContext<'frame'>
     if (maybeMark && typeof maybeMark.mark === 'function') {
-      const { ctx: plotCtx } = getPlotApp()
-      const ctx = plotCtx.get(maybeMark.id || '')
+      const ctx = resolveContext({ id: maybeMark.id })
       if (ctx) {
         const index = ctx.marks.indexOf(maybeMark)
         if (index !== -1) {
@@ -129,17 +117,8 @@ export default function () {
   const patchProp = (node: PlotContext['marks'][0] | PlotContext['root'], prop: PlotProps | string, prevValue: any, nextValue: any, _: any, parent: ComponentInternalInstance) => {
     if (!node || !parent.vnode.el || prevValue === nextValue) return
 
-    let ctx: PlotContext | undefined
-
     const { id } = node
-    const instance = getCurrentInstance()
-
-    if (!instance) {
-      ctx = parent.vnode.el?._ctx
-    } else {
-      const { ctx: plot } = getPlotApp()
-      ctx = plot.get(id || '')
-    }
+    const ctx = resolveContext({ id, _ctx: parent.vnode.el?._ctx })
 
     if (!ctx) {
       throw new Error("Plot Context not exist.");
