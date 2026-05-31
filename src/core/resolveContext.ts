@@ -1,4 +1,4 @@
-import { getPlotApp, getActivePlotId } from "./context";
+import { getPlotApp } from "./context";
 import type { PlotContext } from "../types";
 
 /**
@@ -37,7 +37,7 @@ export function resolveContext(
 	if (_ctx) return _ctx;
 
 	// 2. Active plot stack (replaces getCurrentInstance for createElement)
-	const activeId = getActivePlotId();
+	const activeId = getPlotApp().getActivePlotId();
 	if (activeId) {
 		const fromStack = resolveById(activeId);
 		if (fromStack) return fromStack;
