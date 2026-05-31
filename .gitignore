@@ -32,4 +32,5 @@ skills-lock.json
 
 # Agent infrastructure
 .pi/
+.pi-lens/
 openspec/
