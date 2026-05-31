@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, onMounted, useSlots, useTemplateRef, useId, onUnmounted } from 'vue'
-import { getPlotApp } from '../core'
+import { getPlotApp, pushActivePlotId, popActivePlotId } from '../core'
 import type { PlotOptions } from '@observablehq/plot'
 
 const props = withDefaults(defineProps<PlotOptions>(), {
@@ -46,7 +46,12 @@ const PlotInternal = () => {
 onMounted(() => {
   if (plotContainer.value) {
     addPlot(plotContainer, plotId)
-    render(h(PlotInternal), plotContainer.value)
+    pushActivePlotId(plotId)
+    try {
+      render(h(PlotInternal), plotContainer.value)
+    } finally {
+      popActivePlotId()
+    }
   }
 })
 

@@ -63,7 +63,7 @@
     "type": "git",
     "url": "https://github.com/memotux/vue-plot.git"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@11.5.0",
   "publishConfig": {
     "access": "public"
   }
