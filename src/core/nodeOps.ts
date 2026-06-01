@@ -1,5 +1,5 @@
 import * as Plot from "@observablehq/plot";
-import { isHTMLTag, noop } from "../utils";
+import { isHTMLTag, noop, tagToMarkName } from "../utils";
 import { nextTick } from "vue";
 import { resolveContext } from "./resolveContext";
 import type { ElementNamespace } from "vue";
@@ -34,8 +34,7 @@ export default function () {
 			return ctx.root;
 		}
 
-		let name = (tag.replace("Plot", "") || "Plot") as Marks;
-		name = name.replace(name[0], name[0].toLowerCase()) as Marks;
+		const name = tagToMarkName(tag);
 
 		const mark = Plot[name] as PlotChildrenContext<typeof name>["mark"];
 
