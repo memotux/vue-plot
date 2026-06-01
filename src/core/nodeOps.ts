@@ -154,8 +154,11 @@ export default function () {
 			if (prop === "data") {
 				child.data = nextValue;
 			} else {
-				// @ts-expect-error
-				child.options[prop] = nextValue;
+				// child.options is typed as Omit<PlotMarksProps<M>, 'data'> | {},
+				// which collapses to {} (not indexable). prop is typed as
+				// PlotProps | string where PlotProps = PlotOptions | PlotMarksProps
+				// (object types). At runtime both are always strings and valid keys.
+				(child.options as Record<string, unknown>)[prop as string] = nextValue;
 			}
 		} else if (node === ctx.root) {
 			const option = prop as keyof Plot.PlotOptions;
