@@ -16,8 +16,8 @@ function resolveById(id: string | undefined): PlotContext | undefined {
  * Resolution strategy (in order):
  * 1. Explicit _ctx parameter (fallback context from parent component)
  * 2. Active plot stack (replaces getCurrentInstance())
- * 3. Parent element DOM walk (for insert)
- * 4. Explicit id (for remove, patchProp)
+ * 3. Explicit id (for remove, patchProp)
+ * 4. Parent element DOM walk (for insert)
  *
  * @param options.id - Explicit plot ID (e.g., from a mark descriptor)
  * @param options._ctx - Fallback context (e.g., from patchProp's parent.vnode.el._ctx)
@@ -43,16 +43,16 @@ export function resolveContext(
 		if (fromStack) return fromStack;
 	}
 
-	// 3. Parent element's data-plot-id (insert)
+	// 3. Explicit id (remove, patchProp)
+	if (id) return resolveById(id);
+
+	// 4. Parent element's data-plot-id (insert)
 	if (parent) {
 		const parentId =
 			(parent as HTMLDivElement).getAttribute?.("data-plot-id") ||
 			(parent as PlotContext["root"]).id;
 		if (parentId) return resolveById(parentId);
 	}
-
-	// 4. Explicit id (remove, patchProp)
-	if (id) return resolveById(id);
 
 	return undefined;
 }

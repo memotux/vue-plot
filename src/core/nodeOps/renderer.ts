@@ -28,8 +28,8 @@ export function insert(
 
 	if (ctx.marks.length > 0) {
 		ctx.root.options.marks = [];
-		for (const child of ctx.marks) {
-			ctx.root.options.marks.push(child.mark(child.data, child.options));
+		for (const mark of ctx.marks) {
+			ctx.root.options.marks.push(mark.mark(mark.data, mark.options));
 		}
 	}
 
@@ -54,8 +54,10 @@ export function createComment(text: string) {
 	return document.createComment(text);
 }
 
-export const createText = () => noop("createText");
-export const setText = () => noop("setText");
+export const createText = () => document.createTextNode("");
+export const setText = (node: Text, text: string) => {
+	node.textContent = text;
+};
 export const setElementText = () => noop("setElementText");
 export const querySelector = () => noop("querySelector");
 export const setScopeId = () => noop("setScopeId");

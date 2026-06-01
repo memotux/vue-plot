@@ -20,16 +20,18 @@ export function remove(child: Element) {
 			const index = ctx.marks.indexOf(maybeMark);
 			if (index !== -1) {
 				ctx.marks.splice(index, 1);
-			}
-			// Batch re-render with remaining marks
-			if (ctx.parent.value && !ctx._renderQueued) {
-				ctx._renderQueued = true;
-				nextTick(() => {
-					ctx._renderQueued = false;
-					if (ctx.parent.value) {
-						insert(ctx.root, ctx.parent.value);
-					}
-				});
+				// Batch re-render with remaining marks
+				if (ctx.parent.value && !ctx._renderQueued) {
+					ctx._renderQueued = true;
+					nextTick(() => {
+						ctx._renderQueued = false;
+						// Guard: context may have been removed during unmount
+						const currentCtx = resolveContext({ id: ctx.id });
+						if (currentCtx && ctx.parent.value) {
+							insert(ctx.root, ctx.parent.value);
+						}
+					});
+				}
 			}
 			return;
 		}
@@ -90,7 +92,9 @@ export function patchProp(
 		ctx._renderQueued = true;
 		nextTick(() => {
 			ctx._renderQueued = false;
-			if (ctx.parent.value) {
+			// Guard: context may have been removed during unmount
+			const currentCtx = resolveContext({ id: ctx.id });
+			if (currentCtx && ctx.parent.value) {
 				insert(ctx.root, ctx.parent.value);
 			}
 		});

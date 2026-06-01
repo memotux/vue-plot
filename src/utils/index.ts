@@ -27,10 +27,7 @@ function makeMap(
 		: (val) => !!map[val];
 }
 
-export function noop(fn: string): any {
-	// eslint-disable-next-line ts/no-unused-expressions
-	fn;
-}
+export function noop(_fn: string): any {}
 
 import type { Marks } from "../types";
 
