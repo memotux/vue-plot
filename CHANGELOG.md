@@ -1,5 +1,40 @@
 # Changelog
 
+## v0.4.2
+
+[compare changes](https://github.com/memotux/vue-plot/compare/v0.4.1...v0.4.2)
+
+### 🔥 Performance
+
+- **nodeOps:** Batch re-renders with nextTick per plot ([1856fb2](https://github.com/memotux/vue-plot/commit/1856fb2))
+
+### 🩹 Fixes
+
+- **Plot:** Move addPlot to onMounted to avoid null ref race ([6644982](https://github.com/memotux/vue-plot/commit/6644982))
+- Remove getCurrentInstance() dependency from custom renderer ([#5](https://github.com/memotux/vue-plot/pull/5))
+- Address adversarial review findings across renderer, types, and build ([dd5b04a](https://github.com/memotux/vue-plot/commit/dd5b04a))
+
+### 💅 Refactors
+
+- **nodeOps:** Extract context resolution into shared helper ([7e48083](https://github.com/memotux/vue-plot/commit/7e48083))
+- Encapsulate activePlotStack inside createPlotApp closure ([0bef07e](https://github.com/memotux/vue-plot/commit/0bef07e))
+- Extract tag-to-mark-name transform into utility ([#7](https://github.com/memotux/vue-plot/pull/7))
+- Replace @ts-expect-error with explicit type cast ([#9](https://github.com/memotux/vue-plot/pull/9))
+- Split nodeOps.ts into nodeOps/ directory ([#8](https://github.com/memotux/vue-plot/pull/8))
+
+### 📖 Documentation
+
+- **readme:** Comprehensive rewrite with components-first approach ([4ee3e32](https://github.com/memotux/vue-plot/commit/4ee3e32))
+
+### 🏡 Chore
+
+- Add .pi/ and openspec/ to .gitignore, cleanup tsconfig.node.json ([40c1423](https://github.com/memotux/vue-plot/commit/40c1423))
+- Add .pi-lens/ to .gitignore ([a2fced8](https://github.com/memotux/vue-plot/commit/a2fced8))
+
+### ❤️ Contributors
+
+- MemoTux <romeo@mendezfuentes.net>
+
 ## v0.4.1
 
 [compare changes](https://github.com/memotux/vue-plot/compare/v0.4.1-beta.1...v0.4.1)
