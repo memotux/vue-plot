@@ -1,5 +1,16 @@
+packages:
+  - "."
+  - nuxt
+
 allowBuilds:
   msw: false
-onlyBuiltDependencies:
-  - esbuild
-  - msw
+  esbuild: true
+  "@parcel/watcher": false
+  unrs-resolver: false
+
+catalog:
+  "@types/node": ^25.0.0
+  changelogen: ^0.6.2
+  typescript: ^6.0.0
+  vitest: ^4.1.5
+  vue-tsc: ^3.0.0
