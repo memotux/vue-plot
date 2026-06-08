@@ -2,7 +2,11 @@
   "name": "@memotux/vue-plot-nuxt",
   "version": "0.1.0",
   "description": "Nuxt module for @memotux/vue-plot — declarative data visualization with Observable Plot",
-  "repository": "https://github.com/memotux/vue-plot/nuxt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/memotux/vue-plot.git",
+    "directory": "nuxt"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -41,7 +45,7 @@
     "dev": "npm run dev:prepare && TMPDIR=/tmp nuxt dev playground",
     "dev:build": "nuxt build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
-    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "pnpm run lint && pnpm run test && pnpm run prepack && changelogen --release && pnpm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",

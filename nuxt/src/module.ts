@@ -3,18 +3,17 @@ import { plotCustomElement } from '@memotux/vue-plot'
 
 export default defineNuxtModule({
   meta: {
-    name: 'nuxt-vue-plot',
+    name: '@memotux/vue-plot-nuxt',
     configKey: 'plot',
   },
-  // Default configuration options of the Nuxt module
   defaults: {},
   setup(_, nuxt) {
-    nuxt.options.vue.compilerOptions.isCustomElement = plotCustomElement.template.compilerOptions.isCustomElement
+    const prevCustomElement = nuxt.options.vue.compilerOptions.isCustomElement
+    const isPlotCustomElement = plotCustomElement.template.compilerOptions.isCustomElement
+    nuxt.options.vue.compilerOptions.isCustomElement = (tag: string) =>
+      prevCustomElement?.(tag) || isPlotCustomElement(tag)
 
-    nuxt.options.vite.optimizeDeps?.include?.push(
-      '@observablehq/plot',
-      // '@memotux/vue-plot',
-    )
+    nuxt.options.vite.optimizeDeps?.include?.push('@observablehq/plot')
 
     addComponent({
       name: 'VPlot',

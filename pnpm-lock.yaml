@@ -8937,7 +8937,7 @@ snapshots:
   fix-dts-default-cjs-exports@1.0.1:
     dependencies:
       magic-string: 0.30.21
-      mlly: 1.7.4
+      mlly: 1.8.2
       rollup: 4.42.0
 
   flat-cache@4.0.1:
