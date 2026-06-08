@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "nuxt-vue-plot-playground",
+  "name": "vue-plot-nuxt-playground",
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
@@ -8,7 +8,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "nuxt-vue-plot": "workspace:*",
+    "@memotux/vue-plot-nuxt": "workspace:*",
     "@memotux/vue-plot": "workspace:*",
     "nuxt": "^4.4.7"
   }

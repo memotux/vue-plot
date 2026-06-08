@@ -20,7 +20,13 @@ Nuxt module for [@memotux/vue-plot](https://github.com/memotux/vue-plot) — dec
 Install the module to your Nuxt application with one command:
 
 ```bash
-npx nuxt module add nuxt-vue-plot
+npx nuxt module add @memotux/vue-plot-nuxt
+```
+
+Install `@observablehq/plot` as it is a required peer dependency:
+
+```bash
+pnpm add @observablehq/plot
 ```
 
 That's it! You can now use `VPlot` in your Nuxt app ✨
@@ -74,14 +80,14 @@ const data = [
 
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-vue-plot/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/nuxt-vue-plot
+[npm-version-src]: https://img.shields.io/npm/v/@memotux/vue-plot-nuxt/latest.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-version-href]: https://npmjs.com/package/@memotux/vue-plot-nuxt
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-vue-plot.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/nuxt-vue-plot
+[npm-downloads-src]: https://img.shields.io/npm/dm/@memotux/vue-plot-nuxt.svg?style=flat&colorA=020420&colorB=00DC82
+[npm-downloads-href]: https://npm.chart.dev/@memotux/vue-plot-nuxt
 
-[license-src]: https://img.shields.io/npm/l/nuxt-vue-plot.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/nuxt-vue-plot
+[license-src]: https://img.shields.io/npm/l/@memotux/vue-plot-nuxt.svg?style=flat&colorA=020420&colorB=00DC82
+[license-href]: https://npmjs.com/package/@memotux/vue-plot-nuxt
 
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt
 [nuxt-href]: https://nuxt.com
