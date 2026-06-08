@@ -23,6 +23,7 @@ export default defineConfig({
 		environment: "happy-dom",
 		reporters: ["verbose"],
 		globals: true,
+		exclude: ["nuxt/**", "node_modules/**"],
 	},
 	build: {
 		lib: {
