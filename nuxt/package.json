@@ -66,6 +66,7 @@
     "vue-tsc": "catalog:"
   },
   "peerDependencies": {
-    "@memotux/vue-plot": ">=0.4.2"
+    "nuxt": ">=4.4.7",
+    "@observablehq/plot": ">=0.6.17"
   }
 }

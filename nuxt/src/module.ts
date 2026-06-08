@@ -13,7 +13,7 @@ export default defineNuxtModule({
 
     nuxt.options.vite.optimizeDeps?.include?.push(
       '@observablehq/plot',
-      '@memotux/vue-plot',
+      // '@memotux/vue-plot',
     )
 
     addComponent({

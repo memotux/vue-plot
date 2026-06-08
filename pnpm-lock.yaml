@@ -74,6 +74,9 @@ importers:
       '@nuxt/kit':
         specifier: ^4.4.7
         version: 4.4.7(magicast@0.5.3)
+      '@observablehq/plot':
+        specifier: '>=0.6.17'
+        version: 0.6.17
     devDependencies:
       '@nuxt/devtools':
         specifier: ^3.2.4
