@@ -1,5 +1,11 @@
 export default defineNuxtConfig({
-  modules: ['nuxt-vue-plot'],
-  devtools: { enabled: true },
-  compatibilityDate: 'latest',
-})
+	modules: ["nuxt-vue-plot"],
+	devtools: {
+		enabled: true,
+
+		timeline: {
+			enabled: true,
+		},
+	},
+	compatibilityDate: "latest",
+});
