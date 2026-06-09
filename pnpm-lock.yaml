@@ -68,9 +68,6 @@ importers:
 
   nuxt:
     dependencies:
-      '@memotux/vue-plot':
-        specifier: workspace:*
-        version: link:..
       '@nuxt/kit':
         specifier: ^4.4.7
         version: 4.4.7(magicast@0.5.3)
@@ -78,6 +75,9 @@ importers:
         specifier: '>=0.6.17'
         version: 0.6.17
     devDependencies:
+      '@memotux/vue-plot':
+        specifier: workspace:*
+        version: link:..
       '@nuxt/devtools':
         specifier: ^3.2.4
         version: 3.2.4(vite@8.0.10(@types/node@25.9.2)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.35(typescript@6.0.3))

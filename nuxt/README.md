@@ -17,16 +17,16 @@ Nuxt module for [@memotux/vue-plot](https://github.com/memotux/vue-plot) — dec
 
 ## Quick Setup
 
+Install `@memotux/vue-plot` and `@observablehq/plot` as they are required peer dependencies:
+
+```bash
+pnpm add @memotux/vue-plot @observablehq/plot
+```
+
 Install the module to your Nuxt application with one command:
 
 ```bash
 npx nuxt module add @memotux/nuxt-vue-plot
-```
-
-Install `@observablehq/plot` as it is a required peer dependency:
-
-```bash
-pnpm add @observablehq/plot
 ```
 
 That's it! You can now use `VPlot` in your Nuxt app ✨
@@ -71,9 +71,6 @@ const data = [
   # Run Vitest
   npm run test
   npm run test:watch
-  
-  # Release new version
-  npm run release
   ```
 
 </details>

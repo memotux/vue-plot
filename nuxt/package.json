@@ -52,10 +52,10 @@
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@nuxt/kit": "^4.4.7",
-    "@memotux/vue-plot": "workspace:*"
+    "@nuxt/kit": "^4.4.7"
   },
   "devDependencies": {
+    "@memotux/vue-plot": "workspace:*",
     "@nuxt/devtools": "^3.2.4",
     "@nuxt/eslint-config": "^1.15.2",
     "@nuxt/module-builder": "^1.0.2",
@@ -70,6 +70,7 @@
     "vue-tsc": "catalog:"
   },
   "peerDependencies": {
+    "@memotux/vue-plot": ">=0.4.2",
     "nuxt": ">=4.4.7",
     "@observablehq/plot": ">=0.6.17"
   }
