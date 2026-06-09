@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-	modules: ["@memotux/vue-plot-nuxt"],
+	modules: ["@memotux/nuxt-vue-plot"],
 	devtools: {
 		enabled: true,
 

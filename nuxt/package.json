@@ -1,5 +1,5 @@
 {
-  "name": "@memotux/vue-plot-nuxt",
+  "name": "@memotux/nuxt-vue-plot",
   "version": "0.1.0",
   "description": "Nuxt module for @memotux/vue-plot — declarative data visualization with Observable Plot",
   "repository": {

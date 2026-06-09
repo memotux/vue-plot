@@ -37,7 +37,7 @@
     "test": "vitest",
     "release": "pnpm run build && changelogen --release && pnpm publish && git push --follow-tags",
     "logen": "changelogen --release",
-    "nuxt": "pnpm --filter @memotux/vue-plot-nuxt"
+    "nuxt": "pnpm --filter @memotux/nuxt-vue-plot"
   },
   "peerDependencies": {
     "vue": "^3.5.0",
