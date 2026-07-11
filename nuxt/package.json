@@ -60,7 +60,6 @@
     "@nuxt/eslint-config": "^1.15.2",
     "@nuxt/module-builder": "^1.0.2",
     "@nuxt/schema": "^4.4.7",
-    "@nuxt/test-utils": "^4.0.3",
     "@types/node": "catalog:",
     "changelogen": "catalog:",
     "eslint": "^10.4.1",
@@ -71,7 +70,7 @@
   },
   "peerDependencies": {
     "@memotux/vue-plot": ">=0.4.2",
-    "nuxt": ">=4.4.7",
-    "@observablehq/plot": ">=0.6.17"
+    "@observablehq/plot": ">=0.6.17",
+    "nuxt": ">=4.4.7"
   }
 }

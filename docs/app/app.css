@@ -1,0 +1,28 @@
+/* 
+* https://github.com/rebelot/kanagawa.nvim/blob/master/lua/kanagawa/colors.lua
+* https://github.com/rebelot/kanagawa.nvim/blob/master/lua/kanagawa/themes.lua
+* */
+
+/* Define the Kanagawa theme colors */
+@theme {
+  /* Backgrounds */
+  --color-kanagawa-bg: #16161d;
+  --color-kanagawa-bg-harmony1: #2a2a37;
+  --color-kanagawa-bg-harmony2: #1f1f28;
+
+  /* Foregrounds & Text */
+  --color-kanagawa-fg: #dcd7ba;
+  --color-kanagawa-fg-muted: #938aa4;
+
+  /* Accents */
+  --color-kanagawa-red: #e46876;
+  --color-kanagawa-green: #95c279;
+  --color-kanagawa-blue: #7e9cd8;
+  --color-kanagawa-yellow: #e0c576;
+  --color-kanagawa-purple: #957fb8;
+  --color-kanagawa-orange: #ffa066;
+  --color-kanagawa-teal: #7aa89f;
+}
+
+/* Optional: Create a variant for easy toggling */
+@custom-variant kanagawa (&:where(.theme-kanagawa, .theme-kanagawa *));
