@@ -1,9 +1,10 @@
 ---
 seo:
   title: Vue Plot
-  description: Vue components for building data visualizations with Observable Plot
+  description: Vue Plot wraps Observable Plot's grammar of graphics in idiomatic Vue components — declarative, reactive, and fully type-safe.
 ---
 
+<!-- markdownlint-disable MD034 -->
 <!-- prettier-ignore -->
 ::u-page-hero
 ---
@@ -28,7 +29,7 @@ size: lg
 :::u-button
 ---
 label: View on GitHub
-to: <https://github.com/memotux/vue-plot>
+to: https://github.com/memotux/vue-plot
 icon: i-ph-github-logo
 variant: outline
 size: lg
@@ -99,7 +100,7 @@ Quick Start
 
 #body
 ```vue
-<script setup>
+<script setup lang="ts">
 import { VPlot } from "@memotux/vue-plot";
 
 const data = [
