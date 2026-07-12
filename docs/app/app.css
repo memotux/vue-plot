@@ -14,8 +14,15 @@
  *   neutral   → dragon-black-6 (#625e5a) — warm mid-gray (fg)
  */
 
-/* Tailwind CSS color palette — Kanagawa Dragon */
-@theme static {
+    /* Tailwind CSS color palette — Kanagawa Dragon */
+    @theme static {
+      /* ============================================
+       * Fonts — Noto Sans (body/UI) + JetBrains Mono (code)
+       * Auto-loaded and optimized by @nuxt/fonts (Google Fonts)
+       * ============================================ */
+
+      --font-sans: 'Noto Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   /* ============================================
    * Semantic color scales (50–950)
    * ============================================ */
