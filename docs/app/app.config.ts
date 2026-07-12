@@ -25,8 +25,13 @@ export default defineAppConfig({
 	},
 	ui: {
 		colors: {
-			primary: "slate",
-			neutral: "stone",
+			primary: "dragon-yellow",
+			secondary: "dragon-blue-2",
+			success: "spring-green",
+			info: "dragon-blue",
+			warning: "ronin-yellow",
+			error: "samurai-red",
+			neutral: "dragon-black-6",
 		},
 	},
 });

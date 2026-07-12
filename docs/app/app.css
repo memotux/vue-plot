@@ -1,28 +1,291 @@
-/* 
-* https://github.com/rebelot/kanagawa.nvim/blob/master/lua/kanagawa/colors.lua
-* https://github.com/rebelot/kanagawa.nvim/blob/master/lua/kanagawa/themes.lua
-* */
+/*
+ * Kanagawa Dragon Theme for Nuxt UI
+ * Colors extracted from: https://github.com/rebelot/kanagawa.nvim
+ *   - lua/kanagawa/colors.lua (palette)
+ *   - lua/kanagawa/themes.lua (dragon theme mapping)
+ *
+ * Semantic color mapping:
+ *   primary   → dragonYellow  (#c4b28a) — syn.identifier
+ *   secondary → dragonBlue2   (#8ba4b0) — syn.fun
+ *   success   → springGreen   (#98BB6C) — diag.ok
+ *   info      → dragonBlue    (#658594) — diag.info
+ *   warning   → roninYellow   (#FF9E3B) — diag.warning
+ *   error     → samuraiRed    (#E82424) — diag.error
+ *   neutral   → dragon-black-6 (#625e5a) — warm mid-gray (fg)
+ */
 
-/* Define the Kanagawa theme colors */
-@theme {
-  /* Backgrounds */
-  --color-kanagawa-bg: #16161d;
-  --color-kanagawa-bg-harmony1: #2a2a37;
-  --color-kanagawa-bg-harmony2: #1f1f28;
+/* Tailwind CSS color palette — Kanagawa Dragon */
+@theme static {
+  /* ============================================
+   * Semantic color scales (50–950)
+   * ============================================ */
 
-  /* Foregrounds & Text */
-  --color-kanagawa-fg: #dcd7ba;
-  --color-kanagawa-fg-muted: #938aa4;
+  /* dragonYellow (#c4b28a) — primary */
+  --color-dragon-yellow-50: #fffbf1;
+  --color-dragon-yellow-100: #fffbe8;
+  --color-dragon-yellow-200: #fffbe0;
+  --color-dragon-yellow-300: #efe0be;
+  --color-dragon-yellow-400: #d6c5a0;
+  --color-dragon-yellow-500: #c4b28a;
+  --color-dragon-yellow-600: #aa9973;
+  --color-dragon-yellow-700: #8e7e5b;
+  --color-dragon-yellow-800: #726446;
+  --color-dragon-yellow-900: #564c34;
+  --color-dragon-yellow-950: #413929;
 
-  /* Accents */
-  --color-kanagawa-red: #e46876;
-  --color-kanagawa-green: #95c279;
-  --color-kanagawa-blue: #7e9cd8;
-  --color-kanagawa-yellow: #e0c576;
-  --color-kanagawa-purple: #957fb8;
-  --color-kanagawa-orange: #ffa066;
-  --color-kanagawa-teal: #7aa89f;
+  /* dragonBlue2 (#8ba4b0) — secondary */
+  --color-dragon-blue-2-50: #f6fdff;
+  --color-dragon-blue-2-100: #f2feff;
+  --color-dragon-blue-2-200: #e2f3fb;
+  --color-dragon-blue-2-300: #bad0da;
+  --color-dragon-blue-2-400: #9fb6c2;
+  --color-dragon-blue-2-500: #8ba4b0;
+  --color-dragon-blue-2-600: #748b97;
+  --color-dragon-blue-2-700: #5b717b;
+  --color-dragon-blue-2-800: #44575f;
+  --color-dragon-blue-2-900: #2f3e45;
+  --color-dragon-blue-2-950: #212b30;
+
+  /* springGreen (#98BB6C) — success */
+  --color-spring-green-50: #f6ffec;
+  --color-spring-green-100: #f2ffdf;
+  --color-spring-green-200: #edffd1;
+  --color-spring-green-300: #c8e6a5;
+  --color-spring-green-400: #accd85;
+  --color-spring-green-500: #98bb6c;
+  --color-spring-green-600: #80a155;
+  --color-spring-green-700: #67853f;
+  --color-spring-green-800: #506a2d;
+  --color-spring-green-900: #3b4f1f;
+  --color-spring-green-950: #2c3a19;
+
+  /* dragonBlue (#658594) — info */
+  --color-dragon-blue-50: #f5fdff;
+  --color-dragon-blue-100: #e1f1f8;
+  --color-dragon-blue-200: #bbd1dc;
+  --color-dragon-blue-300: #94afbc;
+  --color-dragon-blue-400: #7997a5;
+  --color-dragon-blue-500: #658594;
+  --color-dragon-blue-600: #4f6d7c;
+  --color-dragon-blue-700: #385460;
+  --color-dragon-blue-800: #233b46;
+  --color-dragon-blue-900: #11242c;
+  --color-dragon-blue-950: #071319;
+
+  /* roninYellow (#FF9E3B) — warning */
+  --color-ronin-yellow-50: #fff7e1;
+  --color-ronin-yellow-100: #fff2cb;
+  --color-ronin-yellow-200: #ffedb4;
+  --color-ronin-yellow-300: #ffd188;
+  --color-ronin-yellow-400: #ffb45f;
+  --color-ronin-yellow-500: #ff9e3b;
+  --color-ronin-yellow-600: #e2851b;
+  --color-ronin-yellow-700: #c06c00;
+  --color-ronin-yellow-800: #9d5500;
+  --color-ronin-yellow-900: #794000;
+  --color-ronin-yellow-950: #5b3306;
+
+  /* samuraiRed (#E82424) — error */
+  --color-samurai-red-50: #ffeee7;
+  --color-samurai-red-100: #ffd4c8;
+  --color-samurai-red-200: #ffa597;
+  --color-samurai-red-300: #ff7365;
+  --color-samurai-red-400: #f74c43;
+  --color-samurai-red-500: #e82424;
+  --color-samurai-red-600: #c90001;
+  --color-samurai-red-700: #a40000;
+  --color-samurai-red-800: #7d0000;
+  --color-samurai-red-900: #550000;
+  --color-samurai-red-950: #340000;
+
+  /* dragon-black-6 (#625e5a) — neutral */
+  --color-dragon-gray-2-50: #fcfcf9;
+  --color-dragon-gray-2-100: #fdfcf8;
+  --color-dragon-gray-2-200: #edebe5;
+  --color-dragon-gray-2-300: #cac7c0;
+  --color-dragon-gray-2-400: #b0aea6;
+  --color-dragon-gray-2-500: #9e9b93;
+  --color-dragon-gray-2-600: #86837b;
+  --color-dragon-gray-2-700: #6b6962;
+  --color-dragon-gray-2-800: #52504a;
+  --color-dragon-gray-2-900: #393833;
+  --color-dragon-gray-2-950: #272623;
+
+  /* ============================================
+   * Kanagawa Dragon palette — backgrounds & fg
+   * Full shade scales (50–950)
+   * ============================================ */
+
+  /* dragon-black-0 (#0d0c0c) */
+  --color-dragon-black-0-50: #797979;
+  --color-dragon-black-0-100: #656565;
+  --color-dragon-black-0-200: #4a4949;
+  --color-dragon-black-0-300: #2d2c2c;
+  --color-dragon-black-0-400: #1a1919;
+  --color-dragon-black-0-500: #0d0c0c;
+  --color-dragon-black-0-600: #020101;
+  --color-dragon-black-0-700: #000000;
+  --color-dragon-black-0-800: #000000;
+  --color-dragon-black-0-900: #000000;
+  --color-dragon-black-0-950: #000000;
+
+  /* dragon-black-1 (#12120f) */
+  --color-dragon-black-1-50: #80807f;
+  --color-dragon-black-1-100: #6c6c6a;
+  --color-dragon-black-1-200: #50504e;
+  --color-dragon-black-1-300: #333330;
+  --color-dragon-black-1-400: #20201d;
+  --color-dragon-black-1-500: #12120f;
+  --color-dragon-black-1-600: #040402;
+  --color-dragon-black-1-700: #000000;
+  --color-dragon-black-1-800: #000000;
+  --color-dragon-black-1-900: #000000;
+  --color-dragon-black-1-950: #000000;
+
+  /* dragon-black-2 (#1d1c19) */
+  --color-dragon-black-2-50: #8e8e8d;
+  --color-dragon-black-2-100: #7a7977;
+  --color-dragon-black-2-200: #5d5c5a;
+  --color-dragon-black-2-300: #403f3c;
+  --color-dragon-black-2-400: #2b2a27;
+  --color-dragon-black-2-500: #1d1c19;
+  --color-dragon-black-2-600: #0b0a08;
+  --color-dragon-black-2-700: #010100;
+  --color-dragon-black-2-800: #000000;
+  --color-dragon-black-2-900: #000000;
+  --color-dragon-black-2-950: #000000;
+
+  /* dragon-black-3 (#181616) */
+  --color-dragon-black-3-50: #878787;
+  --color-dragon-black-3-100: #737272;
+  --color-dragon-black-3-200: #575555;
+  --color-dragon-black-3-300: #3a3838;
+  --color-dragon-black-3-400: #262424;
+  --color-dragon-black-3-500: #181616;
+  --color-dragon-black-3-600: #070606;
+  --color-dragon-black-3-700: #000000;
+  --color-dragon-black-3-800: #000000;
+  --color-dragon-black-3-900: #000000;
+  --color-dragon-black-3-950: #000000;
+
+  /* dragon-black-4 (#282727) */
+  --color-dragon-black-4-50: #9d9c9c;
+  --color-dragon-black-4-100: #888787;
+  --color-dragon-black-4-200: #6a6a6a;
+  --color-dragon-black-4-300: #4c4b4b;
+  --color-dragon-black-4-400: #373636;
+  --color-dragon-black-4-500: #282727;
+  --color-dragon-black-4-600: #151414;
+  --color-dragon-black-4-700: #040404;
+  --color-dragon-black-4-800: #000000;
+  --color-dragon-black-4-900: #000000;
+  --color-dragon-black-4-950: #000000;
+
+  /* dragon-black-5 (#393836) */
+  --color-dragon-black-5-50: #b1b1b1;
+  --color-dragon-black-5-100: #9c9b9a;
+  --color-dragon-black-5-200: #7e7d7c;
+  --color-dragon-black-5-300: #5f5e5c;
+  --color-dragon-black-5-400: #494846;
+  --color-dragon-black-5-500: #393836;
+  --color-dragon-black-5-600: #252422;
+  --color-dragon-black-5-700: #100f0e;
+  --color-dragon-black-5-800: #020201;
+  --color-dragon-black-5-900: #000000;
+  --color-dragon-black-5-950: #000000;
+
+  /* dragon-black-6 (#625e5a) */
+  --color-dragon-black-6-50: #e0dfde;
+  --color-dragon-black-6-100: #cac8c6;
+  --color-dragon-black-6-200: #aba8a6;
+  --color-dragon-black-6-300: #8a8783;
+  --color-dragon-black-6-400: #736f6b;
+  --color-dragon-black-6-500: #625e5a;
+  --color-dragon-black-6-600: #4c4844;
+  --color-dragon-black-6-700: #34312d;
+  --color-dragon-black-6-800: #1e1b18;
+  --color-dragon-black-6-900: #090806;
+  --color-dragon-black-6-950: #010101;
+
+  /* dragon-white (#c5c9c5) */
+  --color-dragon-white-50: #fbfcfb;
+  --color-dragon-white-100: #fafcfa;
+  --color-dragon-white-200: #fafdfa;
+  --color-dragon-white-300: #f3f7f3;
+  --color-dragon-white-400: #d9dcd9;
+  --color-dragon-white-500: #c5c9c5;
+  --color-dragon-white-600: #acb0ac;
+  --color-dragon-white-700: #909490;
+  --color-dragon-white-800: #767976;
+  --color-dragon-white-900: #5c5f5c;
+  --color-dragon-white-950: #4a4b4a;
+
+  /* fuji-white (#dcd7ba) */
+  --color-fuji-white-50: #fdfcf5;
+  --color-fuji-white-100: #fefcef;
+  --color-fuji-white-200: #fffde9;
+  --color-fuji-white-300: #fffde4;
+  --color-fuji-white-400: #efebd0;
+  --color-fuji-white-500: #dcd7ba;
+  --color-fuji-white-600: #c2bda1;
+  --color-fuji-white-700: #a5a188;
+  --color-fuji-white-800: #898570;
+  --color-fuji-white-900: #6e6b5a;
+  --color-fuji-white-950: #59574b;
+
+  /* old-white (#c8c093) */
+  --color-old-white-50: #fefcf1;
+  --color-old-white-100: #fffde8;
+  --color-old-white-200: #fffddf;
+  --color-old-white-300: #f4edc8;
+  --color-old-white-400: #dbd3a9;
+  --color-old-white-500: #c8c093;
+  --color-old-white-600: #aea77c;
+  --color-old-white-700: #928b64;
+  --color-old-white-800: #77704e;
+  --color-old-white-900: #5c573c;
+  --color-old-white-950: #474431;
+
+  /* dragon-gray (#a6a69c) */
+  --color-dragon-gray-50: #fcfcf9;
+  --color-dragon-gray-100: #fcfcf7;
+  --color-dragon-gray-200: #f6f6ef;
+  --color-dragon-gray-300: #d2d2ca;
+  --color-dragon-gray-400: #b9b9af;
+  --color-dragon-gray-500: #a6a69c;
+  --color-dragon-gray-600: #8e8e84;
+  --color-dragon-gray-700: #73736a;
+  --color-dragon-gray-800: #595952;
+  --color-dragon-gray-900: #41413b;
+  --color-dragon-gray-950: #2f2f2b;
+
+  /* dragon-gray-3 (#7a8382) */
+  --color-dragon-gray-3-50: #fafcfc;
+  --color-dragon-gray-3-100: #ecf0f0;
+  --color-dragon-gray-3-200: #cad0cf;
+  --color-dragon-gray-3-300: #a6adac;
+  --color-dragon-gray-3-400: #8c9594;
+  --color-dragon-gray-3-500: #7a8382;
+  --color-dragon-gray-3-600: #636c6b;
+  --color-dragon-gray-3-700: #4b5251;
+  --color-dragon-gray-3-800: #343a39;
+  --color-dragon-gray-3-900: #1e2323;
+  --color-dragon-gray-3-950: #0f1312;
+
+  /* dragon-ash (#737c73) */
+  --color-dragon-ash-50: #fafdfa;
+  --color-dragon-ash-100: #e3e8e3;
+  --color-dragon-ash-200: #c2c8c2;
+  --color-dragon-ash-300: #9ea69e;
+  --color-dragon-ash-400: #858e85;
+  --color-dragon-ash-500: #737c73;
+  --color-dragon-ash-600: #5c655c;
+  --color-dragon-ash-700: #444c44;
+  --color-dragon-ash-800: #2d342d;
+  --color-dragon-ash-900: #191d19;
+  --color-dragon-ash-950: #0a0d0a;
 }
 
-/* Optional: Create a variant for easy toggling */
+
+/* Optional: variant for easy toggling */
 @custom-variant kanagawa (&:where(.theme-kanagawa, .theme-kanagawa *));
