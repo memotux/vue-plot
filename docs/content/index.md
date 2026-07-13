@@ -99,7 +99,7 @@ icon: i-ph-feather
 Quick Start
 
 #body
-```vue
+```vue[App.vue]
 <script setup lang="ts">
 import { VPlot } from "@memotux/vue-plot";
 
