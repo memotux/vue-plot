@@ -29,6 +29,7 @@ dist-ssr
 .atl/
 .agents/
 skills-lock.json
+.gga
 
 # Agent infrastructure
 .pi/
