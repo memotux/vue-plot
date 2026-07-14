@@ -1,5 +1,6 @@
 ---
 title: Guide
+navigation: false
 description: Learn Vue Plot's core patterns for building charts.
 seo:
   title: Guide

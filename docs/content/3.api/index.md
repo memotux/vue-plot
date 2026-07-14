@@ -1,5 +1,6 @@
 ---
 title: API Reference
+navigation: false
 description: Full reference for Vue Plot's components and types.
 seo:
   title: API Reference

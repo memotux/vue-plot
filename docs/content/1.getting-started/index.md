@@ -1,5 +1,6 @@
 ---
 title: Getting Started
+navigation: false
 description: Install Vue Plot, configure your build, and render your first chart.
 seo:
   title: Getting Started
