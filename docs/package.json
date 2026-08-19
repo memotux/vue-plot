@@ -2,7 +2,7 @@
   "name": "vue-plot-docs",
   "private": true,
   "scripts": {
-    "dev": "TMPDIR=/tmp nuxt dev",
+    "dev": "nuxt dev",
     "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview"
@@ -10,6 +10,6 @@
   "dependencies": {
     "better-sqlite3": "^12.6.2",
     "docus": "^5.12.3",
-    "nuxt": "^4.3.1"
+    "nuxt": "^4.5.2"
   }
 }
