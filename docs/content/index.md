@@ -1,6 +1,6 @@
 ---
 seo:
-  title: Vue Plot
+  title: Data Visualizations Home
   description: Vue Plot wraps Observable Plot's grammar of graphics in idiomatic Vue components — declarative, reactive, and fully type-safe.
 ---
 
@@ -97,7 +97,7 @@ icon: i-ph-feather
 ::
 
 <!-- prettier-ignore -->
-::u-page-section
+::u-page-section{:ui='{"body": "max-w-3xl mx-auto"}'}
 #title
 Quick Start
 
