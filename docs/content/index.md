@@ -7,9 +7,12 @@ seo:
 <!-- markdownlint-disable MD034 -->
 <!-- prettier-ignore -->
 ::u-page-hero
----
-title: Vue Plot
----
+#title
+::app-icon{.h-98 .mx-auto}
+::
+
+[Vue]{.text-primary} [Plot]{.text-secondary}
+
 #description
 Vue Plot wraps Observable Plot's powerful grammar of graphics into idiomatic Vue components. Build charts, plots, and data visualizations using familiar Vue patterns — templates, reactive data, and composables.
 
