@@ -1,6 +1,6 @@
 ---
 seo:
-  title: Data Visualizations Home
+  title: Declarative Vue Data Visualization
   description: Vue Plot wraps Observable Plot's grammar of graphics in idiomatic Vue components — declarative, reactive, and fully type-safe.
 ---
 
