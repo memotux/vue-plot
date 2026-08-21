@@ -5,6 +5,19 @@ export default defineNuxtConfig({
     "/guide": { prerender: true },
     "/api": { prerender: true },
   },
+  content: {
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            default: 'kanagawa-dragon',
+            light: 'kanagawa-lotus',
+            dark: 'kanagawa-dragon'
+          }
+        }
+      }
+    }
+  },
   app: {
     head: {
       meta: [
