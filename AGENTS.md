@@ -12,6 +12,7 @@
 - Vite 8 library mode (Rolldown)
 - `@observablehq/plot` (`^0.6.17`) — peer dependency, the actual plotting engine
 - pnpm workspaces: root library (`.`), Nuxt module (`nuxt/`), docs (`docs/`)
+  - The `docs/` workspace has its own operating rules in [`docs/AGENTS.md`](docs/AGENTS.md).
 
 ## Setup & commands
 
@@ -22,6 +23,7 @@ pnpm test run         # run tests once (what CI runs)
 pnpm exec vue-tsc --noEmit   # type check (strict)
 pnpm build            # build the library to dist/
 pnpm nuxt <script>    # run scripts in the @memotux/nuxt-vue-plot workspace
+pnpm --filter vue-plot-docs dev   # run the documentation site locally (Docus / Nuxt 4)
 ```
 
 ## Architecture (read before touching `src/core/`)
