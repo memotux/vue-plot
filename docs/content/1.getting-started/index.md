@@ -1,9 +1,11 @@
 ---
 title: Getting Started
 navigation: false
-description: Install Vue Plot, configure your build, and render your first chart.
+description: >
+  Install @memotux/vue-plot, configure Vite for custom elements, register
+  VPlot, and render your first reactive chart in minutes.
 seo:
-  title: Getting Started
+  title: Getting Started — Vue Plot Installation & Setup
   description: Install @memotux/vue-plot, configure Vite for custom elements, register the VPlot component, and render your first reactive chart in minutes.
 ---
 

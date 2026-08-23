@@ -1,13 +1,16 @@
 ---
 title: Guide
 navigation: false
-description: Learn Vue Plot's core patterns for building charts.
+description: >
+  Learn Vue Plot's core patterns for building charts: define marks as
+  template components or functional props, bind reactive data, and set up
+  Nuxt integration.
 seo:
-  title: Guide
+  title: Vue Plot Guide — Marks, Reactive Data, and Nuxt
   description: Learn Vue Plot's core patterns — define marks as template components or functional props, bind reactive data, and integrate with Nuxt.
 ---
 
-Practical patterns for building charts with Vue Plot.
+Patterns for building charts with Vue Plot.
 
 ## In this section
 

@@ -1,10 +1,15 @@
 ---
+description: >
+  Build reactive, type-safe data visualizations with Vue 3 components that wrap
+  Observable Plot's grammar of graphics. Works with Nuxt.
 seo:
-  title: Declarative Vue Data Visualization
-  description: Vue Plot wraps Observable Plot's grammar of graphics in idiomatic Vue components — declarative, reactive, and fully type-safe.
+  title: Vue Plot — Declarative Data Visualization for Vue & Nuxt
+  description: >
+    Vue Plot wraps Observable Plot's grammar of graphics in idiomatic Vue 3
+    components — declarative, reactive, and fully type-safe.
 ---
 
-<!-- markdownlint-disable MD034 -->
+<!-- markdownlint-disable MD034 MD003 MD025 MD024 -->
 <!-- prettier-ignore -->
 ::u-page-hero
 #title
@@ -14,7 +19,7 @@ seo:
 [Vue]{.text-primary} [Plot]{.text-secondary}
 
 #description
-Vue Plot wraps Observable Plot's powerful grammar of graphics into idiomatic Vue components. Build charts, plots, and data visualizations using familiar Vue patterns — templates, reactive data, and composables.
+Vue Plot wraps Observable Plot's grammar of graphics into idiomatic Vue components. Build charts, plots, and data visualizations using Vue templates, reactive data, and composables.
 
 #headline
 Vue components for building data visualizations with [`@observablehq/plot`](https://github.com/observablehq/plot).
@@ -50,7 +55,7 @@ title: Why Vue Plot?
 :::u-page-feature
 ---
 title: Observable Plot Power
-description: Access the full grammar of graphics — 50+ mark types from area charts to waffle plots.
+description: Access the full grammar of graphics — 62 mark types from area charts to waffle plots.
 icon: i-ph-chart-bar
 ---
 :::
@@ -66,7 +71,7 @@ icon: i-ph-puzzle-piece
 :::u-page-feature
 ---
 title: Reactive by Default
-description: Bind reactive data and watch your visualizations update automatically.
+description: Bind reactive data and re-render plots automatically.
 icon: i-ph-arrows-clockwise
 ---
 :::
@@ -82,7 +87,7 @@ icon: i-ph-file-ts
 :::u-page-feature
 ---
 title: Nuxt Integration
-description: First-class Nuxt module with auto-imports and devtools support.
+description: Nuxt module with auto-imports and devtools support.
 icon: i-ph-cube
 ---
 :::

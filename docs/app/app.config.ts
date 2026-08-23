@@ -3,7 +3,7 @@ export default defineAppConfig({
     titleTemplate: '%s | Vue Plot',
     title: "Vue Plot",
     description:
-      "Vue components for building data visualizations with Observable Plot. Declarative, reactive, and type-safe.",
+      "Vue components for building data visualizations with Observable Plot. Declarative, reactive, and fully type-safe — works with Nuxt too.",
   },
   header: {
     title: "Vue Plot",
