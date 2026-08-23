@@ -8,6 +8,9 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
+    "@memotux/nuxt-vue-plot": "workspace:*",
+    "@memotux/vue-plot": "workspace:*",
+    "@observablehq/plot": "^0.6.17",
     "better-sqlite3": "^12.6.2",
     "docus": "^5.12.3",
     "nuxt": "^4.5.2"

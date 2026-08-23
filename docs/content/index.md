@@ -44,7 +44,19 @@ size: lg
 ---
 :::
 ::
-
+    
+<!-- prettier-ignore -->
+::u-page-section
+---
+title: 62 marks, one component model
+description: "Every Observable Plot mark maps to a declarative Vue component — reactive, type-safe, and composable."
+orientation: horizontal
+---
+    
+::app-showcase-chart
+::
+::
+    
 <!-- prettier-ignore -->
 ::u-page-section
 ---
@@ -102,7 +114,7 @@ icon: i-ph-feather
 ::
 
 <!-- prettier-ignore -->
-::u-page-section{:ui='{"body": "max-w-3xl mx-auto"}'}
+::u-page-section{:ui='{"body": "grid lg:grid-cols-2 items-center gap-4"}'}
 #title
 Quick Start
 
@@ -124,6 +136,9 @@ const data = [
   </VPlot>
 </template>
 ```
+    
+::app-quick-start-live
+::
 ::
 
 ::u-page-section
