@@ -1,0 +1,49 @@
+{
+  "params": {
+    "icon": "../../logos/logo-dark.png",
+    "quality": "10",
+    "themeColor": "393833",
+    "pngColor": "393833",
+    "padding": [10, 10],
+    "include": ["pwa"]
+  },
+  "assets": [
+    {
+      "generator": "png",
+      "name": "favicon-{size}x{size}.png",
+      "folder": "public/icons/dark",
+      "sizes": [128, 96, 32, 16],
+      "tag": "<link rel=\"icon\" type=\"image/png\" sizes=\"{size}x{size}\" href=\"icons/{name}\">"
+    },
+    {
+      "generator": "ico",
+      "name": "favicon.ico",
+      "folder": "public/icons/dark",
+      "tag": "<link rel=\"icon\" type=\"image/ico\" href=\"{name}\">"
+    },
+    {
+      "generator": "png",
+      "name": "apple-icon-{size}x{size}.png",
+      "folder": "public/icons/dark",
+      "background": true,
+      "sizes": [120, 152, 167, 180]
+    },
+    {
+      "generator": "svg",
+      "name": "safari-pinned-tab.svg",
+      "folder": "public/icons/dark"
+    },
+    {
+      "generator": "png",
+      "name": "ms-icon-{size}x{size}.png",
+      "folder": "public/icons/dark",
+      "sizes": [144]
+    },
+    {
+      "generator": "png",
+      "name": "icon-{size}x{size}.png",
+      "folder": "public/icons/dark",
+      "sizes": [128, 192, 256, 384, 512]
+    }
+  ]
+}
