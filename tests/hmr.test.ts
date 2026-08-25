@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import { h } from "vue";
+import { getPlotApp } from "../src/core";
 
 // import.meta.hot is undefined in test environment (no Vite dev server).
 // The HMR handler is guarded by if (import.meta.hot), so it's a dead path
@@ -25,13 +26,18 @@ describe("Plot.vue — HMR guard", () => {
 
 	it("unmounts cleanly when import.meta.hot is undefined", async () => {
 		const wrapper = mount(Plot, {
+			attachTo: document.body,
 			slots: {
 				default: () => h("PlotFrame"),
 			},
 		});
+		const plotId = wrapper.element.getAttribute("data-plot-id")!;
+		expect(getPlotApp().ctx.has(plotId)).toBe(true);
+
 		wrapper.unmount();
-		// If we get here without error, the guard works
-		expect(true).toBe(true);
+
+		// After unmount, the plot context must be removed from the singleton
+		expect(getPlotApp().ctx.has(plotId)).toBe(false);
 	});
 
 	// Note: Full HMR behavior (vite:afterUpdate handler, hmrTick bump, re-render)

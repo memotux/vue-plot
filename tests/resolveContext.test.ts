@@ -95,9 +95,7 @@ describe("resolveContext by _ctx (fallback context)", () => {
 		// When _ctx is provided, it should be used regardless of
 		// whether getCurrentInstance() is available
 		const result = resolveContext({ _ctx: mockCtx });
-		expect(result).toBeDefined();
-		// _ctx is a PlotContext, and resolveContext returns PlotContext
-		// So it should return the mockCtx directly when no other path matches
+		expect(result).toBe(mockCtx);
 	});
 
 	it("_ctx takes precedence when id is also provided", () => {
@@ -106,7 +104,8 @@ describe("resolveContext by _ctx (fallback context)", () => {
 		const mockCtx = { id: "override" } as unknown as PlotContext;
 
 		const result = resolveContext({ _ctx: mockCtx, id: "some-other-id" });
-		expect(result).toBeDefined();
+		expect(result).toBe(mockCtx);
+		expect(result!.id).toBe("override");
 	});
 });
 
@@ -177,6 +176,6 @@ describe("resolveContext with getCurrentInstance returning null", () => {
 		const mockCtx = { id: "fallback-ctx-test" } as unknown as PlotContext;
 
 		const result = resolveContext({ _ctx: mockCtx });
-		expect(result).toBeDefined();
+		expect(result).toBe(mockCtx);
 	});
 });

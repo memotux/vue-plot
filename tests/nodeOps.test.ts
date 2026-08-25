@@ -1,6 +1,6 @@
 import { defineComponent, h, ref, nextTick } from "vue"
 import { mount } from "@vue/test-utils"
-import { describe, it, expect, afterAll, beforeEach } from "vitest"
+import { describe, it, expect, afterAll } from "vitest"
 import PlotComponent from "../src/components/Plot.vue"
 import { getPlotApp } from "../src/core"
 
@@ -91,6 +91,9 @@ describe('nodeOps regression tests', () => {
       // Frame should still be there
       expect(marksAfterRemoval.length).toBe(initialMarkCount - 1)
 
+      // Wait for the batched re-render scheduled by remove()
+      await nextTick()
+
       // Verify DOM cleanup: a new SVG should have been inserted (re-render triggered)
       // The old SVG should no longer be the only child — the parent should have a fresh SVG
       const svgElements = parentEl.querySelectorAll('svg')
@@ -159,9 +162,13 @@ describe('nodeOps regression tests', () => {
       await nextTick()
       await nextTick()
 
-      // After re-mount, only frame should exist
-      const marksAfterToggle = plotCtx!.marks
-      expect(marksAfterToggle.length).toBe(1)
+      // After re-mount, read the NEW plot context (old one was removed by removePlot)
+      const newPlotId = component3.element.getAttribute('data-plot-id') || ''
+      const newPlotCtx = ctx.get(newPlotId)
+      expect(newPlotCtx).toBeDefined()
+
+      // New plot should have only frame
+      expect(newPlotCtx!.marks.length).toBe(1)
 
       // Verify DOM: SVG should exist (re-rendered with only frame)
       const parentEl = component3.element as HTMLDivElement
