@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const data = [
   { name: 'A', value: 10 },
   { name: 'B', value: 20 },
