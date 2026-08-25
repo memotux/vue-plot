@@ -9,7 +9,7 @@ seo:
   description: Install @memotux/vue-plot, configure Vite for custom elements, register the VPlot component, and render your first reactive chart in minutes.
 ---
 
-Get Vue Plot running in your project and render your first chart.
+Get Vue Plot running in your project and render your first chart. This section walks you through installing the package, configuring Vite to recognize the custom `<Plot*>` elements, and registering the `<VPlot>` component so you can start building visualizations in minutes.
 
 ## In this section
 

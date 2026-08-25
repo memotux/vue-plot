@@ -1,4 +1,5 @@
 ---
+title: Data Visualizations for Vue
 description: >
   Build reactive, type-safe data visualizations with Vue 3 components that wrap
   Observable Plot's grammar of graphics. Works with Nuxt.
