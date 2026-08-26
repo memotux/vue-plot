@@ -1,6 +1,18 @@
 # Changelog
 
 
+## nuxt-v0.1.2
+
+[compare changes](https://github.com/memotux/vue-plot/compare/nuxt-v0.1.1...nuxt-v0.1.2)
+
+### 🏡 Chore
+
+- **nuxt:** Package public access & update release script ([6fc03a0](https://github.com/memotux/vue-plot/commit/6fc03a0))
+
+### ❤️ Contributors
+
+- MemoTux <romeo@mendezfuentes.net>
+
 ## nuxt-v0.1.1
 
 [compare changes](https://github.com/memotux/vue-plot/compare/v0.4.3...nuxt-v0.1.1)
