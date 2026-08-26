@@ -1,5 +1,65 @@
 # Changelog
 
+## v0.4.3
+
+[compare changes](https://github.com/memotux/vue-plot/compare/v0.4.2...v0.4.3)
+
+### 🚀 Enhancements
+
+- Add Vite HMR support to Plot component ([#12](https://github.com/memotux/vue-plot/pull/12))
+- Add Nuxt module package ([1fb706a](https://github.com/memotux/vue-plot/commit/1fb706a))
+- **docs:** Add Kanagawa Dragon theme colors ([02eb1d5](https://github.com/memotux/vue-plot/commit/02eb1d5))
+- **logo:** Add custom logo and icons ([cb2c380](https://github.com/memotux/vue-plot/commit/cb2c380))
+
+### 🩹 Fixes
+
+- Correct nuxt peerDependencies ([a3d8347](https://github.com/memotux/vue-plot/commit/a3d8347))
+- IsCustomElement composition, repository URL, and release script ([df6db4a](https://github.com/memotux/vue-plot/commit/df6db4a))
+- Root test exclude & nuxt @nuxt/test-utils ([bf8f6a8](https://github.com/memotux/vue-plot/commit/bf8f6a8))
+- **tests:** Harden assertions and cleanup in test suite ([d9d95a3](https://github.com/memotux/vue-plot/commit/d9d95a3))
+- **nuxt:** Harden module correctness from Judgment Day review ([9d88063](https://github.com/memotux/vue-plot/commit/9d88063))
+- **docs:** Correct nuxt integration development bash script ([75f733c](https://github.com/memotux/vue-plot/commit/75f733c))
+
+### 💅 Refactors
+
+- Rename nuxt package to @memotux/vue-plot-nuxt ([4815d5a](https://github.com/memotux/vue-plot/commit/4815d5a))
+- Rename to @memotux/nuxt-vue-plot for better indexing ([cc931f2](https://github.com/memotux/vue-plot/commit/cc931f2))
+- Move vue-plot to peer + dev dependencies ([1349473](https://github.com/memotux/vue-plot/commit/1349473))
+
+### 📖 Documentation
+
+- Add Docus documentation site ([366f1d9](https://github.com/memotux/vue-plot/commit/366f1d9))
+- Fix section 404s, expand SEO descriptions, use TS in examples ([cf71439](https://github.com/memotux/vue-plot/commit/cf71439))
+- Add code-block labels, nuxt code-group, vplot what's next ([f3b3a44](https://github.com/memotux/vue-plot/commit/f3b3a44))
+- Hide section index pages from nav, force prerender routes ([4bdb3e2](https://github.com/memotux/vue-plot/commit/4bdb3e2))
+- Split docs README and AGENTS by audience ([baa1444](https://github.com/memotux/vue-plot/commit/baa1444))
+- Add Vue Plot showcase charts to homepage ([96792ab](https://github.com/memotux/vue-plot/commit/96792ab))
+- Improve seo metadata, navigation icons, and content depth ([6bac35c](https://github.com/memotux/vue-plot/commit/6bac35c))
+
+### 🏡 Chore
+
+- Update nuxt playground with chart examples ([fd59141](https://github.com/memotux/vue-plot/commit/fd59141))
+- Add AGENTS.md file ([995ee57](https://github.com/memotux/vue-plot/commit/995ee57))
+- **global:** Upgrade packages manager & versions ([a40823a](https://github.com/memotux/vue-plot/commit/a40823a))
+- Dark/light logo and icons ([18303e6](https://github.com/memotux/vue-plot/commit/18303e6))
+- **page:** Home optimizations ([15cad86](https://github.com/memotux/vue-plot/commit/15cad86))
+- App.config cleanup ([91b8939](https://github.com/memotux/vue-plot/commit/91b8939))
+- Icongenie profile dark/light ([de02b1b](https://github.com/memotux/vue-plot/commit/de02b1b))
+- Move highlight theme to mdc options ([2cb126a](https://github.com/memotux/vue-plot/commit/2cb126a))
+- Add custom app.vue ([4789595](https://github.com/memotux/vue-plot/commit/4789595))
+- **docs:** Update home title ([ad5bc39](https://github.com/memotux/vue-plot/commit/ad5bc39))
+- **docs:** Revise content for SEO, voice, and accuracy ([ab5fc5e](https://github.com/memotux/vue-plot/commit/ab5fc5e))
+- **release:** Add per-package changelog script and nuxt config ([8730c60](https://github.com/memotux/vue-plot/commit/8730c60))
+
+### 🎨 Styles
+
+- **docs:** Switch body font to Noto Sans ([dfb019b](https://github.com/memotux/vue-plot/commit/dfb019b))
+- Code highlight colors ([83ebf51](https://github.com/memotux/vue-plot/commit/83ebf51))
+
+### ❤️ Contributors
+
+- MemoTux <romeo@mendezfuentes.net>
+
 ## v0.4.2
 
 [compare changes](https://github.com/memotux/vue-plot/compare/v0.4.1...v0.4.2)
