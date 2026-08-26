@@ -2,19 +2,30 @@
   "name": "@memotux/nuxt-vue-plot",
   "version": "0.1.1",
   "description": "Nuxt module for @memotux/vue-plot — declarative data visualization with Observable Plot",
+  "keywords": [
+    "chart",
+    "d3",
+    "data",
+    "graph",
+    "nuxt",
+    "nuxt-module",
+    "plot",
+    "visualization",
+    "vue"
+  ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/memotux/vue-plot.git",
     "directory": "nuxt"
   },
-  "license": "MIT",
+  "workspaces": [
+    "playground"
+  ],
+  "files": [
+    "dist"
+  ],
   "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
-    }
-  },
   "main": "./dist/module.mjs",
   "typesVersions": {
     "*": {
@@ -23,29 +34,21 @@
       ]
     }
   },
-  "files": [
-    "dist"
-  ],
-  "keywords": [
-    "nuxt",
-    "nuxt-module",
-    "vue",
-    "plot",
-    "d3",
-    "data",
-    "visualization",
-    "chart",
-    "graph"
-  ],
-  "workspaces": [
-    "playground"
-  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "prepack": "nuxt-module-build build",
     "dev": "npm run dev:prepare && TMPDIR=/tmp nuxt dev playground",
     "dev:build": "nuxt build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground",
-    "release": "pnpm run lint && pnpm run test && pnpm run prepack && changelogen --release && pnpm publish && git push --follow-tags",
+    "release": "pnpm run lint && pnpm run test && pnpm run prepack && node ../scripts/changelog-by-project.mjs . && pnpm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
