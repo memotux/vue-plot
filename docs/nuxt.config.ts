@@ -13,5 +13,12 @@ export default defineNuxtConfig({
     highlight: {
       theme: { dark: 'kanagawa-dragon', light: 'kanagawa-lotus' },
     }
+  },
+  mcp: {
+    enabled: false
+  },
+  site: {
+    url: 'https://vue-plot.mendezfuentes.net',
+    name: 'Vue Plot'
   }
 });

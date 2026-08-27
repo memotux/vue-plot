@@ -9,7 +9,8 @@ export default defineAppConfig({
     title: "Vue Plot",
   },
   socials: {
-    github: "https://github.com/memotux/vue-plot",
+    x: 'https://x.com/mendeztechsv',
+    linkedin: 'https://linkedin.com/in/romeomendez',
     npm: "https://www.npmjs.com/package/@memotux/vue-plot",
   },
   github: {
