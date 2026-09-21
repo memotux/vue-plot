@@ -67,7 +67,8 @@ describe('module meta', () => {
   it('exposes the expected module meta', async () => {
     await expect(mod.getMeta?.()).resolves.toMatchObject({
       name: '@memotux/nuxt-vue-plot',
-      configKey: 'plot',
+      // @nuxt/kit defaults configKey to the module name (`module.meta.configKey ||= module.meta.name`).
+      configKey: '@memotux/nuxt-vue-plot',
     })
   })
 })
