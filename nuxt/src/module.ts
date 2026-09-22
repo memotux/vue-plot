@@ -4,9 +4,7 @@ import { plotCustomElement } from '@memotux/vue-plot'
 export default defineNuxtModule({
   meta: {
     name: '@memotux/nuxt-vue-plot',
-    configKey: 'plot',
   },
-  defaults: {},
   setup(_, nuxt) {
     const prevCustomElement = nuxt.options.vue.compilerOptions.isCustomElement
     const isPlotCustomElement

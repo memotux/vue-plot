@@ -64,6 +64,38 @@ yarn add @memotux/vue-plot @observablehq/plot
 
 ## Setup
 
+### Nuxt
+
+For Nuxt applications, use [`@memotux/nuxt-vue-plot`](https://npmjs.com/package/@memotux/nuxt-vue-plot). It auto-registers `<VPlot>` as an auto-imported component and configures the custom-element compiler for `<Plot*>` mark components — no Vite plugin or manual registration needed.
+
+```bash
+pnpm add @memotux/nuxt-vue-plot @memotux/vue-plot @observablehq/plot
+```
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@memotux/nuxt-vue-plot'],
+})
+```
+
+```vue
+<!-- app.vue -->
+<script setup>
+const data = [
+  { name: 'A', value: 10 },
+  { name: 'B', value: 20 },
+  { name: 'C', value: 15 },
+]
+</script>
+
+<template>
+  <VPlot :width="680">
+    <PlotBarY :data="data" x="name" y="value" />
+  </VPlot>
+</template>
+```
+
 ### Vite Plugin Configuration
 
 Configure the Vite plugin so Vue recognizes `<Plot*>` tags as custom elements:
