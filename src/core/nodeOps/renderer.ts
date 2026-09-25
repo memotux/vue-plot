@@ -54,7 +54,7 @@ export function createComment(text: string) {
 	return document.createComment(text);
 }
 
-export const createText = () => document.createTextNode("");
+export const createText = (text = "") => document.createTextNode(text);
 export const setText = (node: Text, text: string) => {
 	node.textContent = text;
 };

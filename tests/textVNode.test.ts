@@ -26,13 +26,21 @@ function collectTextNodes(root: Node): Text[] {
 
 describe('text VNode operations (createText / setText)', () => {
   describe('nodeOps unit tests', () => {
-    it('createText returns a Text node with empty content', () => {
+    it('createText returns a Text node with empty content when called without an argument', () => {
       const ops = nodeOpsModule()
       const node = ops.createText()
 
       expect(node).toBeInstanceOf(Text)
       expect(node.nodeType).toBe(Node.TEXT_NODE)
       expect(node.textContent).toBe('')
+    })
+
+    it('createText honors the text argument (Vue never calls setText on initial mount)', () => {
+      const ops = nodeOpsModule()
+      const node = ops.createText('Hello')
+
+      expect(node).toBeInstanceOf(Text)
+      expect(node.textContent).toBe('Hello')
     })
 
     it('setText writes the text onto the node', () => {
@@ -100,6 +108,7 @@ describe('text VNode operations (createText / setText)', () => {
       // child goes through the custom renderer's createText().
       expect(container.querySelectorAll('svg').length).toBe(1)
       expect(createTextSpy).toHaveBeenCalled()
+      expect(createTextSpy).toHaveBeenCalledWith('Hello')
       expect(createTextSpy.mock.results.every(result => result.value instanceof Text)).toBe(true)
 
       component!.vm.label = 'World'
