@@ -110,13 +110,17 @@ describe('isCustomElement', () => {
     expect(consulted).toEqual(['MyWidget', 'PlotBarY', 'div'])
   })
 
-  it('lets a previous hook veto a Plot tag', async () => {
+  it('does not let a strict-false previous hook veto a Plot tag', async () => {
     const fakeNuxt = createFakeNuxt({ isCustomElement: () => false })
     await runSetup(fakeNuxt)
 
     const isCustomElement = fakeNuxt.options.vue.compilerOptions.isCustomElement
 
-    expect(isCustomElement?.('PlotBarY')).toBe(false)
+    // The previous hook's strict `false` no longer wins over the Plot
+    // matcher: `||` means a previous hook can only add custom elements.
+    expect(isCustomElement?.('PlotBarY')).toBe(true)
+    // Non-Plot tags still resolve through the Plot matcher to `false`.
+    expect(isCustomElement?.('div')).toBe(false)
   })
 
   it('falls back to the Plot matcher when no hook was configured', async () => {
