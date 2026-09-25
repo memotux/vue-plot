@@ -5,6 +5,8 @@ export default defineNuxtModule({
   meta: {
     name: '@memotux/nuxt-vue-plot',
   },
+  // The module intentionally takes no user options: all plot options are
+  // passed via component props (documented in README and docs).
   setup(_, nuxt) {
     const prevCustomElement = nuxt.options.vue.compilerOptions.isCustomElement
     const isPlotCustomElement
