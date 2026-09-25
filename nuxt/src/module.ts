@@ -17,7 +17,11 @@ export default defineNuxtModule({
 
     nuxt.options.vite.optimizeDeps ??= {}
     nuxt.options.vite.optimizeDeps.include ??= []
-    nuxt.options.vite.optimizeDeps.include.push('@observablehq/plot')
+    // Idempotent even if setup() is entered twice (defineNuxtModule's
+    // _requiredModules boundary guard is the only protection otherwise).
+    if (!nuxt.options.vite.optimizeDeps.include.includes('@observablehq/plot')) {
+      nuxt.options.vite.optimizeDeps.include.push('@observablehq/plot')
+    }
 
     addComponent({
       name: 'VPlot',

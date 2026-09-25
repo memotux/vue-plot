@@ -166,6 +166,18 @@ describe('optimizeDeps', () => {
     expect(secondInstall).toBe(false)
     expect(fakeNuxt.options.vite.optimizeDeps?.include).toEqual(['@observablehq/plot'])
   })
+
+  it('stays idempotent when setup() itself is entered twice', async () => {
+    const fakeNuxt = createFakeNuxt()
+    await runSetup(fakeNuxt)
+
+    // Bypass the `_requiredModules` boundary guard to enter setup() again,
+    // the way a future refactor could accidentally do.
+    fakeNuxt.options._requiredModules = {}
+    await runSetup(fakeNuxt)
+
+    expect(fakeNuxt.options.vite.optimizeDeps?.include).toEqual(['@observablehq/plot'])
+  })
 })
 
 describe('components', () => {
