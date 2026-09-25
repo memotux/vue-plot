@@ -110,13 +110,17 @@ describe('isCustomElement', () => {
     expect(consulted).toEqual(['MyWidget', 'PlotBarY', 'div'])
   })
 
-  it('lets a previous hook veto a Plot tag', async () => {
+  it('does not let a strict-false previous hook veto a Plot tag', async () => {
     const fakeNuxt = createFakeNuxt({ isCustomElement: () => false })
     await runSetup(fakeNuxt)
 
     const isCustomElement = fakeNuxt.options.vue.compilerOptions.isCustomElement
 
-    expect(isCustomElement?.('PlotBarY')).toBe(false)
+    // The previous hook's strict `false` no longer wins over the Plot
+    // matcher: `||` means a previous hook can only add custom elements.
+    expect(isCustomElement?.('PlotBarY')).toBe(true)
+    // Non-Plot tags still resolve through the Plot matcher to `false`.
+    expect(isCustomElement?.('div')).toBe(false)
   })
 
   it('falls back to the Plot matcher when no hook was configured', async () => {
@@ -160,6 +164,18 @@ describe('optimizeDeps', () => {
     const secondInstall = await runSetup(fakeNuxt)
 
     expect(secondInstall).toBe(false)
+    expect(fakeNuxt.options.vite.optimizeDeps?.include).toEqual(['@observablehq/plot'])
+  })
+
+  it('stays idempotent when setup() itself is entered twice', async () => {
+    const fakeNuxt = createFakeNuxt()
+    await runSetup(fakeNuxt)
+
+    // Bypass the `_requiredModules` boundary guard to enter setup() again,
+    // the way a future refactor could accidentally do.
+    fakeNuxt.options._requiredModules = {}
+    await runSetup(fakeNuxt)
+
     expect(fakeNuxt.options.vite.optimizeDeps?.include).toEqual(['@observablehq/plot'])
   })
 })

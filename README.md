@@ -79,6 +79,9 @@ export default defineNuxtConfig({
 })
 ```
 
+> [!NOTE]
+> The module takes no configuration options — all plot options are passed via component props.
+
 ```vue
 <!-- app.vue -->
 <script setup>
