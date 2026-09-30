@@ -1,5 +1,43 @@
 # Changelog
 
+## v0.4.4
+
+[compare changes](https://github.com/memotux/vue-plot/compare/nuxt-v0.1.2...v0.4.4)
+
+### 🩹 Fixes
+
+- **nuxt:** Remove dead configKey and empty defaults ([e622366](https://github.com/memotux/vue-plot/commit/e622366))
+- **core:** Honor Vue's text argument in createText ([2407828](https://github.com/memotux/vue-plot/commit/2407828))
+- **nuxt:** Stop strict-false isCustomElement hooks from vetoing Plot tags ([94959b7](https://github.com/memotux/vue-plot/commit/94959b7))
+- **nuxt:** Make optimizeDeps include push idempotent in setup ([c91da15](https://github.com/memotux/vue-plot/commit/c91da15))
+
+### 📖 Documentation
+
+- **readme:** Add Nuxt quick setup section ([#12](https://github.com/memotux/vue-plot/pull/12))
+- Add bun tabs to install code-groups and prerequisites ([6d73345](https://github.com/memotux/vue-plot/commit/6d73345))
+- **guide:** Add marks-as-children vs marks-as-props decision table ([ea60992](https://github.com/memotux/vue-plot/commit/ea60992))
+- **api:** Add complete multi-mark chart example to mark components ([75a6cf2](https://github.com/memotux/vue-plot/commit/75a6cf2))
+- Add server-side rendering guidance outside Nuxt ([685f41b](https://github.com/memotux/vue-plot/commit/685f41b))
+- **nuxt:** State explicitly that the module takes no options ([ffe39e0](https://github.com/memotux/vue-plot/commit/ffe39e0))
+
+### 🏡 Chore
+
+- Update social links & OgImages ([db23f19](https://github.com/memotux/vue-plot/commit/db23f19))
+- Record task outcomes in feature tracking doc ([d3f8240](https://github.com/memotux/vue-plot/commit/d3f8240))
+- Record task outcomes in docs feature tracking doc ([2908d6e](https://github.com/memotux/vue-plot/commit/2908d6e))
+- Record task outcomes in closeout-followups tracking doc ([ff347a7](https://github.com/memotux/vue-plot/commit/ff347a7))
+
+### ✅ Tests
+
+- Cover createText/setText text VNode nodeOps ([#9](https://github.com/memotux/vue-plot/pull/9))
+- **nuxt:** Add module-level unit coverage for setup() ([#11](https://github.com/memotux/vue-plot/pull/11))
+- **nuxt:** Cover VPlot inside ClientOnly (SSR placeholder) ([5daa456](https://github.com/memotux/vue-plot/commit/5daa456))
+- **nuxt:** Cover ClientOnly client-side hydration with a browser test ([ee0d788](https://github.com/memotux/vue-plot/commit/ee0d788))
+
+### ❤️ Contributors
+
+- MemoTux <romeo@mendezfuentes.net>
+
 ## v0.4.3
 
 [compare changes](https://github.com/memotux/vue-plot/compare/v0.4.2...v0.4.3)
