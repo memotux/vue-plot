@@ -1,6 +1,30 @@
 # Changelog
 
 
+## nuxt-v0.1.3
+
+[compare changes](https://github.com/memotux/vue-plot/compare/v0.4.4...nuxt-v0.1.3)
+
+### 🩹 Fixes
+
+- **nuxt:** Remove dead configKey and empty defaults ([e622366](https://github.com/memotux/vue-plot/commit/e622366))
+- **nuxt:** Stop strict-false isCustomElement hooks from vetoing Plot tags ([94959b7](https://github.com/memotux/vue-plot/commit/94959b7))
+- **nuxt:** Make optimizeDeps include push idempotent in setup ([c91da15](https://github.com/memotux/vue-plot/commit/c91da15))
+
+### 📖 Documentation
+
+- **nuxt:** State explicitly that the module takes no options ([ffe39e0](https://github.com/memotux/vue-plot/commit/ffe39e0))
+
+### ✅ Tests
+
+- **nuxt:** Add module-level unit coverage for setup() ([#11](https://github.com/memotux/vue-plot/pull/11))
+- **nuxt:** Cover VPlot inside ClientOnly (SSR placeholder) ([5daa456](https://github.com/memotux/vue-plot/commit/5daa456))
+- **nuxt:** Cover ClientOnly client-side hydration with a browser test ([ee0d788](https://github.com/memotux/vue-plot/commit/ee0d788))
+
+### ❤️ Contributors
+
+- MemoTux <romeo@mendezfuentes.net>
+
 ## nuxt-v0.1.2
 
 [compare changes](https://github.com/memotux/vue-plot/compare/nuxt-v0.1.1...nuxt-v0.1.2)
