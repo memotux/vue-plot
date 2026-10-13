@@ -14,6 +14,11 @@
     "vue"
   ],
   "license": "MIT",
+  "author": {
+    "name": "Romeo Mendez Fuentes",
+    "email": "romeo@mendezfuentes.net",
+    "url": "https://romeo.mendezfuentes.net"
+  },
   "homepage": "https://vue-plot.mendezfuentes.net/guide/nuxt-integration",
   "repository": {
     "type": "git",
