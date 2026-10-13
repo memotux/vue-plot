@@ -7,7 +7,7 @@
 
 Nuxt module for [@memotux/vue-plot](https://github.com/memotux/vue-plot) — declarative data visualization with Observable Plot.
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
+- [✨ &nbsp;Release Notes](https://github.com/memotux/vue-plot/blob/master/nuxt/CHANGELOG.md)
 
 ## Features
 

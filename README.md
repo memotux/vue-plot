@@ -66,7 +66,7 @@ yarn add @memotux/vue-plot @observablehq/plot
 
 ### Nuxt
 
-For Nuxt applications, use [`@memotux/nuxt-vue-plot`](https://npmjs.com/package/@memotux/nuxt-vue-plot). It auto-registers `<VPlot>` as an auto-imported component and configures the custom-element compiler for `<Plot*>` mark components — no Vite plugin or manual registration needed.
+For Nuxt applications, use [`@memotux/nuxt-vue-plot`](https://npmjs.com/package/@memotux/nuxt-vue-plot). It auto-registers `<VPlot>` and configures the `<Plot*>` mark components, so no Vite plugin or manual registration is needed.
 
 ```bash
 pnpm add @memotux/nuxt-vue-plot @memotux/vue-plot @observablehq/plot
@@ -79,25 +79,7 @@ export default defineNuxtConfig({
 })
 ```
 
-> [!NOTE]
-> The module takes no configuration options — all plot options are passed via component props.
-
-```vue
-<!-- app.vue -->
-<script setup>
-const data = [
-  { name: 'A', value: 10 },
-  { name: 'B', value: 20 },
-  { name: 'C', value: 15 },
-]
-</script>
-
-<template>
-  <VPlot :width="680">
-    <PlotBarY :data="data" x="name" y="value" />
-  </VPlot>
-</template>
-```
+See the [Nuxt integration guide](https://vue-plot.mendezfuentes.net/guide/nuxt-integration) for usage, SSR behavior, and module options.
 
 ### Vite Plugin Configuration
 
@@ -381,4 +363,4 @@ Contributions are welcome! Please open an [issue](https://github.com/memotux/vue
 [npm-downloads-src]: https://img.shields.io/npm/dm/@memotux/vue-plot.svg?style=flat&colorA=34495e&colorB=41b883
 [npm-downloads-href]: https://npm.chart.dev/@memotux/vue-plot
 [license-src]: https://img.shields.io/github/license/memotux/vue-plot.svg?style=flat&colorA=34495e&colorB=41b883
-[license-href]: https://github.com/memotux/vue-plot/blob/main/LICENSE
+[license-href]: https://github.com/memotux/vue-plot/blob/master/LICENSE

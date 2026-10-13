@@ -15,7 +15,7 @@ export default defineAppConfig({
   },
   github: {
     url: "https://github.com/memotux/vue-plot",
-    branch: "main",
+    branch: "master",
     rootDir: "docs",
   },
   ui: {

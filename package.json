@@ -10,7 +10,8 @@
     "ui",
     "vue"
   ],
-  "homepage": "https://github.com/memotux/vue-plot",
+  "homepage": "https://vue-plot.mendezfuentes.net",
+  "license": "MIT",
   "author": {
     "name": "Romeo Mendez Fuentes",
     "email": "romeo@mendezfuentes.net",
